@@ -29,7 +29,8 @@ import com.google.api.client.util.Key;
 public class SimpleRequest {
 	static NetHttpTransport httpTransport = new NetHttpTransport();
 	static JsonFactory JSON_FACTORY = new JacksonFactory();
-	static GenericUrl url = new GenericUrl(APIKey.APIKey);
+	static GenericUrl url = new GenericUrl("http://magicseaweed.com/api/"
+			+ APIKey.APIKey + "/forecast/?spot_id=1");
 	static SSPBuilder builder = new SSPBuilder();
 
 	public static void main(String[] args) {
