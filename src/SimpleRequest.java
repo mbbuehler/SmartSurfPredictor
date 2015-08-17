@@ -29,7 +29,7 @@ import com.google.api.client.util.Key;
 public class SimpleRequest {
 	static NetHttpTransport httpTransport = new NetHttpTransport();
 	static JsonFactory JSON_FACTORY = new JacksonFactory();
-	// static GenericUrl url = new GenericUrl(/* insert url */);
+	static GenericUrl url = new GenericUrl(APIKey.APIKey);
 	static SSPBuilder builder = new SSPBuilder();
 
 	public static void main(String[] args) {
