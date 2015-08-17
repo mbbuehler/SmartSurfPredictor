@@ -1,14 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-
-import model.Forecast;
-import model.NotEnoughDataException;
-import model.Surf;
-import model.Swell;
-import model.SwellForecast;
-
-
 import com.google.api.client.util.Key;
 
 /**
@@ -20,6 +12,7 @@ import com.google.api.client.util.Key;
  * 
  */
 public class ForecastResponse {
+	// needed for retrieving data from MSW requests. Do not delete
 	public static class List extends ArrayList<ForecastResponse> {
 	}
 

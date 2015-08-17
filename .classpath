@@ -16,5 +16,6 @@
 	<classpathentry kind="lib" path="lib/google-http-java-client/libs/protobuf-java-2.4.1.jar"/>
 	<classpathentry kind="lib" path="lib/google-http-java-client/libs/xpp3-1.1.4c.jar"/>
 	<classpathentry kind="lib" path="lib/google-http-java-client/libs/google-http-client-jackson2-1.20.0.jar" sourcepath="lib/google-http-java-client/libs-sources/google-http-client-jackson2-1.20.0-sources.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
