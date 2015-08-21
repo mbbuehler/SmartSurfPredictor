@@ -11,10 +11,13 @@ public final class Chart {
 		super();
 		this.link = link;
 		this.url = null;
-		try {
-			this.url = new URL(link);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
+		if (this.link != null) {
+			try {
+				this.url = new URL(link);
+			} catch (MalformedURLException e) {
+				System.err.println("Malformed URL: " + link);
+				// e.printStackTrace();
+			}
 		}
 	}
 
