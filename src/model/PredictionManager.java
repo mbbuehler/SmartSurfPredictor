@@ -9,6 +9,11 @@ public class PredictionManager {
 
 	private ForecastController controller = null;
 
+	public PredictionManager(ForecastController controller) {
+		super();
+		this.controller = controller;
+	}
+
 	public HashMap<Spot, Prediction> getFavouritePredictions(PredictionTime predictionTime) {
 		HashMap<Spot, Prediction> acceptedPredictions = new HashMap<Spot, Prediction>();
 		
@@ -48,7 +53,7 @@ public class PredictionManager {
 	}
 
 	/**
-	 * Adjust parameter
+	 * TODO: Adjust parameter
 	 * 
 	 * @param predictionRating
 	 * @return boolean
