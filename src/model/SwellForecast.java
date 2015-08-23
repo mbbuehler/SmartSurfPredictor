@@ -43,9 +43,11 @@ public class SwellForecast extends Forecast {
 	 */
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
+		builder.append("SwellForecast(");
 		builder.append("timestamp: " + this.getLocalTimestamp());
-		builder.append(" | solidRating: " + this.solidRating);
-		builder.append(" | faded Rating: " + this.fadedRating);
+		builder.append(" , solidRating: " + this.solidRating);
+		builder.append(" , faded Rating: " + this.fadedRating);
+		builder.append(")");
 		return builder.toString();
 	}
 

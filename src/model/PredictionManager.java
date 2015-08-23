@@ -31,7 +31,12 @@ public class PredictionManager {
 	
 	private ArrayList<Spot> getSpots() {
 		// TODO: implement reading and returning spots
-		return null;
+		ArrayList<Spot> spots = new ArrayList<Spot>();
+		for (int i = 255; i < 257; ++i) {
+			Spot spot = new Spot("testname", "testcountry", "teststate", i);
+			spots.add(spot);
+		}
+		return spots;
 	}
 	/**
 	 * 
