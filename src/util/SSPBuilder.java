@@ -4,6 +4,7 @@ import model.ForecastResponse;
 import model.Surf;
 import model.Swell;
 import model.SwellForecast;
+import model.WeatherForecast;
 
 
 /**
@@ -15,6 +16,9 @@ import model.SwellForecast;
  */
 public class SSPBuilder {
 
+	public Forecast getWeatherForecast(ForecastResponse r) {
+		return null;
+	}
 	public Forecast getSwellForecast(ForecastResponse r) {
 		Surf surf = null;
 		model.Swell primarySwell = null;
