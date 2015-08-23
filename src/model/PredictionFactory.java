@@ -28,6 +28,7 @@ public class PredictionFactory {
 		for (ForecastResponse r : list) {
 			if (r.localTimestamp == getTargetTimestamp(time)) {
 				response = r;
+				break;
 			}
 		}
 		if (response != null) {
@@ -37,7 +38,9 @@ public class PredictionFactory {
 					weatherForecast);
 			return prediction;
 		} else {
-			System.err.println("Timestamp does not match in ForecastResponse.");
+			System.err
+					.println("@PredictionFactory. Timestamp does not match in ForecastResponse:");
+			System.err.println("targetTimeStamp = " + getTargetTimestamp(time));
 			return null;
 		}
 	}
@@ -58,7 +61,7 @@ public class PredictionFactory {
 		// System.out.println("tomorrow at 0am: " + calendar.getTime());
 		// System.out
 		// .println("in timestamp: " + calendar.getTimeInMillis() / 1000);
-		return calendar.getTimeInMillis();
+		return calendar.getTimeInMillis() / 1000;
 	}
 
 }

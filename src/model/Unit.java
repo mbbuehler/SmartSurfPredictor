@@ -1,7 +1,7 @@
 package model;
 
 public enum Unit {
-	FT, MPH, MB;
+	FT, MPH, MB, C;
 
 	public static Unit getUnit(String unit) {
 		if (unit.equalsIgnoreCase("ft")) {
@@ -10,9 +10,12 @@ public enum Unit {
 			return MPH;
 		} else if (unit.equalsIgnoreCase("MB")) {
 			return MB;
-		} else
-			System.err.println("Unit not found");
-		return null;
-	}
+		} else if (unit.equalsIgnoreCase("C")) {
+			return C;
+		} else {
+			System.err.println("Unit not found: " + unit);
+			return null;
+		}
 
-}
+	}
+	}

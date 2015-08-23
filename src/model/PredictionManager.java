@@ -9,6 +9,11 @@ public class PredictionManager {
 
 	private ForecastController controller = null;
 
+	public PredictionManager(ForecastController controller) {
+		super();
+		this.controller = controller;
+	}
+
 	public HashMap<Spot, Prediction> getFavouritePredictions(PredictionTime predictionTime) {
 		HashMap<Spot, Prediction> acceptedPredictions = new HashMap<Spot, Prediction>();
 		
@@ -26,7 +31,12 @@ public class PredictionManager {
 	
 	private ArrayList<Spot> getSpots() {
 		// TODO: implement reading and returning spots
-		return null;
+		ArrayList<Spot> spots = new ArrayList<Spot>();
+		for (int i = 255; i < 257; ++i) {
+			Spot spot = new Spot("testname", "testcountry", "teststate", i);
+			spots.add(spot);
+		}
+		return spots;
 	}
 	/**
 	 * 
@@ -48,7 +58,7 @@ public class PredictionManager {
 	}
 
 	/**
-	 * Adjust parameter
+	 * TODO: Adjust parameter
 	 * 
 	 * @param predictionRating
 	 * @return boolean
