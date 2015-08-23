@@ -47,6 +47,12 @@ public class PredictionManager {
 		return 1;
 	}
 
+	/**
+	 * Adjust parameter
+	 * 
+	 * @param predictionRating
+	 * @return boolean
+	 */
 	private boolean isAccepted(float predictionRating) {
 		return (predictionRating > 0.5) ? true : false;
 	}
