@@ -1,5 +1,11 @@
 package model;
 
+/**
+ * Model Class for MSW Forecast data
+ * 
+ * @author marcello
+ * 
+ */
 public class SwellForecast extends Forecast {
 	public long fadedRating;
 	public long solidRating;
