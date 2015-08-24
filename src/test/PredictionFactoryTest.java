@@ -1,7 +1,4 @@
 package test;
-import static org.junit.Assert.*;
-
-import model.ForecastResponse;
 import model.PredictionFactory;
 import model.PredictionTime;
 
