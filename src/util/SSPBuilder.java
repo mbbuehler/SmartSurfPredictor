@@ -34,7 +34,7 @@ public class SSPBuilder {
 		model.Chart windChart = null;
 		model.Chart pressureChart = null;
 		try{
-			wind = new Wind(r.wind.speed, r.wind.direction,
+			wind = new model.Wind(r.wind.speed, r.wind.direction,
 					r.wind.compassDirection, r.wind.chill, r.wind.gusts,
 					r.wind.unit);
 		} catch (NullPointerException e) {
@@ -42,7 +42,7 @@ public class SSPBuilder {
 			// e.printStackTrace();
 		}
 		try {
-			weather = new Weather(r.condition.pressure,
+			weather = new model.Weather(r.condition.pressure,
 					r.condition.temperature, r.condition.weather,
 					r.condition.unitPressure, r.condition.unit);
 		} catch (NullPointerException e) {
@@ -50,13 +50,13 @@ public class SSPBuilder {
 			// e.printStackTrace();
 		}
 		try {
-			windChart = new Chart(r.charts.wind);
+			windChart = new model.Chart(r.charts.wind);
 		} catch (NullPointerException e) {
 			System.out.println("Nullpointer when creating WindChart.");
 			// e.printStackTrace();
 		}
 		try {
-			pressureChart = new Chart(r.charts.pressure);
+			pressureChart = new model.Chart(r.charts.pressure);
 		} catch (NullPointerException e) {
 			System.out.println("Nullpointer when creating PressureChart.");
 			// e.printStackTrace();

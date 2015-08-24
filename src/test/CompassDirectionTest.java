@@ -9,9 +9,15 @@ import org.junit.Test;
 public class CompassDirectionTest {
 
 	@Test
-	public void test() {
-		System.out.println(CompassDirection.NW);
-		fail("Not yet implemented");
+	public void testCorrectMapping() {
+		CompassDirection dir = CompassDirection.getCompassDirection("NW");
+		assertTrue("wrong CompassDirection", dir.equals(CompassDirection.NW));
+	}
+
+	@Test
+	public void testInvalidMapping() {
+		CompassDirection dir = CompassDirection.getCompassDirection("NWE");
+		assertTrue(dir == null);
 	}
 
 }
