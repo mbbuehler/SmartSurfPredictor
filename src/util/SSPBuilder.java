@@ -1,9 +1,14 @@
 package util;
+
+import model.Chart;
 import model.Forecast;
 import model.ForecastResponse;
 import model.Surf;
 import model.Swell;
 import model.SwellForecast;
+import model.Weather;
+import model.WeatherForecast;
+import model.Wind;
 
 
 /**
@@ -15,6 +20,60 @@ import model.SwellForecast;
  */
 public class SSPBuilder {
 
+	/**
+	 * Converts data from ForecastResponse r to an instance of Class
+	 * {@link WeatherForecast}. Some Attributes of {@link WeatherForecast} might
+	 * be null.
+	 * 
+	 * @param r
+	 * @return {@link WeatherForecast}
+	 */
+	public Forecast getWeatherForecast(ForecastResponse r) {
+		model.Wind wind = null;
+		model.Weather weather = null;
+		model.Chart windChart = null;
+		model.Chart pressureChart = null;
+		try{
+			wind = new model.Wind(r.wind.speed, r.wind.direction,
+					r.wind.compassDirection, r.wind.chill, r.wind.gusts,
+					r.wind.unit);
+		} catch (NullPointerException e) {
+			System.out.println("Nullpointer when creating Wind.");
+			// e.printStackTrace();
+		}
+		try {
+			weather = new model.Weather(r.condition.pressure,
+					r.condition.temperature, r.condition.weather,
+					r.condition.unitPressure, r.condition.unit);
+		} catch (NullPointerException e) {
+			System.out.println("Nullpointer when creating Weather.");
+			// e.printStackTrace();
+		}
+		try {
+			windChart = new model.Chart(r.charts.wind);
+		} catch (NullPointerException e) {
+			System.out.println("Nullpointer when creating WindChart.");
+			// e.printStackTrace();
+		}
+		try {
+			pressureChart = new model.Chart(r.charts.pressure);
+		} catch (NullPointerException e) {
+			System.out.println("Nullpointer when creating PressureChart.");
+			// e.printStackTrace();
+		}
+		Forecast weatherForecast = new WeatherForecast(r.issueTimestamp,
+				r.localTimestamp, wind, weather, windChart, pressureChart);
+		return weatherForecast;
+	}
+
+	/**
+	 * Converts data from ForecastResponse r to an instance of Class
+	 * {@link SwellForecast}. Some Attributes of {@link SwellForecast} might be
+	 * null.
+	 * 
+	 * @param r
+	 * @return {@link SwellForecast}
+	 */
 	public Forecast getSwellForecast(ForecastResponse r) {
 		Surf surf = null;
 		model.Swell primarySwell = null;
