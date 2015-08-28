@@ -1,7 +1,7 @@
 package controller;
 
 import java.io.IOException;
-import util.APIKey;
+
 import model.ForecastResponse;
 		
 import com.google.api.client.http.GenericUrl;
@@ -13,6 +13,8 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.JsonObjectParser;
 import com.google.api.client.json.jackson2.JacksonFactory;
+
+import ams.main.APIKey;
 
 public class ForecastController {
 	static NetHttpTransport httpTransport = new NetHttpTransport();
