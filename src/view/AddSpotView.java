@@ -5,18 +5,13 @@ import java.awt.Container;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.DefaultListModel;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import controller.CountryUpdateListener;
 import controller.StateUpdateListener;
@@ -44,7 +39,7 @@ public class AddSpotView extends JDialog
 	private List<String> selectedCountry = new ArrayList<String>();
 	private List<String> selectedState = new ArrayList<String>();
 	
-	private JScrollPane countryScrollPane;
+	private JScrollPane countryScroll,stateScroll;
 	
 	//constructor
 	public AddSpotView(PredictorView v, Notifier m) 
@@ -77,8 +72,8 @@ public class AddSpotView extends JDialog
 	    //need to loop thru arraylist to add country
 	    countryList(spots);
 	    //2 rows are always visible
-	    countryJList.setVisibleRowCount(2);
-	    countryScrollPane = new JScrollPane(countryJList);
+	    countryJList.setVisibleRowCount(3);
+	    countryScroll = new JScrollPane(countryJList);
 	   
 	    //by default set to Australia, to make it easy for users,
 	    //In the bigger picture, we would use GPS location to detect country
@@ -90,14 +85,17 @@ public class AddSpotView extends JDialog
 	    
 	    //need to loop thru arraylist to add australian states
 	    UpdateStates(spots,selectedCountry);
+	    //set number of rows visibles for Jlist & scoll Panel
+	    stateJList.setVisibleRowCount(3);
+	    stateScroll = new JScrollPane(stateJList);
 	    //add selection listener for state JList based on country selection 
 	    stateJList.addListSelectionListener(new StateUpdateListener(view,model,this));
 	    
 	    //adding to info panel
 	    infoPanel.add(countryLabel);
-	    infoPanel.add(countryJList);
+	    infoPanel.add(countryScroll);
 	    infoPanel.add(stateLabel);
-	    infoPanel.add(stateJList);
+	    infoPanel.add(stateScroll);
 	    
 	    //adding other JPanels to Control Panel
 	    controlPanel.add(selectLabel);
