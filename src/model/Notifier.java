@@ -12,6 +12,8 @@ import controller.ForecastController;
 
 public class Notifier {
 	private PredictionManager predictionManager = null;
+	//variable created by Eeswari
+	private SpotReaderFile spot = new SpotReaderFile();
 
 	public Notifier() {
 		super();
@@ -19,11 +21,10 @@ public class Notifier {
 		this.predictionManager = new PredictionManager(controller);
 	}
 
-	public void notify(
-			PredictionTime predictionTime) {
+	public void notify(PredictionTime predictionTime) 
+	{
 
-		HashMap<Spot, Prediction> ratedPredictions = predictionManager
-				.getFavouritePredictions(predictionTime);
+		HashMap<Spot, Prediction> ratedPredictions = predictionManager.getFavouritePredictions(predictionTime);
 		Iterator it = ratedPredictions.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry pair = (Map.Entry) it.next();
@@ -33,7 +34,12 @@ public class Notifier {
 			System.out.println(builder.toString());
 		}
 
-
+	}
+	
+	//getter for variable
+	public SpotReaderFile getSpot() 
+	{
+		return spot;
 	}
 
 
