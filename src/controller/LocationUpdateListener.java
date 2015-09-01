@@ -29,7 +29,7 @@ public class LocationUpdateListener implements ListSelectionListener
 		if(!e.getValueIsAdjusting())
 		{
 			// gets values from your jList and added it to a list
-			List<String> values = spotView.getStateJList().getSelectedValuesList();
+			List<String> values = spotView.getLocationJList().getSelectedValuesList();
 			spotView.setSelectedLocations(values);
 		}
 

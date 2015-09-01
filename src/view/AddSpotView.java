@@ -50,7 +50,7 @@ public class AddSpotView extends JDialog
 	
 	private JScrollPane countryScroll,stateScroll,locationScroll;
 	
-	private ArrayList<Spot> spotsSelected;
+	private ArrayList<Spot> spotsSelected,favSpot;
 	
 	private JButton submitButton = new JButton("Submit");
 	private JButton cancel = new JButton("CANCEL");
@@ -148,8 +148,6 @@ public class AddSpotView extends JDialog
 		locationJList.setModel(locationModel);
 	}
 
-	
-
 	//find all matching states based on country selected
 	public void UpdateStates(ArrayList<Spot> spots,List<String> selectedCountry) 
 	{
@@ -230,6 +228,47 @@ public class AddSpotView extends JDialog
 	    countryJList = new JList(countryModel);
 	}
 	
+	//find users favourite surf spots
+	public ArrayList<Spot> FavouriteSpots()
+	{
+		favSpot = new ArrayList<Spot>();
+		
+		//find fav surf location based on countries & states selected
+		for (Spot s : spotsSelected) 
+		{ 		      
+		 	String locationName = s.getName();
+		 	
+		   	//if country names match, add state once to list
+		   	for(String c : selectedCountry )
+		   	{	
+		    	if(s.getCountry().equals(c))
+		    	{	
+			    	for(String n : selectedState)
+			    	{
+			    		//based on country & state, select location
+			    		if(s.getState().equals(n))
+			    		{
+			    			//Search for matching locations
+			    			for(String l : selectedLocations)
+			    			{
+			    				if(locationName.equals(l))
+					    		{
+			    					favSpot.add(s);
+					    		}
+			    			}
+			    		}
+			    	}
+			    	   	
+		    	}
+		   	}
+	   }
+		
+		
+		return favSpot;
+		
+	}
+	
+	
 	public ArrayList<Spot> getSpots() 
 	{
 		return allSpots;
@@ -252,6 +291,14 @@ public class AddSpotView extends JDialog
 	
 	public void setStateJList(JList<String> stateJList) {
 		this.stateJList = stateJList;
+	}
+
+	public JList<String> getLocationJList() {
+		return locationJList;
+	}
+
+	public void setLocationJList(JList<String> locationJList) {
+		this.locationJList = locationJList;
 	}
 
 	public List<String> getSelectedState() 

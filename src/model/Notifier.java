@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.Window;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -14,6 +15,7 @@ public class Notifier {
 	private PredictionManager predictionManager = null;
 	//variable created by Eeswari
 	private SpotReaderFile spot = new SpotReaderFile();
+	private WriteFavouriteSpotFile writeFavSpot = new WriteFavouriteSpotFile();
 
 	public Notifier() {
 		super();
@@ -40,6 +42,10 @@ public class Notifier {
 	public SpotReaderFile getSpot() 
 	{
 		return spot;
+	}
+
+	public WriteFavouriteSpotFile getWriteFavSpot() {
+		return writeFavSpot;
 	}
 
 
