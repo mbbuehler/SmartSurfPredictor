@@ -6,14 +6,19 @@ import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import controller.AddSurfSpotListener;
 import controller.CountryUpdateListener;
+import controller.ExitListener;
+import controller.LocationUpdateListener;
 import controller.StateUpdateListener;
 import model.Notifier;
 import model.Spot;
@@ -23,23 +28,33 @@ public class AddSpotView extends JDialog
 	
 	private PredictorView view; 
 	private Notifier model;
-	private ArrayList<Spot> spots;
-	private ArrayList<String> countryList,stateList;
+	private ArrayList<Spot> allSpots;
+	private ArrayList<String> countryArrayList,stateArrayList;
 	
 	//created to hold JList elements before JList intilised 
-	private DefaultListModel countrylistModel = new DefaultListModel();
-	private DefaultListModel statelistModel = new DefaultListModel();;
+	private DefaultListModel countryModel = new DefaultListModel();
+	private DefaultListModel stateModel = new DefaultListModel();
+	private DefaultListModel locationModel = new DefaultListModel();
 	
 	private JLabel selectLabel,countryLabel,stateLabel,spotLabel;
-	private JList<String> countryJList = new JList<String>(countrylistModel);
-	private JList<String> stateJList= new JList<String>(statelistModel);
+	
+	private JList<String> countryJList = new JList<String>(countryModel);
+	private JList<String> stateJList= new JList<String>(stateModel);
+	private JList<String> locationJList= new JList<String>(locationModel);
 	
 	private JPanel controlPanel, infoPanel;
 	
 	private List<String> selectedCountry = new ArrayList<String>();
 	private List<String> selectedState = new ArrayList<String>();
+	private List<String> selectedLocations = new ArrayList<String>();
 	
-	private JScrollPane countryScroll,stateScroll;
+	private JScrollPane countryScroll,stateScroll,locationScroll;
+	
+	private ArrayList<Spot> spotsSelected;
+	
+	private JButton submitButton = new JButton("Submit");
+	private JButton cancel = new JButton("CANCEL");
+
 	
 	//constructor
 	public AddSpotView(PredictorView v, Notifier m) 
@@ -47,31 +62,14 @@ public class AddSpotView extends JDialog
 		this.view = v;
 		this.model = m;
 		//gets arraylist from spot file reader class
-		this.spots = m.getSpot().getSpotsList();
+		this.allSpots = m.getSpot().getSpotsList();
 		
 		Container cp = this.getContentPane();
 	    cp.setLayout(new BorderLayout());
 	    
-	    controlPanel = new JPanel(new GridLayout(3,1,20,20));
-	    
-	    selectLabel = new JLabel("Select/Change Your Favourite Surf Spots");
-	    selectLabel.setAlignmentX(CENTER_ALIGNMENT);
-	    	    
-	    //intialise JLabels and set alignment
-	    countryLabel = new JLabel("Select Country:");
-	    countryLabel.setAlignmentX(CENTER_ALIGNMENT);
-	    stateLabel = new JLabel("Select State:");
-	    stateLabel.setAlignmentX(CENTER_ALIGNMENT);
-	    spotLabel = new JLabel("Select Surf Location:");
-	    spotLabel.setAlignmentX(CENTER_ALIGNMENT);
-	    
-	    // info panel
-	    infoPanel = new JPanel();
-	    infoPanel.setLayout(new GridLayout(2,2,10,10));
-	    
 	    //need to loop thru arraylist to add country
-	    countryList(spots);
-	    //2 rows are always visible
+	    countryList(allSpots);
+	    //set number of row to be visible & scroll panel
 	    countryJList.setVisibleRowCount(3);
 	    countryScroll = new JScrollPane(countryJList);
 	   
@@ -79,27 +77,33 @@ public class AddSpotView extends JDialog
 	    //In the bigger picture, we would use GPS location to detect country
 	    countryJList.setSelectedIndex(0);
 	    selectedCountry.add(countryJList.getSelectedValue().toString());
-	    
 	    //creating listener for country JList
 	    countryJList.addListSelectionListener(new CountryUpdateListener(view,model,this));
 	    
 	    //need to loop thru arraylist to add australian states
-	    UpdateStates(spots,selectedCountry);
-	    //set number of rows visibles for Jlist & scoll Panel
+	    UpdateStates(allSpots,selectedCountry);
+	    //set number of row to be visible & scroll panel
 	    stateJList.setVisibleRowCount(3);
 	    stateScroll = new JScrollPane(stateJList);
 	    //add selection listener for state JList based on country selection 
 	    stateJList.addListSelectionListener(new StateUpdateListener(view,model,this));
 	    
-	    //adding to info panel
-	    infoPanel.add(countryLabel);
-	    infoPanel.add(countryScroll);
-	    infoPanel.add(stateLabel);
-	    infoPanel.add(stateScroll);
+	    //set locations based on countroes & states selected
+	    UpdateSurfLocations(allSpots,selectedCountry,selectedState);
+	    //set number of row to be visible & scroll panel
+	    locationJList.setVisibleRowCount(5);
+	    locationScroll = new JScrollPane(locationJList);
+	    //add selection listener for state JList based on country selection 
+	    locationJList.addListSelectionListener(new LocationUpdateListener(view,model,this));
 	    
-	    //adding other JPanels to Control Panel
-	    controlPanel.add(selectLabel);
-	    controlPanel.add(infoPanel);
+	    //add listeners for Submit & Cancel button button
+	    submitButton.addActionListener(new AddSurfSpotListener(v, model, this));
+	    cancel.addActionListener(new ExitListener(this,model));
+	    
+	    
+	    
+	    //adding panel
+	    IntialiseJLablesPanels();
 	    cp.add(controlPanel);
 	    
 	    // set the window size by itself
@@ -108,14 +112,52 @@ public class AddSpotView extends JDialog
 	    setModal(true);
 	}
 	
+	public void UpdateSurfLocations(ArrayList<Spot> spots,List<String> selectedCountries ,List<String> selectedStates) 
+	{
+		//remove old items from default model
+		locationModel.removeAllElements();
+		
+		spotsSelected = new ArrayList<Spot>();
+		
+		//find surf location based on countries & states selected
+		for (Spot s : spots) 
+	    { 		      
+	    	String locationName = s.getName();
+	    	
+	    	//if country names match, add state once to list
+	    	for(String c : selectedCountries )
+	    	{
+		    	if(s.getCountry().equals(c))
+		    	{	
+			    	for(String n : selectedStates)
+			    	{
+			    		//based on country & state, select location
+			    		if(s.getState().equals(n))
+			    		{
+			    			//add to spot arrayList
+			    			spotsSelected.add(s);
+			    			locationModel.addElement(locationName);
+			    		}
+			    	}
+			    	   	
+		    	}
+	    	}
+	    }
+		
+		//set JList
+		locationJList.setModel(locationModel);
+	}
+
+	
+
 	//find all matching states based on country selected
 	public void UpdateStates(ArrayList<Spot> spots,List<String> selectedCountry) 
 	{
-		//add each state once to list
-	    stateList = new ArrayList<String>();
+		//add each state only once to list
+	    stateArrayList = new ArrayList<String>();
 	    
 	    //remove old items from default list
-	    statelistModel.removeAllElements();
+	    stateModel.removeAllElements();
 	    	    	
 	    //find states based on country
 		for (Spot s : spots) 
@@ -129,7 +171,7 @@ public class AddSpotView extends JDialog
 	    	{
 		    	if(s.getCountry().equals(c))
 		    	{	
-			    	for(String n : stateList)
+			    	for(String n : stateArrayList)
 			    	{
 			    		if(n.equals(stateName))
 			    		{
@@ -142,32 +184,32 @@ public class AddSpotView extends JDialog
 			    	//adds state to Combo box
 			    	if (stateMatchFound == false)
 			    	{
-			    		stateList.add(stateName);
-			    		statelistModel.addElement(stateName);
+			    		stateArrayList.add(stateName);
+			    		stateModel.addElement(stateName);
 			    	}
 		    	}
 	    	}
 	    }
 		
 		//intialise JList
-		stateJList.setModel(statelistModel);
+		stateJList.setModel(stateModel);
 	}
 
 	//need to loop thru arraylist to add each country only once
 	public void countryList(ArrayList<Spot> spots)
 	{
 		//when unique region found, added once to countryLIst (arrayList)
-	    countryList = new ArrayList<String>();
+	    countryArrayList = new ArrayList<String>();
 	    
 	    // holds the items and the JList
-	    countrylistModel = new DefaultListModel();
+	    countryModel = new DefaultListModel();
 	    
 	    for (Spot s : spots) 
 	    { 		      
 	    	String countryName = s.getCountry();
 	    	//only adding each country name once to arraylist
 	    	boolean countryMatchFound = false;
-	    	for(String n : countryList)
+	    	for(String n : countryArrayList)
 	    	{
 	    		if(n.equals(countryName))
 	    		{
@@ -179,23 +221,23 @@ public class AddSpotView extends JDialog
 	    	//adds country to countryCombo box
 	    	if (countryMatchFound == false)
 	    	{
-	    		countryList.add(countryName);
-	    		countrylistModel.addElement(countryName);
+	    		countryArrayList.add(countryName);
+	    		countryModel.addElement(countryName);
 	    	}
 	    }
 	    
 	    //intialise JList
-	    countryJList = new JList(countrylistModel);
+	    countryJList = new JList(countryModel);
 	}
 	
 	public ArrayList<Spot> getSpots() 
 	{
-		return spots;
+		return allSpots;
 	}
 
 	public ArrayList<String> getCountryList() 
 	{
-		return countryList;
+		return countryArrayList;
 	}
 
 	public JList getCountryJList() 
@@ -220,6 +262,14 @@ public class AddSpotView extends JDialog
 	public void setSelectedState(List<String> selectedState) 
 	{
 		this.selectedState = selectedState;
+	}
+
+	public List<String> getSelectedLocations() {
+		return selectedLocations;
+	}
+
+	public void setSelectedLocations(List<String> selectedLocations) {
+		this.selectedLocations = selectedLocations;
 	}
 
 	public List<String> getSelectedCountry() 
@@ -247,8 +297,42 @@ public class AddSpotView extends JDialog
 	{
 		return spotLabel;
 	}
-
-
+	
+	//method intilalise JPanels & JLabels
+	private void IntialiseJLablesPanels() 
+	{
+		controlPanel = new JPanel(new GridLayout(3,1,20,20));
+	    
+	    // info panel
+	    infoPanel = new JPanel();
+	    infoPanel.setLayout(new GridLayout(4,2,10,10));
+		
+		selectLabel = new JLabel("Select/Change Your Favourite Surf Spots");
+	    selectLabel.setAlignmentX(CENTER_ALIGNMENT);
+	    	    
+	    //intialise JLabels and set alignment
+	    countryLabel = new JLabel("Select Country:");
+	    countryLabel.setAlignmentX(CENTER_ALIGNMENT);
+	    stateLabel = new JLabel("Select State:");
+	    stateLabel.setAlignmentX(CENTER_ALIGNMENT);
+	    spotLabel = new JLabel("Select Surf Location:");
+	    spotLabel.setAlignmentX(CENTER_ALIGNMENT);
+	    
+	    infoPanel.add(countryLabel);
+	    infoPanel.add(countryScroll);
+	    infoPanel.add(stateLabel);
+	    infoPanel.add(stateScroll);
+	    infoPanel.add(spotLabel);
+	    infoPanel.add(locationScroll);
+	    // adding submit & cancel button
+	    infoPanel.add(submitButton);
+	    infoPanel.add(cancel);
+	    
+	    //adding other JPanels to Control Panel
+	    controlPanel.add(selectLabel);
+	    controlPanel.add(infoPanel);
+		
+	}
 
 
 
