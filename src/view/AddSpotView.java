@@ -76,7 +76,6 @@ public class AddSpotView extends JDialog
 	    //by default set to Australia, to make it easy for users,
 	    //In the bigger picture, we would use GPS location to detect country
 	    countryJList.setSelectedIndex(0);
-	    //##countryJList.setSelectedValue(new String("North America"), true);
 	    selectedCountry.add(countryJList.getSelectedValue().toString());
 	    //creating listener for country JList
 	    countryJList.addListSelectionListener(new CountryUpdateListener(view,model,this));
@@ -120,11 +119,21 @@ public class AddSpotView extends JDialog
 	//checks if user has previous selected spots
 	private void PreSelectedSpot() 
 	{
-		//check for preselections
+		//check for pre-selections
 		model.getFavSpot().CountrySelection();
-		ArrayList<String> favCountry = model.getFavSpot().getFavCountry();
-		System.out.println(favCountry);
 		
+		//updated states based on user preselection of countries 
+		UpdateStates(model.getFavSpot().getSelectedCountryNames());
+		model.getFavSpot().StateSelection();
+		
+		//updated locations based on user preselection of countries & states
+		UpdateSurfLocations(model.getFavSpot().getSelectedCountryNames(), model.getFavSpot().getSelectedStateNames());
+		model.getFavSpot().LocationSelection();
+		
+		//preselect country, state, location J-List
+		countryJList.setSelectedIndices(model.getFavSpot().getSelectedCountry());
+		stateJList.setSelectedIndices(model.getFavSpot().getSelectedState());
+		locationJList.setSelectedIndices(model.getFavSpot().getSelectedLocation());
 	}
 
 	public void UpdateSurfLocations(List<String> selectedCountries ,List<String> selectedStates) 
@@ -184,9 +193,7 @@ public class AddSpotView extends JDialog
 	public ArrayList<Spot> FavouriteSpots()
 	{
 		favSpot = model.getFavSpot().FavouriteSpots(spotsSelected, selectedCountry, selectedState, selectedLocations);
-				
 		return favSpot;
-		
 	}
 	
 	

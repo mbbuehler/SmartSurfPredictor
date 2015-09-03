@@ -11,7 +11,7 @@ public class Notifier {
 	private PredictionManager predictionManager = null;
 	//variable created by Eeswari
 	private SpotReaderFile spot = new SpotReaderFile();
-	private FavouriteSpotFile favSpot = new FavouriteSpotFile();
+	private FavouriteSpotFile favSpot = new FavouriteSpotFile(spot);
 
 	public Notifier() {
 		super();

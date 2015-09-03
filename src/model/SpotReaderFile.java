@@ -193,6 +193,7 @@ public class SpotReaderFile
 	{
 		locationArrayList = new ArrayList<String>();
 		possibleSelectionSpots = new ArrayList<Spot>();
+		boolean found = false;
 		
 		//find surf location based on countries & states selected
 		for (Spot s : spotsList) 
@@ -202,7 +203,8 @@ public class SpotReaderFile
 		   	//if country names match, add state once to list
 		   	for(String c : selectedCountries )
 		   	{
-		    	if(s.getCountry().equals(c))
+
+		   		if(s.getCountry().equals(c))
 		    	{	
 			    	for(String n : selectedStates)
 			    	{
@@ -211,13 +213,20 @@ public class SpotReaderFile
 			    		{
 			    			//add to spot arrayList
 			    			possibleSelectionSpots.add(s);
-			    			locationArrayList.add(locationName);
-			    			locationModel.addElement(locationName);
+			    			locationArrayList.add(locationName);locationModel.addElement(locationName);
+							found = true;
+							break;
 			    		}
-			    	}
-					    	   	
-		    	}
+			    	}  	   	
+		    	}	
+		   		
+		   		if(found == true)
+		   		{
+		   			break;
+		   		}
 		   	}
+		   	
+		   	found = false;
 		}
 		
 	}
