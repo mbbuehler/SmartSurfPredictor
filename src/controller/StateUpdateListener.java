@@ -25,7 +25,7 @@ public class StateUpdateListener implements ListSelectionListener
 	public void valueChanged(ListSelectionEvent e) 
 	{
 		//code bellow checks if user has finished selecting state
-		//get selected countries
+		//get selected locations
 		if(!e.getValueIsAdjusting())
 		{
 			// gets values from your jList and added it to a list
@@ -33,7 +33,7 @@ public class StateUpdateListener implements ListSelectionListener
 			spotView.setSelectedState(values);
 			
 			//based on country & state selection, locations needs to be updated
-			spotView.UpdateSurfLocations(spotView.getSpots(),spotView.getSelectedCountry(),spotView.getSelectedState());
+			spotView.UpdateSurfLocations(spotView.getSelectedCountry(),spotView.getSelectedState());
 		}
 	}
 

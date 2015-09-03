@@ -52,7 +52,7 @@ public class AddSurfSpotListener implements ActionListener
 		}
 		
 		//write favourite surf details to file
-		model.getWriteFavSpot().WriteToFavFile(spotView.FavouriteSpots());
+		model.getFavSpot().WriteToFavFile(spotView.FavouriteSpots());
 		
 		spotView.setVisible(false);
 		spotView.dispose();

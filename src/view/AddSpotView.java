@@ -29,7 +29,7 @@ public class AddSpotView extends JDialog
 	private PredictorView view; 
 	private Notifier model;
 	private ArrayList<Spot> allSpots;
-	private ArrayList<String> countryArrayList,stateArrayList;
+	private ArrayList<String> countryArrayList,stateArrayList,locationArrayList;
 	
 	//created to hold JList elements before JList intilised 
 	private DefaultListModel countryModel = new DefaultListModel();
@@ -68,7 +68,7 @@ public class AddSpotView extends JDialog
 	    cp.setLayout(new BorderLayout());
 	    
 	    //need to loop thru arraylist to add country
-	    countryList(allSpots);
+	    countryList();
 	    //set number of row to be visible & scroll panel
 	    countryJList.setVisibleRowCount(3);
 	    countryScroll = new JScrollPane(countryJList);
@@ -76,12 +76,13 @@ public class AddSpotView extends JDialog
 	    //by default set to Australia, to make it easy for users,
 	    //In the bigger picture, we would use GPS location to detect country
 	    countryJList.setSelectedIndex(0);
+	    //##countryJList.setSelectedValue(new String("North America"), true);
 	    selectedCountry.add(countryJList.getSelectedValue().toString());
 	    //creating listener for country JList
 	    countryJList.addListSelectionListener(new CountryUpdateListener(view,model,this));
 	    
 	    //need to loop thru arraylist to add australian states
-	    UpdateStates(allSpots,selectedCountry);
+	    UpdateStates(selectedCountry);
 	    //set number of row to be visible & scroll panel
 	    stateJList.setVisibleRowCount(3);
 	    stateScroll = new JScrollPane(stateJList);
@@ -89,12 +90,16 @@ public class AddSpotView extends JDialog
 	    stateJList.addListSelectionListener(new StateUpdateListener(view,model,this));
 	    
 	    //set locations based on countroes & states selected
-	    UpdateSurfLocations(allSpots,selectedCountry,selectedState);
+	    UpdateSurfLocations(selectedCountry,selectedState);
 	    //set number of row to be visible & scroll panel
 	    locationJList.setVisibleRowCount(5);
 	    locationScroll = new JScrollPane(locationJList);
 	    //add selection listener for state JList based on country selection 
 	    locationJList.addListSelectionListener(new LocationUpdateListener(view,model,this));
+	    
+	    //pre-selected Spot
+	    PreSelectedSpot();
+	    
 	    
 	    //add listeners for Submit & Cancel button button
 	    submitButton.addActionListener(new AddSurfSpotListener(v, model, this));
@@ -112,158 +117,74 @@ public class AddSpotView extends JDialog
 	    setModal(true);
 	}
 	
-	public void UpdateSurfLocations(ArrayList<Spot> spots,List<String> selectedCountries ,List<String> selectedStates) 
+	//checks if user has previous selected spots
+	private void PreSelectedSpot() 
+	{
+		//check for preselections
+		model.getFavSpot().CountrySelection();
+		ArrayList<String> favCountry = model.getFavSpot().getFavCountry();
+		System.out.println(favCountry);
+		
+	}
+
+	public void UpdateSurfLocations(List<String> selectedCountries ,List<String> selectedStates) 
 	{
 		//remove old items from default model
 		locationModel.removeAllElements();
 		
-		spotsSelected = new ArrayList<Spot>();
+		//intialise location list
+		model.getSpot().InitialiseLocationList(selectedCountries,selectedStates);
 		
-		//find surf location based on countries & states selected
-		for (Spot s : spots) 
-	    { 		      
-	    	String locationName = s.getName();
-	    	
-	    	//if country names match, add state once to list
-	    	for(String c : selectedCountries )
-	    	{
-		    	if(s.getCountry().equals(c))
-		    	{	
-			    	for(String n : selectedStates)
-			    	{
-			    		//based on country & state, select location
-			    		if(s.getState().equals(n))
-			    		{
-			    			//add to spot arrayList
-			    			spotsSelected.add(s);
-			    			locationModel.addElement(locationName);
-			    		}
-			    	}
-			    	   	
-		    	}
-	    	}
-	    }
+		locationArrayList = model.getSpot().getLocation();
+		spotsSelected = model.getSpot().getPossibleSelectionSpots();
+		
+		//set new values   	
+	    locationModel = model.getSpot().getLocationModel();
 		
 		//set JList
 		locationJList.setModel(locationModel);
 	}
 
 	//find all matching states based on country selected
-	public void UpdateStates(ArrayList<Spot> spots,List<String> selectedCountry) 
-	{
-		//add each state only once to list
-	    stateArrayList = new ArrayList<String>();
-	    
-	    //remove old items from default list
+	public void UpdateStates(List<String> selectedCountry) 
+	{	
+		//remove old items from default list
 	    stateModel.removeAllElements();
-	    	    	
-	    //find states based on country
-		for (Spot s : spots) 
-	    { 		      
-	    	String stateName = s.getState();
-	    	//only adding each state name once to arraylist
-	    	boolean stateMatchFound = false;
-	    	
-	    	//if country names match, add state once to list
-	    	for(String c : selectedCountry )
-	    	{
-		    	if(s.getCountry().equals(c))
-		    	{	
-			    	for(String n : stateArrayList)
-			    	{
-			    		if(n.equals(stateName))
-			    		{
-			    			stateMatchFound = true;
-			    			break;
-			    		}
-			    	}
-			    	
-			    	//If boolean is false, state is unique, add it to list
-			    	//adds state to Combo box
-			    	if (stateMatchFound == false)
-			    	{
-			    		stateArrayList.add(stateName);
-			    		stateModel.addElement(stateName);
-			    	}
-		    	}
-	    	}
-	    }
+
+		//intialise country list
+		model.getSpot().InitialiseStateList(selectedCountry);
 		
+		//add each state only once to list
+		stateArrayList = model.getSpot().getState();
+			    
+	    //set new values   	
+	    stateModel = model.getSpot().getStateModel();
+	    
 		//intialise JList
 		stateJList.setModel(stateModel);
 	}
 
 	//need to loop thru arraylist to add each country only once
-	public void countryList(ArrayList<Spot> spots)
+	public void countryList()
 	{
+		//intialise country list
+		model.getSpot().InitialiseCountryList();
+		
 		//when unique region found, added once to countryLIst (arrayList)
-	    countryArrayList = new ArrayList<String>();
-	    
+	    countryArrayList = model.getSpot().getCountry();
+	 
 	    // holds the items and the JList
-	    countryModel = new DefaultListModel();
-	    
-	    for (Spot s : spots) 
-	    { 		      
-	    	String countryName = s.getCountry();
-	    	//only adding each country name once to arraylist
-	    	boolean countryMatchFound = false;
-	    	for(String n : countryArrayList)
-	    	{
-	    		if(n.equals(countryName))
-	    		{
-	    			countryMatchFound = true;
-	    			break;
-	    		}
-	    	}
-	    	//If boolean is false, country is unique, add it to list
-	    	//adds country to countryCombo box
-	    	if (countryMatchFound == false)
-	    	{
-	    		countryArrayList.add(countryName);
-	    		countryModel.addElement(countryName);
-	    	}
-	    }
+	    countryModel = model.getSpot().getCountryModel();
 	    
 	    //intialise JList
-	    countryJList = new JList(countryModel);
+	    countryJList = new JList(model.getSpot().getCountryModel());
 	}
 	
 	//find users favourite surf spots
 	public ArrayList<Spot> FavouriteSpots()
 	{
-		favSpot = new ArrayList<Spot>();
-		
-		//find fav surf location based on countries & states selected
-		for (Spot s : spotsSelected) 
-		{ 		      
-		 	String locationName = s.getName();
-		 	
-		   	//if country names match, add state once to list
-		   	for(String c : selectedCountry )
-		   	{	
-		    	if(s.getCountry().equals(c))
-		    	{	
-			    	for(String n : selectedState)
-			    	{
-			    		//based on country & state, select location
-			    		if(s.getState().equals(n))
-			    		{
-			    			//Search for matching locations
-			    			for(String l : selectedLocations)
-			    			{
-			    				if(locationName.equals(l))
-					    		{
-			    					favSpot.add(s);
-					    		}
-			    			}
-			    		}
-			    	}
-			    	   	
-		    	}
-		   	}
-	   }
-		
-		
+		favSpot = model.getFavSpot().FavouriteSpots(spotsSelected, selectedCountry, selectedState, selectedLocations);
+				
 		return favSpot;
 		
 	}

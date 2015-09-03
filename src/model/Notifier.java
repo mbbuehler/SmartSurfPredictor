@@ -1,13 +1,9 @@
 package model;
 
-import java.awt.Window;
-import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
-
-import javax.swing.JOptionPane;
 
 import controller.ForecastController;
 
@@ -15,7 +11,7 @@ public class Notifier {
 	private PredictionManager predictionManager = null;
 	//variable created by Eeswari
 	private SpotReaderFile spot = new SpotReaderFile();
-	private WriteFavouriteSpotFile writeFavSpot = new WriteFavouriteSpotFile();
+	private FavouriteSpotFile favSpot = new FavouriteSpotFile();
 
 	public Notifier() {
 		super();
@@ -44,8 +40,8 @@ public class Notifier {
 		return spot;
 	}
 
-	public WriteFavouriteSpotFile getWriteFavSpot() {
-		return writeFavSpot;
+	public FavouriteSpotFile getFavSpot() {
+		return favSpot;
 	}
 
 

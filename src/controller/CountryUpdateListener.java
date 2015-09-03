@@ -30,12 +30,11 @@ public class CountryUpdateListener implements ListSelectionListener
 		if(!e.getValueIsAdjusting())
 		{
 			// gets values from your jList and added it to a list
-			List<String> values = spotView.getCountryJList().getSelectedValuesList();
+			List values = spotView.getCountryJList().getSelectedValuesList();
 			spotView.setSelectedCountry(values);
 			
 			//based on country selection, state needs to be updated
-			spotView.UpdateStates(spotView.getSpots(),spotView.getSelectedCountry());
-			
+			spotView.UpdateStates(spotView.getSelectedCountry());
 		}
 
 	}
