@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 
 import controller.AddSpotListener;
 import controller.ExitListener;
+import controller.MainForecastButtonListener;
 import controller.PredictorViewCloseListener;
 import model.Notifier;
 import model.PredictionTime;
@@ -42,7 +43,9 @@ public class PredictorView extends JFrame
 		setLocation.setAlignmentX(CENTER_ALIGNMENT);
         setLocation.addActionListener(new AddSpotListener(this,model));
         
+        //add listener for location button & align button to center
         forecastFeedback.setAlignmentX(CENTER_ALIGNMENT);
+        forecastFeedback.addActionListener(new MainForecastButtonListener(this,model));
         
         exitPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         exitPanel.add(exit);

@@ -6,7 +6,6 @@ import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -116,7 +115,7 @@ public class AddSpotView extends JDialog
 	    setModal(true);
 	}
 	
-	//checks if user has previous selected spots
+	//checks if user has previously selected spots
 	private void PreSelectedSpot() 
 	{
 		//check for pre-selections
@@ -136,6 +135,7 @@ public class AddSpotView extends JDialog
 		locationJList.setSelectedIndices(model.getFavSpot().getSelectedLocation());
 	}
 
+	//find all matching locations based on country & states selected
 	public void UpdateSurfLocations(List<String> selectedCountries ,List<String> selectedStates) 
 	{
 		//remove old items from default model
@@ -217,15 +217,18 @@ public class AddSpotView extends JDialog
 		return stateJList;
 	}
 	
-	public void setStateJList(JList<String> stateJList) {
+	public void setStateJList(JList<String> stateJList) 
+	{
 		this.stateJList = stateJList;
 	}
 
-	public JList<String> getLocationJList() {
+	public JList<String> getLocationJList() 
+	{
 		return locationJList;
 	}
 
-	public void setLocationJList(JList<String> locationJList) {
+	public void setLocationJList(JList<String> locationJList) 
+	{
 		this.locationJList = locationJList;
 	}
 
@@ -239,11 +242,13 @@ public class AddSpotView extends JDialog
 		this.selectedState = selectedState;
 	}
 
-	public List<String> getSelectedLocations() {
+	public List<String> getSelectedLocations() 
+	{
 		return selectedLocations;
 	}
 
-	public void setSelectedLocations(List<String> selectedLocations) {
+	public void setSelectedLocations(List<String> selectedLocations) 
+	{
 		this.selectedLocations = selectedLocations;
 	}
 
