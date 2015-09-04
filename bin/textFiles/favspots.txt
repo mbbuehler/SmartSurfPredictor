@@ -1,0 +1,5 @@
+996,australasia,New South Wales,Sydney (Bondi)
+701,australasia,New South Wales,Newcastle
+1074,australasia,Victoria,Port Fairy
+1950,australasia,New Zealand,Sumner Bar (Christchurch)
+799,Caribbean Central,Caribbean,Puerto Rico (Cuba) 

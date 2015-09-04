@@ -30,8 +30,9 @@ public class PredictionFactory {
 			}
 		}
 		if (response != null) {
-			Forecast swellForecast = builder.getSwellForecast(response);
-			Forecast weatherForecast = builder.getWeatherForecast(response);
+			SwellForecast swellForecast = builder.getSwellForecast(response);
+			WeatherForecast weatherForecast = builder
+					.getWeatherForecast(response);
 			Prediction prediction = new Prediction(swellForecast,
 					weatherForecast);
 			return prediction;

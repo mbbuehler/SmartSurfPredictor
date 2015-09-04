@@ -14,13 +14,52 @@ public class PredictionManager {
 		this.controller = controller;
 	}
 
+	private boolean prepareClassifierData(PredictionTime predictionTime) {
+		ArrayList<Spot> spots = getSpots();
+		ArrayList<Prediction> predictions = new ArrayList<Prediction>();
+		for(Spot spot:spots){
+			Prediction p = getPrediction(spot.getId(), predictionTime);
+			predictions.add(p);
+		}
+		try{
+			// Write unlabeled predictions. They will be classified by the weka
+			// classifier
+			PredictionWriter writer = new PredictionWriter(
+					"data/predictions_unlabeled.arff", false);
+			writer.writePredictions(predictions);
+			writer.close();
+			return true;
+		} catch (Exception e) {
+			System.err
+					.println("Could not prepare File with unlabeled Predictions:");
+			e.printStackTrace();
+			return false;
+		}
+
+	}
+
+	/**
+	 * 
+	 * 
+	 * Reads
+	 * 
+	 * @param predictionTime
+	 * @return
+	 */
 	public HashMap<Spot, Prediction> getFavouritePredictions(PredictionTime predictionTime) {
+		// Prepare File that will be read by the classifier
+		boolean succeeded = prepareClassifierData(predictionTime);
+
+		// TODO: call classifier and get data back as PlainPrediction Class
+		// TODO: fill Hashmap, get scores and return
+
 		HashMap<Spot, Prediction> acceptedPredictions = new HashMap<Spot, Prediction>();
 		
 		ArrayList<Spot> spots = getSpots();
 		for(Spot spot:spots){
 			Prediction prediction = getPrediction(spot.id, predictionTime);
 			float rating = getPredictionRating(prediction);
+			// TODO: set predicitonrating
 			if (isAccepted(rating)) {
 				acceptedPredictions.put(spot, prediction);
 			}
@@ -38,7 +77,9 @@ public class PredictionManager {
 		}
 		return spots;
 	}
+	
 	/**
+	 * Makes Call to MSW API and returns Prediction
 	 * 
 	 * @param spotId
 	 * @return Prediction for Spot with id spotId at time predictionTime

@@ -1,13 +1,15 @@
 package model;
 
 public class Prediction {
-	private Forecast swellForecast = null;
-	private Forecast weatherForecast = null;
+	private SwellForecast swellForecast = null;
+	private WeatherForecast weatherForecast = null;
+	public PredictionStatus status = PredictionStatus.UNLABELED;
 	private float score = -1;
 
 	// private Spot spot = null;
 
-	public Prediction(Forecast swellForecast, Forecast weatherForecast) {
+	public Prediction(SwellForecast swellForecast,
+			WeatherForecast weatherForecast) {
 		super();
 		this.swellForecast = swellForecast;
 		this.weatherForecast = weatherForecast;
@@ -22,17 +24,17 @@ public class Prediction {
 		this.score = score;
 	}
 
-	public Forecast getSwellForecast() {
+	public SwellForecast getSwellForecast() {
 		return swellForecast;
 	}
 
-	public Forecast getWeatherForecast() {
+	public WeatherForecast getWeatherForecast() {
 		return weatherForecast;
 	}
 
 	public String toString(){
 		return "Prediction(" + swellForecast + "," + weatherForecast + ","
-				+ score + ")";
+				+ "Score: " + score + ")";
 	}
 
 
