@@ -9,7 +9,6 @@ package model;
  */
 public class PlainPrediction {
 
-	public final PredictionTime time;
 	public final int minBreakHeight;
 	public final int maxBreakHeight;
 	public final int fadedRating;
@@ -21,14 +20,15 @@ public class PlainPrediction {
 	public final CompassDirection windDirection;
 	public final int weather;
 	public final float temperature;
+	public final float score;
 
-	public PlainPrediction(PredictionTime time, int minBreakHeight,
+	public PlainPrediction(int minBreakHeight,
 			int maxBreakHeight, int fadedRating, int solidRating,
 			float primarySwellHeight, int primarySwellPeriod,
 			CompassDirection primarySwellDirection, int windSpeed,
-			CompassDirection windDirection, int weather, float temperature) {
+			CompassDirection windDirection, int weather, float temperature,
+			float score) {
 		super();
-		this.time = time;
 		this.minBreakHeight = minBreakHeight;
 		this.maxBreakHeight = maxBreakHeight;
 		this.fadedRating = fadedRating;
@@ -40,6 +40,22 @@ public class PlainPrediction {
 		this.windDirection = windDirection;
 		this.weather = weather;
 		this.temperature = temperature;
+		this.score = score;
+	}
+
+	public PlainPrediction(Prediction p) {
+		this.minBreakHeight = p.getSwellForecast().surf.minBreakingHeight;
+		this.maxBreakHeight = p.getSwellForecast().surf.maxBreakingHeight;
+		this.fadedRating = p.getSwellForecast().fadedRating;
+		this.solidRating = p.getSwellForecast().solidRating;
+		this.primarySwellHeight = p.getSwellForecast().primarySwell.height;
+		this.primarySwellPeriod = p.getSwellForecast().primarySwell.period;
+		this.primarySwellDirection = p.getSwellForecast().primarySwell.compassDirection;
+		this.windSpeed = p.getWeatherForecast().wind.speed;
+		this.windDirection = p.getWeatherForecast().wind.compassDirection;
+		this.weather = p.getWeatherForecast().weather.weather;
+		this.temperature = p.getWeatherForecast().weather.temperature;
+		this.score = p.getScore();
 	}
 
 

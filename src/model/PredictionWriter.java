@@ -3,6 +3,7 @@ package model;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -16,6 +17,7 @@ import java.util.Arrays;
  */
 public class PredictionWriter extends PrintWriter {
 	boolean labeled;
+	private String path;
 	
 	/**
 	 * <p>
@@ -37,12 +39,25 @@ public class PredictionWriter extends PrintWriter {
 			UnsupportedEncodingException {
 		super(path, "UTF-8");
 		this.labeled = labeled;
+		this.path = path;
 	}
 
+	/**
+	 * Write first element of arff file: relation name
+	 * 
+	 * @param name
+	 *            the name of the relation
+	 */
 	private void writeRelationName(String name) {
 		this.write("@relation " + name);
 	}
 
+	/**
+	 * Writes Attributes from prediction p to arff file
+	 * 
+	 * @param p
+	 *            instance of Prediction that should be written
+	 */
 	private void writeSinglePrediction(Prediction p) {
 		StringBuilder builder = new StringBuilder();
 
@@ -115,18 +130,46 @@ public class PredictionWriter extends PrintWriter {
 		for (Prediction p : list) {
 			writeSinglePrediction(p);
 		}
-
 	}
 
+	/**
+	 * Adds a single labeled prediction to training set.
+	 * 
+	 * @param p
+	 *            the prediction that should be added. Make sure it is labeled
+	 */
+	public void addLabeledPrediction(Prediction p){
+		writeSinglePrediction(p);
+	}
+
+	/**
+	 * Add a numberic attribute
+	 * 
+	 * @param attributeName
+	 *            the name of the attribute
+	 */
 	private void addNumeric(String attributeName) {
 		this.println("@attribute " + attributeName + " numeric");
 	}
 
+	/**
+	 * Add a non-numeric attribute.
+	 * 
+	 * @param attributeName
+	 *            the name of the attribute
+	 * @param values
+	 *            a string containing the comma-separated discrete values for
+	 *            the attribute
+	 */
 	private void addAttribute(String attributeName, String values) {
 		this.println("@attribute " + attributeName + " {"
 				+ values.substring(1, values.length() - 1) + "}");
 	}
 
+	/**
+	 * Writes second element of arff file: All attributes that will be used by
+	 * the classifier.
+	 */
 	private void writeAttributeList() {
 		StringBuilder builder = new StringBuilder();
 

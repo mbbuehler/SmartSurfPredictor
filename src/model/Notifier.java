@@ -21,8 +21,8 @@ public class Notifier {
 
 	public void notify(PredictionTime predictionTime) 
 	{
-
-		HashMap<Spot, Prediction> ratedPredictions = predictionManager.getFavouritePredictions(predictionTime);
+		HashMap<Spot, PlainPrediction> ratedPredictions = predictionManager
+				.getFavouritePredictions(predictionTime);
 		Iterator it = ratedPredictions.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry pair = (Map.Entry) it.next();

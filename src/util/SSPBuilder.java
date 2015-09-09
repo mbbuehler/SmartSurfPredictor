@@ -74,6 +74,7 @@ public class SSPBuilder {
 	 * null.
 	 * 
 	 * @param r
+	 *            response from MSWeed
 	 * @return {@link SwellForecast}
 	 */
 	public SwellForecast getSwellForecast(ForecastResponse r) {

@@ -76,6 +76,7 @@ public class PredictionWriterTest {
 			PredictionWriter writer = new PredictionWriter(
 					"tmp/labeled_test.arff", true);
 			writer.writePredictions(predictions);
+			writer.addLabeledPrediction(predictions.get(0));
 			writer.close();
 			assert (true);
 		} catch (Exception e) {
