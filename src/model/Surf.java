@@ -1,15 +1,15 @@
 package model;
 
 public final class Surf {
-    public final long minBreakingHeight;
+	public final int minBreakingHeight;
     public final double absMinBreakingHeight;
-    public final long maxBreakingHeight;
+	public final int maxBreakingHeight;
     public final double absMaxBreakingHeight;
     public final String unit;
     
 
-    public Surf(long minBreakingHeight, double absMinBreakingHeight,
-			long maxBreakingHeight, double absMaxBreakingHeight, String unit) {
+	public Surf(int minBreakingHeight, double absMinBreakingHeight,
+			int maxBreakingHeight, double absMaxBreakingHeight, String unit) {
 		super();
 		this.minBreakingHeight = minBreakingHeight;
 		this.absMinBreakingHeight = absMinBreakingHeight;

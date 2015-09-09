@@ -28,14 +28,15 @@ public class SSPBuilder {
 	 * @param r
 	 * @return {@link WeatherForecast}
 	 */
-	public Forecast getWeatherForecast(ForecastResponse r) {
+	public WeatherForecast getWeatherForecast(ForecastResponse r) {
 		model.Wind wind = null;
 		model.Weather weather = null;
 		model.Chart windChart = null;
 		model.Chart pressureChart = null;
 		try{
-			wind = new model.Wind(r.wind.speed, r.wind.direction,
-					r.wind.compassDirection, r.wind.chill, r.wind.gusts,
+			wind = new model.Wind((int) r.wind.speed, r.wind.direction,
+					r.wind.compassDirection, (int) r.wind.chill,
+					(int) r.wind.gusts,
 					r.wind.unit);
 		} catch (NullPointerException e) {
 			System.out.println("Nullpointer when creating Wind.");
@@ -61,7 +62,8 @@ public class SSPBuilder {
 			System.out.println("Nullpointer when creating PressureChart.");
 			// e.printStackTrace();
 		}
-		Forecast weatherForecast = new WeatherForecast(r.issueTimestamp,
+		WeatherForecast weatherForecast = new WeatherForecast(r.issueTimestamp,
+
 				r.localTimestamp, wind, weather, windChart, pressureChart);
 		return weatherForecast;
 	}
@@ -72,9 +74,10 @@ public class SSPBuilder {
 	 * null.
 	 * 
 	 * @param r
+	 *            response from MSWeed
 	 * @return {@link SwellForecast}
 	 */
-	public Forecast getSwellForecast(ForecastResponse r) {
+	public SwellForecast getSwellForecast(ForecastResponse r) {
 		Surf surf = null;
 		model.Swell primarySwell = null;
 		model.Swell secondarySwell = null;
@@ -84,16 +87,18 @@ public class SSPBuilder {
 		model.Chart sstChart = null;
 
 		try {
-			surf = new Surf(r.swell.minBreakingHeight,
-					r.swell.absMinBreakingHeight, r.swell.maxBreakingHeight,
-					r.swell.absMaxBreakingHeight, r.swell.unit);
+			surf = new Surf((int) r.swell.minBreakingHeight,
+					(int) r.swell.absMinBreakingHeight,
+					(int) r.swell.maxBreakingHeight,
+					(int) r.swell.absMaxBreakingHeight, r.swell.unit);
 		} catch (NullPointerException e) {
 			System.out.println("Nullpointer when creating surf.");
 			// e.printStackTrace();
 		}
 		try {
-			primarySwell = new model.Swell(r.swell.components.primary.height,
-					r.swell.components.primary.period,
+			primarySwell = new model.Swell(
+					(float) r.swell.components.primary.height,
+					(int) r.swell.components.primary.period,
 					r.swell.components.primary.direction,
 					r.swell.components.primary.compassDirection, r.swell.unit);
 		} catch (NullPointerException e) {
@@ -102,7 +107,8 @@ public class SSPBuilder {
 		}
 		try {
 			secondarySwell = new model.Swell(
-					r.swell.components.secondary.height,
+					(int) r.swell.components.secondary.height,
+					(int)
 					r.swell.components.secondary.period,
 					r.swell.components.secondary.direction,
 					r.swell.components.secondary.compassDirection, r.swell.unit);
@@ -111,8 +117,9 @@ public class SSPBuilder {
 			// e.printStackTrace();
 		}
 		try {
-			tertiarySwell = new model.Swell(r.swell.components.tertiary.height,
-					r.swell.components.tertiary.period,
+			tertiarySwell = new model.Swell(
+					(int) r.swell.components.tertiary.height,
+					(int) r.swell.components.tertiary.period,
 					r.swell.components.tertiary.direction,
 					r.swell.components.tertiary.compassDirection, r.swell.unit);
 		} catch (NullPointerException e) {
@@ -126,8 +133,9 @@ public class SSPBuilder {
 		} catch (NullPointerException e) {
 			System.out.println("Nullpointer when creating Charts.");
 		}
-		Forecast swellForecast = new SwellForecast(r.issueTimestamp,
-				r.localTimestamp, r.fadedRating, r.solidRating, surf,
+		SwellForecast swellForecast = new SwellForecast(r.issueTimestamp,
+				r.localTimestamp, (int) r.fadedRating, (int) r.solidRating,
+				surf,
 				primarySwell, secondarySwell, tertiarySwell, periodChart,
 				swellChart, sstChart);
 		return swellForecast;

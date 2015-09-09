@@ -1,13 +1,13 @@
 package model;
 
 public final class Swell {
-	public final double height;
-    public final long period;
+	public final float height;
+	public final int period;
     public final double direction;
 	public final CompassDirection compassDirection;
 	public final String unit;
 
-	public Swell(double height, long period, double direction,
+	public Swell(float height, int period, double direction,
 			String compassDirection, String unit) {
         this.height = height;
         this.period = period;

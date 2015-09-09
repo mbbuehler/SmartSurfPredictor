@@ -1,17 +1,17 @@
 package model;
 
-import java.awt.Window;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
-
-import javax.swing.JOptionPane;
 
 import controller.ForecastController;
 
 public class Notifier {
 	private PredictionManager predictionManager = null;
+	//variable created by Eeswari
+	private SpotReaderFile spot = new SpotReaderFile();
+	private FavouriteSpotFile favSpot = new FavouriteSpotFile(spot);
 
 	public Notifier() {
 		super();
@@ -19,10 +19,9 @@ public class Notifier {
 		this.predictionManager = new PredictionManager(controller);
 	}
 
-	public void notify(
-			PredictionTime predictionTime) {
-
-		HashMap<Spot, Prediction> ratedPredictions = predictionManager
+	public void notify(PredictionTime predictionTime) 
+	{
+		HashMap<Spot, PlainPrediction> ratedPredictions = predictionManager
 				.getFavouritePredictions(predictionTime);
 		Iterator it = ratedPredictions.entrySet().iterator();
 		while (it.hasNext()) {
@@ -33,7 +32,16 @@ public class Notifier {
 			System.out.println(builder.toString());
 		}
 
+	}
+	
+	//getter for variable
+	public SpotReaderFile getSpot() 
+	{
+		return spot;
+	}
 
+	public FavouriteSpotFile getFavSpot() {
+		return favSpot;
 	}
 
 

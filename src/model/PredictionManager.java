@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import weka.classifiers.Classifier;
+
 import controller.ForecastController;
 
 public class PredictionManager {
@@ -14,31 +16,71 @@ public class PredictionManager {
 		this.controller = controller;
 	}
 
-	public HashMap<Spot, Prediction> getFavouritePredictions(PredictionTime predictionTime) {
-		HashMap<Spot, Prediction> acceptedPredictions = new HashMap<Spot, Prediction>();
-		
-		ArrayList<Spot> spots = getSpots();
+	private ArrayList<Prediction> getPredictions(ArrayList<Spot> spots,
+			PredictionTime predictionTime) {
+		ArrayList<Prediction> predictions = new ArrayList<Prediction>();
 		for(Spot spot:spots){
-			Prediction prediction = getPrediction(spot.id, predictionTime);
-			float rating = getPredictionRating(prediction);
-			if (isAccepted(rating)) {
-				acceptedPredictions.put(spot, prediction);
+			Prediction p = getPrediction(spot.getId(), predictionTime);
+			predictions.add(p);
+		}
+		return predictions;
+	}
+
+	private boolean prepareUnlabeledFile(ArrayList<Prediction> predictions) {
+		try{
+			// Write unlabeled predictions. They will be classified by the weka
+			// classifier
+			PredictionWriter writer = new PredictionWriter(
+					"classifier_data/unlabeled_predictions.arff", false);
+			writer.writePredictions(predictions);
+			writer.close();
+			return true;
+		} catch (Exception e) {
+			System.err
+					.println("Could not prepare File with unlabeled Predictions:");
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public HashMap<Spot, PlainPrediction> getFavouritePredictions(
+			PredictionTime predictionTime) {
+		// Fetch Spots the user is interested in
+		ArrayList<Spot> spots = FavSpotReader.getFavouriteSpots();
+		// Fetch the predictions for the spots at the right time of the day
+		ArrayList<Prediction> predictions = getPredictions(spots,
+				predictionTime);
+		// Write the unlabeled predictions to arff file
+		boolean succeeded = prepareUnlabeledFile(predictions);
+		if (!succeeded) {
+			System.err
+					.println("Classifier Data was not properly prepared. Cannot classify");
+			return null;
+		}
+		// classify predictions and receive arrayList with scores
+		ArrayList<Float> scores = PredictionClassifier.getRatedPredictions();
+
+		HashMap<Spot, PlainPrediction> map = new HashMap<Spot, PlainPrediction>();
+		// add scores to accepted predictions and fill HashMap
+		for (int i = 0; i < predictions.size(); ++i) {
+			// declare new variable names for all needed elements -> better
+			// readability
+			Spot currentSpot = spots.get(i);
+			Prediction currentPrediction = predictions.get(i);
+			Float currentScore = scores.get(i);
+
+			if (isAccepted(currentScore)) {
+				currentPrediction.setScore(currentScore);
+				// Extract only the needed data and pack into a PlainPrediction
+				PlainPrediction p = new PlainPrediction(currentPrediction);
+				map.put(currentSpot, p);
 			}
 		}
-		return acceptedPredictions;
+		return map;
+	}
 
-	}
-	
-	private ArrayList<Spot> getSpots() {
-		// TODO: implement reading and returning spots
-		ArrayList<Spot> spots = new ArrayList<Spot>();
-		for (int i = 255; i < 257; ++i) {
-			Spot spot = new Spot("testname", "testcountry", "teststate", i);
-			spots.add(spot);
-		}
-		return spots;
-	}
 	/**
+	 * Makes Call to MSW API and returns Prediction
 	 * 
 	 * @param spotId
 	 * @return Prediction for Spot with id spotId at time predictionTime
@@ -52,10 +94,6 @@ public class PredictionManager {
 		return prediction;
 	}
 
-	private float getPredictionRating(Prediction prediction) {
-		// TODO: implement
-		return 1;
-	}
 
 	/**
 	 * TODO: Adjust parameter

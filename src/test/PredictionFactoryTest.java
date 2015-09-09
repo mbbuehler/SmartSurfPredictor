@@ -17,7 +17,8 @@ public class PredictionFactoryTest {
 	public void testGetTargetTimestamp() {
 		PredictionFactory f = new PredictionFactory(null,
 				PredictionTime.MORNING);
-		f.getTargetTimestamp(PredictionTime.MORNING);
+		System.out.println("timestamp:"
+				+ f.getTargetTimestamp(PredictionTime.MORNING));
 	}
 
 }
