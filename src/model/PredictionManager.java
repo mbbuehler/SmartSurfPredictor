@@ -43,7 +43,7 @@ public class PredictionManager {
 		}
 	}
 
-	public HashMap<Spot, PlainPrediction> getFavouritePredictions(
+	public HashMap<Spot, PlainPrediction> getRatedPredictions(
 			PredictionTime predictionTime) {
 		// Fetch Spots the user is interested in
 		ArrayList<Spot> spots = FavSpotReader.getFavouriteSpots();
@@ -58,8 +58,15 @@ public class PredictionManager {
 			return null;
 		}
 		// classify predictions and receive arrayList with scores
-		ArrayList<Float> scores = PredictionClassifier.getRatedPredictions();
+		ArrayList<Float> scores = PredictionClassifier.ratePredictions();
 
+		HashMap<Spot, PlainPrediction> map = createMap(spots, predictions,
+				scores);
+		return map;
+	}
+
+	private HashMap<Spot, PlainPrediction> createMap(ArrayList<Spot> spots,
+			ArrayList<Prediction> predictions, ArrayList<Float> scores) {
 		HashMap<Spot, PlainPrediction> map = new HashMap<Spot, PlainPrediction>();
 		// add scores to accepted predictions and fill HashMap
 		for (int i = 0; i < predictions.size(); ++i) {

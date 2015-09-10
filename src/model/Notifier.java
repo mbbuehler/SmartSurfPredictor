@@ -22,7 +22,7 @@ public class Notifier {
 	public void notify(PredictionTime predictionTime) 
 	{
 		HashMap<Spot, PlainPrediction> ratedPredictions = predictionManager
-				.getFavouritePredictions(predictionTime);
+				.getRatedPredictions(predictionTime);
 		Iterator it = ratedPredictions.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry pair = (Map.Entry) it.next();

@@ -24,18 +24,18 @@ public class PredictionClassifier {
 	private static String unlabeledPath = "classifier_data/unlabeled_predictions.arff";
 
 	// We will be trying various ones. this is just for testing purposes.
-	private static Classifier classifier = null;
+	private static Classifier classifier = createClassifier();
 
-	public PredictionClassifier() {
-		this.classifier = getClassifier();
-	}
+	// public PredictionClassifier() {
+	// this.classifier = getClassifier();
+	// }
 
 	/**
 	 * Modify this method to change classifier
 	 * 
 	 * @return
 	 */
-	private Classifier getClassifier() {
+	private static Classifier createClassifier() {
 		Classifier classifier = new NaiveBayes();
 		try {
 			// load labeled data
@@ -64,7 +64,7 @@ public class PredictionClassifier {
 	 * 
 	 * @param prediction
 	 */
-	public static ArrayList<Float> getRatedPredictions() {
+	public static ArrayList<Float> ratePredictions() {
 		ArrayList<Float> scores = new ArrayList<Float>();
 		try {
 			// load unlabeled data
