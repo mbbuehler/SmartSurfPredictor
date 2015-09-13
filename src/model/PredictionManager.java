@@ -37,7 +37,7 @@ public class PredictionManager {
 			return true;
 		} catch (Exception e) {
 			System.err
-					.println("Could not prepare File with unlabeled Predictions:");
+					.println("@PredictionManager: Could not prepare File with unlabeled Predictions:");
 			e.printStackTrace();
 			return false;
 		}

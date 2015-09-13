@@ -48,9 +48,11 @@ public class PredictionClassifier {
 			classifier.buildClassifier(train);
 			return classifier;
 		} catch (IOException e) {
-			System.err.println("Error when loading training set.");
+			System.err
+					.println("@PredictionClassifier: Error when loading training set.");
 		} catch (Exception e) {
-			System.err.println("Could not train ForecastClassifier.");
+			System.err
+					.println("@PredictionClassifier: Could not train ForecastClassifier.");
 			}
 			return null;
 	}
