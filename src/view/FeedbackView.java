@@ -310,7 +310,7 @@ public class FeedbackView extends JDialog
 			}
 			else if(i<recommends.size())
 			{
-				//writer.addLabeledPrediction(recommends.get(i).getPrediction());
+				writer.addLabeledPrediction(recommends.get(i).getPrediction());
 			}
 			
 			writer.close();
