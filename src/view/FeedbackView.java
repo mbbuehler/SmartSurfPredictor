@@ -40,6 +40,8 @@ public class FeedbackView extends JDialog
 	private JLabel infoLabel, spotName,spotNameUpdate;
 	private JLabel minHeightLabel,minHeightupdateLabel;
 	private JLabel maxHeightLabel,maxHeightupdateLabel;
+	private JLabel waveRatingLabel;
+	private JPanel waveRatingPanel;
 	private JLabel primarySwellHeigtLabel, primarySwellHeigtUpdateLabel;
 	private JLabel swellPeriodLabel,swellPeriodUpdateLabel;
 	private JLabel primarySwellDirectionLabel,primarySwellDirectionUpdateLabel;
@@ -105,7 +107,11 @@ public class FeedbackView extends JDialog
 		maxHeightLabel.setAlignmentX(CENTER_ALIGNMENT);
 		maxHeightupdateLabel = new JLabel("--");
 		maxHeightupdateLabel.setAlignmentX(CENTER_ALIGNMENT);
-				
+		
+		waveRatingLabel = new JLabel("Wave Ratings:");
+		waveRatingLabel.setAlignmentX(CENTER_ALIGNMENT);
+		waveRatingPanel = new JPanel(new GridLayout(1,0,0,0));
+		
 		primarySwellHeigtLabel = new JLabel("Primary Swell Height (ft):");
 		primarySwellHeigtLabel.setAlignmentX(CENTER_ALIGNMENT);
 		primarySwellHeigtUpdateLabel = new JLabel("--");
@@ -148,8 +154,14 @@ public class FeedbackView extends JDialog
 		infoUpdatePanel.add(spotNameUpdate);
 		infoUpdatePanel.add(minHeightLabel);  
 		infoUpdatePanel.add(minHeightupdateLabel); //yes
-		infoUpdatePanel.add(maxHeightLabel);  //add star rating
+		infoUpdatePanel.add(maxHeightLabel);  
 		infoUpdatePanel.add(maxHeightupdateLabel);// yes
+		
+		//star rating
+		infoUpdatePanel.add(waveRatingLabel);
+		infoUpdatePanel.add(waveRatingPanel);
+		
+		
 		infoUpdatePanel.add(primarySwellHeigtLabel);
 		infoUpdatePanel.add(primarySwellHeigtUpdateLabel); //  yes
 		infoUpdatePanel.add(swellPeriodLabel);
@@ -184,6 +196,44 @@ public class FeedbackView extends JDialog
 	    controlPanel.add(cancelPanel);
 	    		    
 	}
+	
+	//update wave Rating
+	public void WaveRating(SpotPrediction sp)
+	{
+		waveRatingPanel.removeAll();
+		
+		int fadedRating =  sp.getPlain().getFadedRating();
+		int solidRating = sp.getPlain().getSolidRating();
+		int diff;
+		
+		String solidPath = "/stars/fullStar.jpg";
+		String fadedPath = "/stars/halfStar.jpg";
+		
+		if(fadedRating>solidRating)
+		{
+			diff = fadedRating - solidRating;
+			for(int j=0; j<solidRating;j++)
+			{
+				waveRatingPanel.add(new JLabel(new ImageIcon(getClass().getResource(solidPath))));
+			}
+			
+			for(int j=0; j<diff;j++)
+			{
+				waveRatingPanel.add(new JLabel(new ImageIcon(getClass().getResource(fadedPath))));
+			}
+		}
+		
+		if(solidRating>fadedRating || solidRating == fadedRating)
+		{
+			for(int j=0; j<solidRating;j++)
+			{
+				waveRatingPanel.add(new JLabel(new ImageIcon(getClass().getResource(solidPath))));
+			}
+		}
+	}
+		
+	
+	
 
 	//updates the forecast display accordingly
 	public void UpdateForcastDetails(SpotPrediction sp)
@@ -191,6 +241,9 @@ public class FeedbackView extends JDialog
 			spotNameUpdate.setText(sp.getS().getName()+", "+sp.getS().getState()+", "+sp.getS().getCountry());
 			minHeightupdateLabel.setText(""+sp.getPlain().getMinBreakHeight()); 
 			maxHeightupdateLabel.setText(""+sp.getPlain().getMaxBreakHeight());
+			
+			WaveRating(sp);
+			
 			primarySwellHeigtUpdateLabel.setText(""+sp.getPlain().getPrimarySwellHeight());
 			swellPeriodUpdateLabel.setText(""+sp.getPlain().getPrimarySwellPeriod()); 
 			primarySwellDirectionUpdateLabel.setText(""+sp.getPlain().getPrimarySwellDirection()); 
