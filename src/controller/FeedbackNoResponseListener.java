@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import model.Notifier;
+import model.PredictionStatus;
 import view.FeedbackView;
 
 public class FeedbackNoResponseListener implements ActionListener 
@@ -19,7 +20,7 @@ public class FeedbackNoResponseListener implements ActionListener
 
 	public void actionPerformed(ActionEvent arg0) 
 	{
-		view.increaseI();
+		view.NextPredictionFeedback(PredictionStatus.REJECTED);
 
 	}
 

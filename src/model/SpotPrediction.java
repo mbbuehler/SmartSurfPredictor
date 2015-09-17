@@ -5,12 +5,18 @@ public class SpotPrediction
 {
 	
 	private Spot s;
-	private PlainPrediction p;
+	private PlainPrediction plain;
+	private Prediction prediction;
 	
-	public SpotPrediction(Spot s,PlainPrediction p) 
+	public SpotPrediction(Spot s,PlainPrediction pp, Prediction p) 
 	{
 		this.s = s;
-		this.p = p;
+		this.plain = pp;
+		this.prediction=p;
+	}
+
+	public PlainPrediction getPlain() {
+		return plain;
 	}
 
 	public Spot getS() 
@@ -18,8 +24,8 @@ public class SpotPrediction
 		return s;
 	}
 
-	public PlainPrediction getP() 
+	public Prediction getPrediction() 
 	{
-		return p;
+		return prediction;
 	}
 }

@@ -36,7 +36,8 @@ public class PredictionWriter extends PrintWriter {
 	 */
 	public PredictionWriter(String path, boolean labeled)
 			throws FileNotFoundException,
-			UnsupportedEncodingException {
+			UnsupportedEncodingException 
+	{
 		super(path, "UTF-8");
 		this.labeled = labeled;
 		this.path = path;
@@ -95,19 +96,25 @@ public class PredictionWriter extends PrintWriter {
 		builder.append(temperature);
 		// for target class
 		builder.append(",");
-		if (labeled) {
-			if (p.status == PredictionStatus.ACCEPTED) {
+		if (labeled) 
+		{
+			if (p.status == PredictionStatus.ACCEPTED) 
+			{
 				builder.append("yes");
 			}
- else if (p.status == PredictionStatus.REJECTED) {
+			else if (p.status == PredictionStatus.REJECTED) 
+			{
 				builder.append("no");
-			} else {
-				System.err.println("Error: Invalid PredictionStatus: "
-						+ p.status);
+			} 
+			else 
+			{
+				System.err.println("Error: Invalid PredictionStatus: "+ p.status);
 				// builder.append("?");
 			}
-		} else {
-		builder.append("?");
+		} 
+		else 
+		{
+			builder.append("?");
 		}
 		this.println(builder.toString());
 	}
@@ -119,7 +126,8 @@ public class PredictionWriter extends PrintWriter {
 	 * 
 	 * @param list
 	 */
-	public void writePredictions(ArrayList<Prediction> list) {
+	public void writePredictions(ArrayList<Prediction> list) 
+	{
 		writeRelationName("predictions");
 		this.println("");
 		this.println("");
@@ -127,7 +135,8 @@ public class PredictionWriter extends PrintWriter {
 		this.println("");
 		this.println("");
 		this.println("@data");
-		for (Prediction p : list) {
+		for (Prediction p : list) 
+		{
 			writeSinglePrediction(p);
 		}
 	}
@@ -138,7 +147,8 @@ public class PredictionWriter extends PrintWriter {
 	 * @param p
 	 *            the prediction that should be added. Make sure it is labeled
 	 */
-	public void addLabeledPrediction(Prediction p){
+	public void addLabeledPrediction(Prediction p)
+	{
 		writeSinglePrediction(p);
 	}
 
@@ -148,7 +158,8 @@ public class PredictionWriter extends PrintWriter {
 	 * @param attributeName
 	 *            the name of the attribute
 	 */
-	private void addNumeric(String attributeName) {
+	private void addNumeric(String attributeName) 
+	{
 		this.println("@attribute " + attributeName + " numeric");
 	}
 
@@ -161,7 +172,8 @@ public class PredictionWriter extends PrintWriter {
 	 *            a string containing the comma-separated discrete values for
 	 *            the attribute
 	 */
-	private void addAttribute(String attributeName, String values) {
+	private void addAttribute(String attributeName, String values) 
+	{
 		this.println("@attribute " + attributeName + " {"
 				+ values.substring(1, values.length() - 1) + "}");
 	}
@@ -170,7 +182,8 @@ public class PredictionWriter extends PrintWriter {
 	 * Writes second element of arff file: All attributes that will be used by
 	 * the classifier.
 	 */
-	private void writeAttributeList() {
+	private void writeAttributeList() 
+	{
 		StringBuilder builder = new StringBuilder();
 
 		addNumeric("minBreakHeight");

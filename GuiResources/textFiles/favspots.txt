@@ -5,3 +5,6 @@
 701,australasia,New South Wales,Newcastle
 1074,australasia,Victoria,Port Fairy
 536,australasia,Victoria,Phillip Island
+1950,australasia,New Zealand,Sumner Bar (Christchurch)
+262,North America,California, Central
+799,Caribbean Central,Caribbean,Puerto Rico (Cuba) 

@@ -1,0 +1,17 @@
+@relation predictions
+
+@attribute minBreakHeight numeric
+@attribute maxBreakHeight numeric
+@attribute fadedRating numeric
+@attribute solidRating numeric
+@attribute primarySwellHeight numeric
+@attribute primarySwellPeriod numeric
+@attribute compassDirection {N, NE, E, SE, S, SW, W, NW}
+@attribute windSpeed numeric
+@attribute windDirection {N, NE, E, SE, S, SW, W, NW}
+@attribute weather numeric
+@attribute temperature numeric
+@attribute show {yes,no}
+
+@data
+3,4,2,0,4.0,7,S,13,SE,12,17.0,no

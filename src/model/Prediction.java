@@ -9,32 +9,49 @@ public class Prediction {
 	// private Spot spot = null;
 
 	public Prediction(SwellForecast swellForecast,
-			WeatherForecast weatherForecast) {
+			WeatherForecast weatherForecast) 
+	{
 		super();
 		this.swellForecast = swellForecast;
 		this.weatherForecast = weatherForecast;
 		// this.spot = spot;
 	}
 
-	public float getScore() {
+	public float getScore() 
+	{
 		return score;
 	}
 
-	public void setScore(float score) {
+	public void setScore(float score) 
+	{
 		this.score = score;
 	}
 
-	public SwellForecast getSwellForecast() {
+	public SwellForecast getSwellForecast() 
+	{
 		return swellForecast;
 	}
 
-	public WeatherForecast getWeatherForecast() {
+	public WeatherForecast getWeatherForecast() 
+	{
 		return weatherForecast;
 	}
 
-	public String toString(){
+	public String toString()
+	{
 		return "Prediction(" + swellForecast + "," + weatherForecast + ","
 				+ "Score: " + score + ")";
+	}
+	
+
+	public PredictionStatus getStatus() 
+	{
+		return status;
+	}
+
+	public void setStatus(PredictionStatus status) 
+	{
+		this.status = status;
 	}
 
 

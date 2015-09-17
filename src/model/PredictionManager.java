@@ -36,7 +36,7 @@ public class PredictionManager {
 			if(p != null)
 			{
 				// if spot actually exists and we received a prediction
-				result.add(new SpotPrediction(s,new PlainPrediction(p)));
+				result.add(new SpotPrediction(s,new PlainPrediction(p),p));
 			}
 			
 			randomTime = PredictionTime.AFTERNOON;
@@ -45,7 +45,7 @@ public class PredictionManager {
 			if(p != null)
 			{
 				// if spot actually exists and we received a prediction
-				result.add(new SpotPrediction(s,new PlainPrediction(p)));
+				result.add(new SpotPrediction(s,new PlainPrediction(p),p));
 			}
 		}
 		return result;
