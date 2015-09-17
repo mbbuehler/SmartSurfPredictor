@@ -54,12 +54,41 @@ public class PredictionWriter extends PrintWriter {
 	}
 
 	/**
-	 * Writes Attributes from prediction p to arff file
+	 * Writes list with predictions to arff file. <br>
+	 * Writes the \at relation, the \at attribute and the \at data section. Do
+	 * NOT use this method for appending labeled predictions to training set or
+	 * you will get the header information multiple times.<li>
+	 * header: e.g. "@relation X" <li>attributes: e.g.
+	 * "@attribute speed numeric" <li>data: data with all data from Prediction
+	 * list
+	 * 
+	 * @param list
+	 */
+	public void writePredictions(ArrayList<Prediction> list) 
+	{
+		writeRelationName("predictions");
+		this.println("");
+		this.println("");
+		writeAttributeList();
+		this.println("");
+		this.println("");
+		this.println("@data");
+		for (Prediction p : list) 
+		{
+			addLabeledPrediction(p);
+		}
+	}
+
+	/**
+	 * Adds a single labeled prediction to training set. Writes neither the \at
+	 * relation nor the \at attribute part. Use this method for APPENDING data
+	 * to arff file.
 	 * 
 	 * @param p
-	 *            instance of Prediction that should be written
+	 *            the prediction that should be added. Make sure it is labeled
 	 */
-	private void writeSinglePrediction(Prediction p) {
+	public void addLabeledPrediction(Prediction p)
+	{
 		StringBuilder builder = new StringBuilder();
 
 		int minBreakHeight = p.getSwellForecast().surf.minBreakingHeight;
@@ -96,60 +125,20 @@ public class PredictionWriter extends PrintWriter {
 		builder.append(temperature);
 		// for target class
 		builder.append(",");
-		if (labeled) 
-		{
-			if (p.status == PredictionStatus.ACCEPTED) 
-			{
+		if (labeled) {
+			if (p.status == PredictionStatus.ACCEPTED) {
 				builder.append("yes");
-			}
-			else if (p.status == PredictionStatus.REJECTED) 
-			{
+			} else if (p.status == PredictionStatus.REJECTED) {
 				builder.append("no");
-			} 
-			else 
-			{
-				System.err.println("Error: Invalid PredictionStatus: "+ p.status);
+			} else {
+				System.err.println("Error: Invalid PredictionStatus: "
+						+ p.status);
 				// builder.append("?");
 			}
-		} 
-		else 
-		{
+		} else {
 			builder.append("?");
 		}
 		this.println(builder.toString());
-	}
-
-	/**
-	 * Writes list with predictions to arff file. <li>header: e.g. "@relation X"
-	 * <li>attributes: e.g. "@attribute speed numeric" <li>data: data with all
-	 * data from Prediction list
-	 * 
-	 * @param list
-	 */
-	public void writePredictions(ArrayList<Prediction> list) 
-	{
-		writeRelationName("predictions");
-		this.println("");
-		this.println("");
-		writeAttributeList();
-		this.println("");
-		this.println("");
-		this.println("@data");
-		for (Prediction p : list) 
-		{
-			writeSinglePrediction(p);
-		}
-	}
-
-	/**
-	 * Adds a single labeled prediction to training set.
-	 * 
-	 * @param p
-	 *            the prediction that should be added. Make sure it is labeled
-	 */
-	public void addLabeledPrediction(Prediction p)
-	{
-		writeSinglePrediction(p);
 	}
 
 	/**
