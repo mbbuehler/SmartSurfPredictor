@@ -17,13 +17,52 @@ public class FavouriteSpotFile
 {	
 	private ArrayList<Integer> preSelectCountryIndex,preSelectStateIndex,preSelectLocationIndex;
 	private List<String> selectedCountryNames, selectedStateNames, selectedLocationsNames;
-	private String filePath ="GuiResources/textFiles/favspots.txt";
+	private static final String filePath ="GuiResources/textFiles/favspots.txt";
 	private File f = new File(filePath);
 	private SpotReaderFile spot;
 
 	public FavouriteSpotFile(SpotReaderFile s) 
 	{
 		this.spot = s;
+	}
+	
+	//testing purposes
+	public FavouriteSpotFile() 
+	{
+	}
+	
+	//Testing purposes
+	public static ArrayList<Spot> getFavouriteSpots() 
+	{
+		ArrayList<Spot> spots = new ArrayList<Spot>();
+		
+		try 
+		{	
+			String line;
+			Spot s;
+			BufferedReader reader = new BufferedReader(new FileReader(filePath));
+			while ((line = reader.readLine()) != null)
+		    {
+				//for spot file the order is spot ID, country, state, spot name
+				//spot info split by ","
+				List<String> items = Arrays.asList(line.split(","));
+
+				//for spot file the order is spot ID, country, state, spot name
+				//create Spot object
+				s = new Spot(items.get(3),items.get(1),items.get(2),Integer.parseInt(items.get(0)));
+				spots.add(s);
+		    }
+		    reader.close();
+		} 
+		catch (FileNotFoundException e) 
+		{
+			e.printStackTrace();
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
+		return spots;
 	}
 
 	

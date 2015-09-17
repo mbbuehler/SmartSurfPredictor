@@ -19,6 +19,7 @@ public class Notifier {
 		this.predictionManager = new PredictionManager(controller);
 	}
 
+	
 	public void notify(PredictionTime predictionTime) 
 	{
 		HashMap<Spot, PlainPrediction> ratedPredictions = predictionManager
@@ -42,6 +43,11 @@ public class Notifier {
 
 	public FavouriteSpotFile getFavSpot() {
 		return favSpot;
+	}
+
+	public PredictionManager getPredictionManager() 
+	{
+		return predictionManager;
 	}
 
 

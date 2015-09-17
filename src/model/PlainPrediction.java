@@ -27,7 +27,8 @@ public class PlainPrediction {
 			float primarySwellHeight, int primarySwellPeriod,
 			CompassDirection primarySwellDirection, int windSpeed,
 			CompassDirection windDirection, int weather, float temperature,
-			float score) {
+			float score) 
+	{
 		super();
 		this.minBreakHeight = minBreakHeight;
 		this.maxBreakHeight = maxBreakHeight;
@@ -43,7 +44,8 @@ public class PlainPrediction {
 		this.score = score;
 	}
 
-	public PlainPrediction(Prediction p) {
+	public PlainPrediction(Prediction p) 
+	{
 		this.minBreakHeight = p.getSwellForecast().surf.minBreakingHeight;
 		this.maxBreakHeight = p.getSwellForecast().surf.maxBreakingHeight;
 		this.fadedRating = p.getSwellForecast().fadedRating;
@@ -56,6 +58,66 @@ public class PlainPrediction {
 		this.weather = p.getWeatherForecast().weather.weather;
 		this.temperature = p.getWeatherForecast().weather.temperature;
 		this.score = p.getScore();
+	}
+
+	public int getMinBreakHeight() 
+	{
+		return minBreakHeight;
+	}
+
+	public int getMaxBreakHeight() 
+	{
+		return maxBreakHeight;
+	}
+
+	public int getFadedRating() 
+	{
+		return fadedRating;
+	}
+
+	public int getSolidRating() 
+	{
+		return solidRating;
+	}
+
+	public float getPrimarySwellHeight() 
+	{
+		return primarySwellHeight;
+	}
+
+	public int getPrimarySwellPeriod() 
+	{
+		return primarySwellPeriod;
+	}
+
+	public CompassDirection getPrimarySwellDirection() 
+	{
+		return primarySwellDirection;
+	}
+
+	public int getWindSpeed() 
+	{
+		return windSpeed;
+	}
+
+	public CompassDirection getWindDirection() 
+	{
+		return windDirection;
+	}
+
+	public int getWeather() 
+	{
+		return weather;
+	}
+
+	public float getTemperature() 
+	{
+		return temperature;
+	}
+
+	public float getScore() 
+	{
+		return score;
 	}
 
 
