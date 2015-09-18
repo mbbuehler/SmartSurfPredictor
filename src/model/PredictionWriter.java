@@ -1,6 +1,8 @@
 package model;
 
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
@@ -17,7 +19,6 @@ import java.util.Arrays;
  */
 public class PredictionWriter extends PrintWriter {
 	boolean labeled;
-	private String path;
 	
 	/**
 	 * <p>
@@ -38,9 +39,10 @@ public class PredictionWriter extends PrintWriter {
 			throws FileNotFoundException,
 			UnsupportedEncodingException 
 	{
-		super(path, "UTF-8");
+		super(new FileOutputStream(path, true));
 		this.labeled = labeled;
-		this.path = path;
+		
+		// this.
 	}
 
 	/**

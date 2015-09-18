@@ -21,13 +21,14 @@ public class PlainPrediction {
 	public final int weather;
 	public final float temperature;
 	public final float score;
+	private PredictionStatus status;
 
 	public PlainPrediction(int minBreakHeight,
 			int maxBreakHeight, int fadedRating, int solidRating,
 			float primarySwellHeight, int primarySwellPeriod,
 			CompassDirection primarySwellDirection, int windSpeed,
 			CompassDirection windDirection, int weather, float temperature,
-			float score) 
+ float score, PredictionStatus status)
 	{
 		super();
 		this.minBreakHeight = minBreakHeight;
@@ -42,6 +43,7 @@ public class PlainPrediction {
 		this.weather = weather;
 		this.temperature = temperature;
 		this.score = score;
+		this.status = status;
 	}
 
 	public PlainPrediction(Prediction p) 
@@ -58,6 +60,7 @@ public class PlainPrediction {
 		this.weather = p.getWeatherForecast().weather.weather;
 		this.temperature = p.getWeatherForecast().weather.temperature;
 		this.score = p.getScore();
+		this.status = p.getStatus();
 	}
 
 	public int getMinBreakHeight() 
@@ -120,5 +123,12 @@ public class PlainPrediction {
 		return score;
 	}
 
+	public PredictionStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(PredictionStatus status) {
+		this.status = status;
+	}
 
 }
