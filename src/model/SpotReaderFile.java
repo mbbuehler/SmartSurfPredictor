@@ -43,7 +43,7 @@ public class SpotReaderFile
 			BufferedReader reader;
 			String line;
 			Spot s;
-			reader = new BufferedReader(new FileReader("GuiResources/textFiles/spots.txt"));
+			reader = new BufferedReader(new FileReader("prg_res/spots.txt"));
 			while ((line = reader.readLine()) != null)
 		    {
 				//for spot file the order is spot ID, country, state, spot name

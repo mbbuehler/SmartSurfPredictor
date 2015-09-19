@@ -8,6 +8,7 @@ import java.util.Map;
 import controller.ForecastController;
 
 public class Notifier {
+
 	private PredictionManager predictionManager = null;
 	//variable created by Eeswari
 	private SpotReaderFile spot = new SpotReaderFile();

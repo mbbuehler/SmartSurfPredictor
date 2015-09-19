@@ -10,10 +10,13 @@ public class PredictionFactory {
 	private PredictionTime time = null;
 	private SSPBuilder builder;
 	private int range = 5400; // 1.5h
+	private Spot spot;
 
-	public PredictionFactory(ForecastResponse.List list, PredictionTime time) {
+	public PredictionFactory(ForecastResponse.List list, PredictionTime time,
+			Spot spot) {
 		this.list = list;
 		this.time = time;
+		this.spot = spot;
 		this.builder = new SSPBuilder();
 	}
 
@@ -45,7 +48,7 @@ public class PredictionFactory {
 			WeatherForecast weatherForecast = builder
 					.getWeatherForecast(response);
 			Prediction prediction = new Prediction(swellForecast,
-					weatherForecast);
+					weatherForecast, spot);
 			return prediction;
 		} else {
 			System.err

@@ -17,7 +17,7 @@ public class FavouriteSpotFile
 {	
 	private ArrayList<Integer> preSelectCountryIndex,preSelectStateIndex,preSelectLocationIndex;
 	private List<String> selectedCountryNames, selectedStateNames, selectedLocationsNames;
-	private static final String filePath ="GuiResources/textFiles/favspots.txt";
+	private static final String filePath = "user_data/favspots.txt";
 	private File f = new File(filePath);
 	private SpotReaderFile spot;
 

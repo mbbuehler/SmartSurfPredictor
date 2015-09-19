@@ -21,6 +21,7 @@ import controller.ExitListener;
 import controller.FeedbackNoResponseListener;
 import controller.FeedbackYesResponseListener;
 import model.Notifier;
+import model.PlainPrediction;
 import model.Prediction;
 import model.PredictionStatus;
 import model.PredictionWriter;
@@ -202,8 +203,8 @@ public class FeedbackView extends JDialog
 	{
 		waveRatingPanel.removeAll();
 		
-		int fadedRating =  sp.getPlain().getFadedRating();
-		int solidRating = sp.getPlain().getSolidRating();
+		int fadedRating = sp.getPlain().fadedRating;
+		int solidRating = sp.getPlain().solidRating;
 		int diff;
 		
 		String solidPath = "/stars/fullStar.jpg";
@@ -239,18 +240,20 @@ public class FeedbackView extends JDialog
 	public void UpdateForcastDetails(SpotPrediction sp)
 	{		
 			spotNameUpdate.setText(sp.getS().getName()+", "+sp.getS().getState()+", "+sp.getS().getCountry());
-			minHeightupdateLabel.setText(""+sp.getPlain().getMinBreakHeight()); 
-			maxHeightupdateLabel.setText(""+sp.getPlain().getMaxBreakHeight());
+		minHeightupdateLabel.setText("" + sp.getPlain().minBreakHeight);
+		maxHeightupdateLabel.setText("" + sp.getPlain().maxBreakHeight);
 			
 			WaveRating(sp);
 			
-			primarySwellHeigtUpdateLabel.setText(""+sp.getPlain().getPrimarySwellHeight());
-			swellPeriodUpdateLabel.setText(""+sp.getPlain().getPrimarySwellPeriod()); 
-			primarySwellDirectionUpdateLabel.setText(""+sp.getPlain().getPrimarySwellDirection()); 
-			speedUpdateLabel.setText(""+sp.getPlain().getWindSpeed()); 
-			windDirectionUpdateLabel.setText(""+sp.getPlain().getWindDirection()); 
+		primarySwellHeigtUpdateLabel.setText(""
+				+ sp.getPlain().primarySwellHeight);
+		swellPeriodUpdateLabel.setText("" + sp.getPlain().primarySwellPeriod);
+		primarySwellDirectionUpdateLabel.setText(""
+				+ sp.getPlain().primarySwellDirection);
+		speedUpdateLabel.setText("" + sp.getPlain().windSpeed);
+		windDirectionUpdateLabel.setText("" + sp.getPlain().windDirection);
 			
-			String weatherFileName = "/weather/"+sp.getPlain().getWeather()+".png";
+			String weatherFileName = "/weather/" + sp.getPlain().weather + ".png";
 			BufferedImage logo ; 
 			try 
 		     {
@@ -263,7 +266,7 @@ public class FeedbackView extends JDialog
 		     }
 		     
 			
-		   temperatureUpdateLabel.setText(""+sp.getPlain().getTemperature()); 	
+		temperatureUpdateLabel.setText("" + sp.getPlain().temperature);
 	}
 
 
@@ -292,38 +295,12 @@ public class FeedbackView extends JDialog
 	public void UpdateFeedbackResponse(PredictionStatus status) 
 	{
 		recommends.get(i).getPrediction().setStatus(status);
-		ArrayList<Prediction> list = new ArrayList<Prediction>();
-		Writer(list);
+		PlainPrediction plainPrediction = new PlainPrediction(recommends.get(i).getPrediction());
+		PredictionWriter writer = new PredictionWriter("user_data/labeled_predictions.arff");
+		writer.writeToFile(plainPrediction);
 	}
-
-
-	public void Writer(ArrayList<Prediction> list) 
-	{
-		try 
-		{
-			writer = new PredictionWriter("user_data/predictions_labeled.arff", true);
-			
-			if(i==0)
-			{
-				list.add(recommends.get(i).getPrediction());
-				writer.writePredictions(list);
-			}
-			else if(i<recommends.size())
-			{
-				writer.addLabeledPrediction(recommends.get(i).getPrediction());
-			}
-			
-			writer.close();
-			assert (true);
-		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-		} 
-		
 
 	}
 	
 	
 	
-}

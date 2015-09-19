@@ -9,6 +9,8 @@ package model;
  */
 public class PlainPrediction {
 
+	public final String spotName;
+	public final int spotId;
 	public final int minBreakHeight;
 	public final int maxBreakHeight;
 	public final int fadedRating;
@@ -23,7 +25,7 @@ public class PlainPrediction {
 	public final float score;
 	private PredictionStatus status;
 
-	public PlainPrediction(int minBreakHeight,
+	public PlainPrediction(String spotName, int spotId, int minBreakHeight,
 			int maxBreakHeight, int fadedRating, int solidRating,
 			float primarySwellHeight, int primarySwellPeriod,
 			CompassDirection primarySwellDirection, int windSpeed,
@@ -31,6 +33,8 @@ public class PlainPrediction {
  float score, PredictionStatus status)
 	{
 		super();
+		this.spotName = spotName;
+		this.spotId = spotId;
 		this.minBreakHeight = minBreakHeight;
 		this.maxBreakHeight = maxBreakHeight;
 		this.fadedRating = fadedRating;
@@ -46,8 +50,10 @@ public class PlainPrediction {
 		this.status = status;
 	}
 
-	public PlainPrediction(Prediction p) 
+	public PlainPrediction(Prediction p)
 	{
+		this.spotName = p.spot.name;
+		this.spotId = p.spot.id;
 		this.minBreakHeight = p.getSwellForecast().surf.minBreakingHeight;
 		this.maxBreakHeight = p.getSwellForecast().surf.maxBreakingHeight;
 		this.fadedRating = p.getSwellForecast().fadedRating;
@@ -61,66 +67,6 @@ public class PlainPrediction {
 		this.temperature = p.getWeatherForecast().weather.temperature;
 		this.score = p.getScore();
 		this.status = p.getStatus();
-	}
-
-	public int getMinBreakHeight() 
-	{
-		return minBreakHeight;
-	}
-
-	public int getMaxBreakHeight() 
-	{
-		return maxBreakHeight;
-	}
-
-	public int getFadedRating() 
-	{
-		return fadedRating;
-	}
-
-	public int getSolidRating() 
-	{
-		return solidRating;
-	}
-
-	public float getPrimarySwellHeight() 
-	{
-		return primarySwellHeight;
-	}
-
-	public int getPrimarySwellPeriod() 
-	{
-		return primarySwellPeriod;
-	}
-
-	public CompassDirection getPrimarySwellDirection() 
-	{
-		return primarySwellDirection;
-	}
-
-	public int getWindSpeed() 
-	{
-		return windSpeed;
-	}
-
-	public CompassDirection getWindDirection() 
-	{
-		return windDirection;
-	}
-
-	public int getWeather() 
-	{
-		return weather;
-	}
-
-	public float getTemperature() 
-	{
-		return temperature;
-	}
-
-	public float getScore() 
-	{
-		return score;
 	}
 
 	public PredictionStatus getStatus() {

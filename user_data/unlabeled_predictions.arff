@@ -1,0 +1,27 @@
+@relation predictions
+
+@attribute spotId numeric
+@attribute minBreakHeight numeric
+@attribute maxBreakHeight numeric
+@attribute fadedRating numeric
+@attribute solidRating numeric
+@attribute primarySwellHeight numeric
+@attribute primarySwellPeriod numeric
+@attribute compassDirection {N, NE, E, SE, S, SW, W, NW}
+@attribute windSpeed numeric
+@attribute windDirection {N, NE, E, SE, S, SW, W, NW}
+@attribute weather numeric
+@attribute temperature numeric
+@attribute show {yes,no}
+
+@data
+996,2,3,1,0,2.5,9,S,9,E,1,16.0,?
+997,2,3,0,1,2.5,9,S,4,E,1,17.0,?
+526,1,2,1,0,2.0,6,NE,9,E,1,16.0,?
+1183,1,2,1,0,2.0,6,NE,9,E,1,16.0,?
+701,2,3,1,0,3.0,6,NE,16,NE,22,16.0,?
+1074,2,4,0,3,6.0,14,SW,6,NW,1,14.0,?
+536,2,4,0,3,3.0,14,SW,6,NW,2,15.0,?
+1950,1,1,0,0,1.1,12,SE,13,SW,3,7.0,?
+262,3,5,0,1,5.5,8,NW,11,NW,1,30.0,?
+799,0,1,0,0,0.6,7,NE,11,E,18,29.0,?

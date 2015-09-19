@@ -2,6 +2,7 @@ package view;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -18,10 +19,9 @@ public class WelcomeBarView extends JPanel
 	 public WelcomeBarView(PredictorView view)
 	 {
 		 welcome.setAlignmentX(CENTER_ALIGNMENT);
-	     try 
-	     {
+		try {
 			logo = ImageIO.read(getClass().getResource("/images/surf.jpg"));
-	     } 
+		}
 	     catch (IOException e) 
 	     {
 			e.printStackTrace();

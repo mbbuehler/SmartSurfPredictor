@@ -12,7 +12,9 @@ import java.util.HashMap;
 
 import model.ForecastResponse.List;
 
+import weka.classifiers.bayes.BayesianLogisticRegression;
 import weka.classifiers.bayes.NaiveBayes;
+import weka.classifiers.functions.SimpleLogistic;
 import weka.classifiers.trees.J48;
 import weka.core.Instance;
 import weka.core.Instances;
@@ -20,8 +22,8 @@ import weka.core.Instances;
 import weka.classifiers.Classifier;
 
 public class PredictionClassifier {
-	private static String trainingSet = "classifier_data/labeled_predictions.arff";
-	private static String unlabeledPath = "classifier_data/unlabeled_predictions.arff";
+	private static String trainingSet = "user_data/labeled_predictions.arff";
+	private static String unlabeledPath = "user_data/unlabeled_predictions.arff";
 
 	// We will be trying various ones. this is just for testing purposes.
 	private static Classifier classifier = createClassifier();
@@ -36,7 +38,7 @@ public class PredictionClassifier {
 	 * @return
 	 */
 	private static Classifier createClassifier() {
-		Classifier classifier = new NaiveBayes();
+		Classifier classifier = new NaiveBayes();// BayesianLogisticRegression();
 		try {
 			// load labeled data
 			Instances train = new Instances(new BufferedReader(new FileReader(
@@ -53,6 +55,7 @@ public class PredictionClassifier {
 		} catch (Exception e) {
 			System.err
 					.println("@PredictionClassifier: Could not train ForecastClassifier.");
+			e.printStackTrace();
 			}
 			return null;
 	}
@@ -107,40 +110,5 @@ public class PredictionClassifier {
 		}
 
 		}
-
-	// private PlainPrediction createPlainPrediction(Instance i, float score) {
-	// // System.out.println("instance: ");
-	// // System.out.println(i);
-	// // double val = 0;
-	// // for (int k = 0; k < i.numAttributes(); ++k) {
-	// // if (i.attribute(k).isNumeric()) {
-	// // System.out.print(i.value(k));
-	// // } else {
-	// // System.out.print(i.stringValue(k));
-	// // }
-	// // System.out.print(",");
-	// // // System.out.print(i.value(k) + ",");
-	// // // System.out.println(i.stringValue(6));
-	// // }
-	// System.out.println("");
-	// int minBreakHeight = (int) i.value(0);
-	// int maxBreakHeight = (int) i.value(1);
-	// int fadedRating = (int) i.value(2);
-	// int solidRating = (int) i.value(3);
-	// float primarySwellHeight = (float) i.value(4);
-	// int primarySwellPeriod = (int) i.value(5);
-	// CompassDirection primarySwellDirection = CompassDirection
-	// .getCompassDirection(i.stringValue(6));
-	// int windSpeed = (int) i.value(7);
-	// CompassDirection windDirection = CompassDirection.getCompassDirection(i
-	// .stringValue(8));
-	// int weather = (int) i.value(9);
-	// float temperature = (float) i.value(10);
-	// PlainPrediction p = new PlainPrediction(minBreakHeight, maxBreakHeight,
-	// fadedRating, solidRating, primarySwellHeight,
-	// primarySwellPeriod, primarySwellDirection, windSpeed,
-	// windDirection, weather, temperature, score);
-	// return p;
-	// }
 
 }

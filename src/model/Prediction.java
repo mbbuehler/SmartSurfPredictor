@@ -4,17 +4,18 @@ public class Prediction {
 	private SwellForecast swellForecast = null;
 	private WeatherForecast weatherForecast = null;
 	public PredictionStatus status = PredictionStatus.UNLABELED;
+	public Spot spot = null;
 	private float score = -1;
 
 	// private Spot spot = null;
 
 	public Prediction(SwellForecast swellForecast,
-			WeatherForecast weatherForecast) 
+			WeatherForecast weatherForecast, Spot spot)
 	{
 		super();
 		this.swellForecast = swellForecast;
 		this.weatherForecast = weatherForecast;
-		// this.spot = spot;
+		this.spot = spot;
 	}
 
 	public float getScore() 

@@ -3,6 +3,7 @@ package util;
 import model.Chart;
 import model.Forecast;
 import model.ForecastResponse;
+import model.Spot;
 import model.Surf;
 import model.Swell;
 import model.SwellForecast;
@@ -92,7 +93,7 @@ public class SSPBuilder {
 					(int) r.swell.maxBreakingHeight,
 					(int) r.swell.absMaxBreakingHeight, r.swell.unit);
 		} catch (NullPointerException e) {
-			System.out.println("Nullpointer when creating surf.");
+			// System.out.println("Nullpointer when creating surf.");
 			// e.printStackTrace();
 		}
 		try {
@@ -113,7 +114,7 @@ public class SSPBuilder {
 					r.swell.components.secondary.direction,
 					r.swell.components.secondary.compassDirection, r.swell.unit);
 		} catch (NullPointerException e) {
-			System.out.println("Nullpointer when creating secondarySwell.");
+			// System.out.println("Nullpointer when creating secondarySwell.");
 			// e.printStackTrace();
 		}
 		try {
@@ -123,7 +124,7 @@ public class SSPBuilder {
 					r.swell.components.tertiary.direction,
 					r.swell.components.tertiary.compassDirection, r.swell.unit);
 		} catch (NullPointerException e) {
-			System.out.println("Nullpointer when creating tertiarySwell.");
+			// System.out.println("Nullpointer when creating tertiarySwell.");
 			// e.getMessage();
 		}
 		try {
@@ -131,7 +132,7 @@ public class SSPBuilder {
 			swellChart = new model.Chart(r.charts.swell);
 			sstChart = new model.Chart(r.charts.sst);
 		} catch (NullPointerException e) {
-			System.out.println("Nullpointer when creating Charts.");
+			// System.out.println("Nullpointer when creating Charts.");
 		}
 		SwellForecast swellForecast = new SwellForecast(r.issueTimestamp,
 				r.localTimestamp, (int) r.fadedRating, (int) r.solidRating,
@@ -141,4 +142,5 @@ public class SSPBuilder {
 		return swellForecast;
 
 			}
+
 }
