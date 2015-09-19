@@ -13,19 +13,19 @@ import model.PredictionTime;
 import model.PredictionWriter;
 import model.Spot;
 
-public class UnlabeledForecastGetter {
+public class UnlabeledForecastSaver {
 
-	public UnlabeledForecastGetter() {
+	public UnlabeledForecastSaver() {
 		// TODO Auto-generated constructor stub
 	}
 
 	public static void main(String[] args) {
-		new UnlabeledForecastGetter().getRandomUnlabeledPlainPredictions(10);
+		new UnlabeledForecastSaver().getRandomUnlabeledPlainPredictions(10);
 	}
 
 	public void getRandomUnlabeledPlainPredictions(int number) {
 		PredictionWriter writer = new PredictionWriter(
-				"prg_res/unlabeled_sample_predictions.arff");
+				"prg_res/unlabeled_sample_predictions.csv");
 		ArrayList<Spot> spots = FavouriteSpotFile.getFavouriteSpots();
 		int r = Math
 				.abs(new Random(System.nanoTime()).nextInt() % spots.size());

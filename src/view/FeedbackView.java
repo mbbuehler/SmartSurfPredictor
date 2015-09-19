@@ -5,9 +5,7 @@ import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -17,15 +15,15 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import util.SamplePredictionLoader;
+
 import controller.ExitListener;
 import controller.FeedbackNoResponseListener;
 import controller.FeedbackYesResponseListener;
 import model.Notifier;
 import model.PlainPrediction;
-import model.Prediction;
 import model.PredictionStatus;
 import model.PredictionWriter;
-import model.SpotPrediction;
 
 
 
@@ -52,7 +50,7 @@ public class FeedbackView extends JDialog
 	private JLabel temperatureLabel,temperatureUpdateLabel;
 	private JLabel likePrediction;
 	
-	private ArrayList<SpotPrediction> recommends;
+	private ArrayList<PlainPrediction> recommends;
 	
 	private JPanel controlPanel,infoUpdatePanel,questionPanel,answerPanel,cancelPanel;
 	
@@ -64,7 +62,9 @@ public class FeedbackView extends JDialog
 	{
 		this.view = v;
 		this.model = m;
-		this.recommends = model.getPredictionManager().getRandomUnlabeledPlainPredictions();
+		// this.recommends =
+		// model.getPredictionManager().getRandomUnlabeledPlainPredictions();
+		this.recommends = SamplePredictionLoader.getSamplePlainPredictions(20);
 		
 		Container cp = this.getContentPane();
 	    cp.setLayout(new BorderLayout());
@@ -72,7 +72,7 @@ public class FeedbackView extends JDialog
 	    IntialiseJLablesPanels();
 	    cp.add(controlPanel);
 	    
-	    UpdateForcastDetails(recommends.get(i));
+	    updateForcastDetails(recommends.get(i));
 	    
 	    // set the window size by itself
 	    pack();
@@ -199,12 +199,12 @@ public class FeedbackView extends JDialog
 	}
 	
 	//update wave Rating
-	public void WaveRating(SpotPrediction sp)
+	public void WaveRating(PlainPrediction p)
 	{
 		waveRatingPanel.removeAll();
 		
-		int fadedRating = sp.getPlain().fadedRating;
-		int solidRating = sp.getPlain().solidRating;
+		int fadedRating = p.fadedRating;
+		int solidRating = p.solidRating;
 		int diff;
 		
 		String solidPath = "/stars/fullStar.jpg";
@@ -237,23 +237,24 @@ public class FeedbackView extends JDialog
 	
 
 	//updates the forecast display accordingly
-	public void UpdateForcastDetails(SpotPrediction sp)
+	public void updateForcastDetails(PlainPrediction p)
 	{		
-			spotNameUpdate.setText(sp.getS().getName()+", "+sp.getS().getState()+", "+sp.getS().getCountry());
-		minHeightupdateLabel.setText("" + sp.getPlain().minBreakHeight);
-		maxHeightupdateLabel.setText("" + sp.getPlain().maxBreakHeight);
+
+		spotNameUpdate.setText(p.spotName);
+		minHeightupdateLabel.setText("" + p.minBreakHeight);
+		maxHeightupdateLabel.setText("" + p.maxBreakHeight);
 			
-			WaveRating(sp);
+		WaveRating(p);
 			
 		primarySwellHeigtUpdateLabel.setText(""
-				+ sp.getPlain().primarySwellHeight);
-		swellPeriodUpdateLabel.setText("" + sp.getPlain().primarySwellPeriod);
+ + p.primarySwellHeight);
+		swellPeriodUpdateLabel.setText("" + p.primarySwellPeriod);
 		primarySwellDirectionUpdateLabel.setText(""
-				+ sp.getPlain().primarySwellDirection);
-		speedUpdateLabel.setText("" + sp.getPlain().windSpeed);
-		windDirectionUpdateLabel.setText("" + sp.getPlain().windDirection);
+ + p.primarySwellDirection);
+		speedUpdateLabel.setText("" + p.windSpeed);
+		windDirectionUpdateLabel.setText("" + p.windDirection);
 			
-			String weatherFileName = "/weather/" + sp.getPlain().weather + ".png";
+		String weatherFileName = "/weather/" + p.weather + ".png";
 			BufferedImage logo ; 
 			try 
 		     {
@@ -266,7 +267,7 @@ public class FeedbackView extends JDialog
 		     }
 		     
 			
-		temperatureUpdateLabel.setText("" + sp.getPlain().temperature);
+		temperatureUpdateLabel.setText("" + p.temperature);
 	}
 
 
@@ -279,7 +280,7 @@ public class FeedbackView extends JDialog
 		i=i+1;
 		if(i<recommends.size())
 		{	
-	      	UpdateForcastDetails(recommends.get(i));
+	      	updateForcastDetails(recommends.get(i));
 	    }
 		
 		//if user gives feedback for everything
@@ -294,10 +295,10 @@ public class FeedbackView extends JDialog
 	//and write the result to trainee_file - will belater used for machinean learning
 	public void UpdateFeedbackResponse(PredictionStatus status) 
 	{
-		recommends.get(i).getPrediction().setStatus(status);
-		PlainPrediction plainPrediction = new PlainPrediction(recommends.get(i).getPrediction());
+		PlainPrediction current = recommends.get(i);
+		current.setStatus(status);
 		PredictionWriter writer = new PredictionWriter("user_data/labeled_predictions.arff");
-		writer.writeToFile(plainPrediction);
+		writer.writeToFile(current);
 	}
 
 	}

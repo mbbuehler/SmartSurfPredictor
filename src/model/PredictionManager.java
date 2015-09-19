@@ -14,40 +14,6 @@ public class PredictionManager {
 		super();
 		this.controller = controller;
 	}
-	
-		
-	// method for training purposes - Eeswari - the only thing I have added in
-	// this class
-	public ArrayList<SpotPrediction> getRandomUnlabeledPlainPredictions()
-		{
-		ArrayList<SpotPrediction> result = new ArrayList<SpotPrediction>();
-			
-		// Fetch Spots the user is interested in
-		ArrayList<Spot> spots = FavouriteSpotFile.getFavouriteSpots();
-
-		for (Spot s : spots)
-			{
-			long randomSpotId = s.getId();
-
-			// for both morning and evening
-			PredictionTime randomTime = PredictionTime.MORNING;
-			Prediction p = this.getPrediction(s, randomTime);
-
-			if (p != null) {
-				// if spot actually exists and we received a prediction
-				result.add(new SpotPrediction(s, new PlainPrediction(p), p));
-			}
-
-			randomTime = PredictionTime.AFTERNOON;
-			p = this.getPrediction(s, randomTime);
-
-			if (p != null) {
-				// if spot actually exists and we received a prediction
-				result.add(new SpotPrediction(s, new PlainPrediction(p), p));
-			}
-			}
-		return result;
-	}
 
 	private ArrayList<Prediction> getPredictions(ArrayList<Spot> spots,
 			PredictionTime predictionTime) {
