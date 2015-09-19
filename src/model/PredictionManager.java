@@ -1,5 +1,6 @@
 package model;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -14,48 +15,90 @@ public class PredictionManager {
 		this.controller = controller;
 	}
 
-	public HashMap<Spot, Prediction> getFavouritePredictions(PredictionTime predictionTime) {
-		HashMap<Spot, Prediction> acceptedPredictions = new HashMap<Spot, Prediction>();
-		
-		ArrayList<Spot> spots = getSpots();
-		for(Spot spot:spots){
-			Prediction prediction = getPrediction(spot.id, predictionTime);
-			float rating = getPredictionRating(prediction);
-			if (isAccepted(rating)) {
-				acceptedPredictions.put(spot, prediction);
+	private ArrayList<Prediction> getPredictions(ArrayList<Spot> spots,
+			PredictionTime predictionTime) {
+		ArrayList<Prediction> predictions = new ArrayList<Prediction>();
+		for (Spot spot : spots) {
+			Prediction p = getPrediction(spot, predictionTime);
+			predictions.add(p);
 			}
+		return predictions;
 		}
-		return acceptedPredictions;
+	
+	private void prepareUnlabeledFile(ArrayList<Prediction> predictions) {
+		String path = "user_data/unlabeled_predictions.arff";
+		File file = new File(path);
+		if (file.exists()) {
+			file.delete();
+		}
+		ArrayList<PlainPrediction> list = new ArrayList<PlainPrediction>();
+		for (Prediction p : predictions) {
+			list.add(new PlainPrediction(p));
+		}
+		PredictionWriter writer = new PredictionWriter(path);
+		writer.writeToFile(list);
 
 	}
 	
-	private ArrayList<Spot> getSpots() {
-		// TODO: implement reading and returning spots
-		ArrayList<Spot> spots = new ArrayList<Spot>();
-		for (int i = 255; i < 257; ++i) {
-			Spot spot = new Spot("testname", "testcountry", "teststate", i);
-			spots.add(spot);
+	public HashMap<Spot, PlainPrediction> getRatedPredictions(
+			PredictionTime predictionTime) {
+		// Fetch Spots the user is interested in
+		ArrayList<Spot> spots = FavouriteSpotFile.getFavouriteSpots();
+		// Fetch the predictions for the spots at the right time of the day
+		ArrayList<Prediction> predictions = getPredictions(spots,
+				predictionTime);
+		// Write the unlabeled predictions to arff file
+		prepareUnlabeledFile(predictions);
+		// classify predictions and receive arrayList with scores
+		ArrayList<Float> scores = PredictionClassifier.ratePredictions();
+	
+		HashMap<Spot, PlainPrediction> map = createMap(spots, predictions,
+				scores);
+		return map;
 		}
-		return spots;
-	}
+
+	private HashMap<Spot, PlainPrediction> createMap(ArrayList<Spot> spots,
+			ArrayList<Prediction> predictions, ArrayList<Float> scores) {
+		HashMap<Spot, PlainPrediction> map = new HashMap<Spot, PlainPrediction>();
+		// add scores to accepted predictions and fill HashMap
+		for (int i = 0; i < predictions.size(); ++i) {
+			// declare new variable names for all needed elements -> better
+			// readability
+			Spot currentSpot = spots.get(i);
+			Prediction currentPrediction = predictions.get(i);
+			Float currentScore = scores.get(i);
+
+			// Set score and status for prediction
+			currentPrediction.setScore(currentScore);
+			if (isAccepted(currentScore)) {
+				currentPrediction.setStatus(PredictionStatus.ACCEPTED);
+			} else {
+				currentPrediction.setStatus(PredictionStatus.REJECTED);
+			}
+			// Extract only the needed data and pack into a PlainPrediction
+			PlainPrediction p = new PlainPrediction(currentPrediction);
+			map.put(currentSpot, p);
+
+		}
+		return map;
+		}
+
 	/**
+	 * Makes Call to MSW API and returns Prediction
 	 * 
 	 * @param spotId
 	 * @return Prediction for Spot with id spotId at time predictionTime
 	 */
-	private Prediction getPrediction(long spotId, PredictionTime predictionTime) {
+	public Prediction getPrediction(Spot spot, PredictionTime predictionTime) {
 		// make request and retrieve list
-		ForecastResponse.List list = controller.getForecastResponseList(spotId);
+		ForecastResponse.List list = controller
+				.getForecastResponseList(spot.id);
 		// create factory and retrieve Prediction
-		Prediction prediction = new PredictionFactory(list, predictionTime)
+		Prediction prediction = new PredictionFactory(list, predictionTime,
+				spot)
 				.createPrediction();
 		return prediction;
-	}
-
-	private float getPredictionRating(Prediction prediction) {
-		// TODO: implement
-		return 1;
-	}
+		}
 
 	/**
 	 * TODO: Adjust parameter
@@ -65,5 +108,5 @@ public class PredictionManager {
 	 */
 	private boolean isAccepted(float predictionRating) {
 		return (predictionRating > 0.5) ? true : false;
+		}
 	}
-}

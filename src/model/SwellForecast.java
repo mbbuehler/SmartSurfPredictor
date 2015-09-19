@@ -7,8 +7,8 @@ package model;
  * 
  */
 public class SwellForecast extends Forecast {
-	public long fadedRating;
-	public long solidRating;
+	public int fadedRating;
+	public int solidRating;
 	public Surf surf;
 	public Swell primarySwell;
 	public Swell secondarySwell;
@@ -22,7 +22,7 @@ public class SwellForecast extends Forecast {
 	}
 
 	public SwellForecast(long issueTimestamp, long localTimestamp,
-			long fadedRating, long solidRating, Surf surf, Swell primarySwell,
+			int fadedRating, int solidRating, Surf surf, Swell primarySwell,
 			Swell secondarySwell, Swell tertiarySwell, Chart periodChart,
 			Chart swellChart, Chart sstChart) {
 		this(issueTimestamp, localTimestamp);

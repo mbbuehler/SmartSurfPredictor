@@ -26,4 +26,14 @@ public class WeatherForecast extends Forecast {
 		this.pressureChart = pressureChart;
 	}
 
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("WeatherFC(");
+		builder.append("Windspeed: " + wind.speed);
+		builder.append(", Temp: " + weather.temperature);
+		builder.append(", Weather: " + weather.weather);
+		builder.append(")");
+		return builder.toString();
+	}
+
 }

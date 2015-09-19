@@ -1,38 +1,58 @@
 package model;
 
 public class Prediction {
-	private Forecast swellForecast = null;
-	private Forecast weatherForecast = null;
+	private SwellForecast swellForecast = null;
+	private WeatherForecast weatherForecast = null;
+	public PredictionStatus status = PredictionStatus.UNLABELED;
+	public Spot spot = null;
 	private float score = -1;
 
 	// private Spot spot = null;
 
-	public Prediction(Forecast swellForecast, Forecast weatherForecast) {
+	public Prediction(SwellForecast swellForecast,
+			WeatherForecast weatherForecast, Spot spot)
+	{
 		super();
 		this.swellForecast = swellForecast;
 		this.weatherForecast = weatherForecast;
-		// this.spot = spot;
+		this.spot = spot;
 	}
 
-	public float getScore() {
+	public float getScore() 
+	{
 		return score;
 	}
 
-	public void setScore(float score) {
+	public void setScore(float score) 
+	{
 		this.score = score;
 	}
 
-	public Forecast getSwellForecast() {
+	public SwellForecast getSwellForecast() 
+	{
 		return swellForecast;
 	}
 
-	public Forecast getWeatherForecast() {
+	public WeatherForecast getWeatherForecast() 
+	{
 		return weatherForecast;
 	}
 
-	public String toString(){
+	public String toString()
+	{
 		return "Prediction(" + swellForecast + "," + weatherForecast + ","
-				+ score + ")";
+				+ "Score: " + score + ")";
+	}
+	
+
+	public PredictionStatus getStatus() 
+	{
+		return status;
+	}
+
+	public void setStatus(PredictionStatus status) 
+	{
+		this.status = status;
 	}
 
 

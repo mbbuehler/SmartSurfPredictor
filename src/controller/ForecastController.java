@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 
+import model.Chart;
 import model.ForecastResponse;
 import util.APIKey;
 		
