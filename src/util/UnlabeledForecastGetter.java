@@ -5,7 +5,6 @@ import java.util.Random;
 
 import controller.ForecastController;
 
-import model.FavSpotReader;
 import model.FavouriteSpotFile;
 import model.PlainPrediction;
 import model.Prediction;

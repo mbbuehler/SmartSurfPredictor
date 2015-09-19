@@ -12,6 +12,7 @@ import model.PlainPrediction;
 import model.Prediction;
 import model.PredictionStatus;
 import model.PredictionWriter;
+import model.Spot;
 import model.Surf;
 import model.Swell;
 import model.SwellForecast;
@@ -31,6 +32,7 @@ public class PredictionWriterTest {
 
 	@Before
 	public void setUp() throws Exception {
+		Spot spot = new Spot("Manly", null, null, 529);
 
 		Swell primarySwell1 = new Swell(8, 9, 0.0, "N", "FT");
 		Surf surf1 = new Surf(2, 2, 3, 3, "FT");
@@ -42,7 +44,7 @@ public class PredictionWriterTest {
 		WeatherForecast weatherForecast1 = new WeatherForecast(0, 0, wind1,
 				weather1, null, null);
 
-		Prediction p1 = new Prediction(swellForecast1, weatherForecast1);
+		Prediction p1 = new Prediction(swellForecast1, weatherForecast1, spot);
 				
 		Swell primarySwell2 = new Swell(14, 11, 0.0, "N", "FT");
 		Surf surf2 = new Surf(4, 4, 6, 6, "FT");
@@ -54,7 +56,7 @@ public class PredictionWriterTest {
 		WeatherForecast weatherForecast2 = new WeatherForecast(0, 0, wind2,
 				weather2, null, null);
 				
-		Prediction p2 = new Prediction(swellForecast2, weatherForecast2);
+		Prediction p2 = new Prediction(swellForecast2, weatherForecast2, spot);
 
 		this.predictions.add(p1);
 		this.predictions.add(p2);

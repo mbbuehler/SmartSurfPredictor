@@ -5,7 +5,7 @@ public class Spot
 	String name = null;
 	String country = null;
 	String state = null;
-	int id = -1;
+	public int id = -1;
 	String idName = null;
 	
 	//Eeswari - I changed the ID from long to int, 
