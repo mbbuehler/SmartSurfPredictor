@@ -2,7 +2,12 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -30,7 +35,7 @@ public class PredictorView extends JFrame
     {
 		model.notify(PredictionTime.MORNING);
 		
-		JPanel box = new JPanel(new GridLayout(0,1,10,10));		
+		JPanel box = new SSPPanel(new GridLayout(0, 1, 10, 10));
         
 		//add listener for location button & align button to center
 		setLocation.setAlignmentX(CENTER_ALIGNMENT);
@@ -40,7 +45,7 @@ public class PredictorView extends JFrame
         forecastFeedback.setAlignmentX(CENTER_ALIGNMENT);
         forecastFeedback.addActionListener(new MainForecastButtonListener(this,model));
         
-        exitPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		exitPanel = new SSPPanel(new FlowLayout(FlowLayout.LEFT));
         exitPanel.add(exit);
         //adding exit  button listener
         exit.addActionListener(new ExitListener(this,model));
@@ -59,6 +64,7 @@ public class PredictorView extends JFrame
         setVisible(true);
 
 	   }
+
 }
 
 
