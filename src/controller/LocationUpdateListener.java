@@ -15,6 +15,8 @@ public class LocationUpdateListener implements ListSelectionListener
 	private Notifier model;
 	private AddSpotView spotView;
 	
+	//listener for Location Jlist selection in AddSpotView
+	
 	public LocationUpdateListener(PredictorView v, Notifier m, AddSpotView a) 
 	{
 		this.view = v;
@@ -28,7 +30,7 @@ public class LocationUpdateListener implements ListSelectionListener
 		//get selected countries
 		if(!e.getValueIsAdjusting())
 		{
-			// gets values from your jList and added it to a list
+			// gets values from jList and added it 
 			List<String> values = spotView.getLocationJList().getSelectedValuesList();
 			spotView.setSelectedLocations(values);
 		}

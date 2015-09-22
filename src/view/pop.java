@@ -27,7 +27,7 @@ import model.PredictionWriter;
 
 
 
-public class FeedbackView extends JDialog
+public class pop extends JDialog
 {
 	private PredictorView view; 
 	private Notifier model;
@@ -36,7 +36,7 @@ public class FeedbackView extends JDialog
 	private JButton yesButton = new JButton("Yes");
 	private JButton noButton = new JButton("No");
 	
-	private JLabel infoLabel;
+	private JLabel infoLabel, spotName,spotNameUpdate;
 	private JLabel minHeightLabel,minHeightupdateLabel;
 	private JLabel maxHeightLabel,maxHeightupdateLabel;
 	private JLabel waveRatingLabel;
@@ -58,7 +58,7 @@ public class FeedbackView extends JDialog
 	
 	private PredictionWriter writer;
 	
-	public FeedbackView(PredictorView v, Notifier m) 
+	public pop(PredictorView v, Notifier m) 
 	{
 		this.view = v;
 		this.model = m;
@@ -94,7 +94,12 @@ public class FeedbackView extends JDialog
 		infoLabel = new JLabel("Surf Prediction Feedback");
 		infoLabel.setAlignmentX(CENTER_ALIGNMENT);
 			    	    
-	    //intialise JLabels and set alignment				
+	    //intialise JLabels and set alignment
+		spotName = new JLabel("Surf Spot:");
+		spotName.setAlignmentX(CENTER_ALIGNMENT);
+		spotNameUpdate = new JLabel("--");
+		spotNameUpdate.setAlignmentX(CENTER_ALIGNMENT);
+				
 		minHeightLabel = new JLabel("Minumum Height (ft):");
 		minHeightLabel.setAlignmentX(CENTER_ALIGNMENT);
 		minHeightupdateLabel = new JLabel("--");
@@ -114,7 +119,7 @@ public class FeedbackView extends JDialog
 		primarySwellHeigtUpdateLabel = new JLabel("--");
 		primarySwellHeigtUpdateLabel.setAlignmentX(CENTER_ALIGNMENT);
 				
-		swellPeriodLabel = new JLabel("Primary Swell Rate (seconds): ");
+		swellPeriodLabel = new JLabel("Primary Swell Rate (seconds):");
 		swellPeriodLabel.setAlignmentX(CENTER_ALIGNMENT);
 		swellPeriodUpdateLabel = new JLabel("--");
 		swellPeriodUpdateLabel.setAlignmentX(CENTER_ALIGNMENT);
@@ -147,6 +152,8 @@ public class FeedbackView extends JDialog
 		infoUpdatePanel.add(infoLabel);
 		infoUpdatePanel.add(new JLabel(""));
 		
+		infoUpdatePanel.add(spotName);
+		infoUpdatePanel.add(spotNameUpdate);
 		infoUpdatePanel.add(minHeightLabel);  
 		infoUpdatePanel.add(minHeightupdateLabel); //yes
 		infoUpdatePanel.add(maxHeightLabel);  
@@ -180,8 +187,8 @@ public class FeedbackView extends JDialog
 		answerPanel.add(yesButton);
 		answerPanel.add(noButton);
 		infoUpdatePanel.add(answerPanel);
-		yesButton.addActionListener(new FeedbackYesResponseListener(this,model));
-		noButton.addActionListener(new FeedbackNoResponseListener(this,model));
+		//yesButton.addActionListener(new FeedbackYesResponseListener(this,model));
+		//noButton.addActionListener(new FeedbackNoResponseListener(this,model));
 		
 		cancelPanel.add(cancel);
 		cancel.addActionListener(new ExitListener(this,model));
@@ -233,6 +240,7 @@ public class FeedbackView extends JDialog
 	public void updateForcastDetails(PlainPrediction p)
 	{		
 		//updates all JLabels for next forecast to rate
+		spotNameUpdate.setText(p.spotName);
 		minHeightupdateLabel.setText("" + p.minBreakHeight);
 		maxHeightupdateLabel.setText("" + p.maxBreakHeight);
 			
@@ -244,7 +252,7 @@ public class FeedbackView extends JDialog
 		speedUpdateLabel.setText("" + p.windSpeed);
 		windDirectionUpdateLabel.setText("" + p.windDirection);
 		
-		//gets the right weather image for each forecast
+		//gets the right weather image for each forcast
 		String weatherFileName = "/weather/" + p.weather + ".png";
 			BufferedImage logo ; 
 			try 

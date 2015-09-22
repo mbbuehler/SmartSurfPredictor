@@ -28,16 +28,14 @@ public class AddSpotView extends JDialog
 	private PredictorView view; 
 	private Notifier model;
 	private ArrayList<Spot> allSpots;
-	private ArrayList<String> countryArrayList,stateArrayList,locationArrayList;
 	
 	//created to hold JList elements before JList intilised 
-	private DefaultListModel countryModel = new DefaultListModel();
 	private DefaultListModel stateModel = new DefaultListModel();
 	private DefaultListModel locationModel = new DefaultListModel();
 	
 	private JLabel selectLabel,countryLabel,stateLabel,spotLabel;
 	
-	private JList<String> countryJList = new JList<String>(countryModel);
+	private JList<String> countryJList;
 	private JList<String> stateJList= new JList<String>(stateModel);
 	private JList<String> locationJList= new JList<String>(locationModel);
 	
@@ -55,58 +53,46 @@ public class AddSpotView extends JDialog
 	private JButton cancel = new JButton("CANCEL");
 
 	
-	//constructor
 	public AddSpotView(PredictorView v, Notifier m) 
 	{
 		this.view = v;
 		this.model = m;
-		//gets arraylist from spot file reader class
+		//gets spot list file reader class
 		this.allSpots = m.getSpot().getSpotsList();
 		
 		Container cp = this.getContentPane();
 	    cp.setLayout(new BorderLayout());
 	    
-	    //need to loop thru arraylist to add country
+	    //gets country,state,location info for JList.
+	    //set number of row to be visible & scroll panel. add listener for each JList
 	    countryList();
-	    //set number of row to be visible & scroll panel
 	    countryJList.setVisibleRowCount(3);
 	    countryScroll = new JScrollPane(countryJList);
-	   
-	    //by default set to Australia, to make it easy for users,
+	    //by default set to Australia, to make it easy for users,creating listener for country JList
 	    //In the bigger picture, we would use GPS location to detect country
 	    countryJList.setSelectedIndex(0);
 	    selectedCountry.add(countryJList.getSelectedValue().toString());
-	    //creating listener for country JList
 	    countryJList.addListSelectionListener(new CountryUpdateListener(view,model,this));
-	    
-	    //need to loop thru arraylist to add australian states
+	   
 	    UpdateStates(selectedCountry);
-	    //set number of row to be visible & scroll panel
 	    stateJList.setVisibleRowCount(3);
 	    stateScroll = new JScrollPane(stateJList);
-	    //add selection listener for state JList based on country selection 
 	    stateJList.addListSelectionListener(new StateUpdateListener(view,model,this));
 	    
-	    //set locations based on countroes & states selected
-	    UpdateSurfLocations(selectedCountry,selectedState);
-	    //set number of row to be visible & scroll panel
+	    updateSurfLocations(selectedCountry,selectedState);
 	    locationJList.setVisibleRowCount(5);
 	    locationScroll = new JScrollPane(locationJList);
-	    //add selection listener for state JList based on country selection 
 	    locationJList.addListSelectionListener(new LocationUpdateListener(view,model,this));
 	    
 	    //pre-selected Spot
-	    PreSelectedSpot();
+	    preSelectedSpot();
 	    
-	    
-	    //add listeners for Submit & Cancel button button
+	    //listeners for buttons
 	    submitButton.addActionListener(new AddSurfSpotListener(v, model, this));
 	    cancel.addActionListener(new ExitListener(this,model));
 	    
-	    
-	    
 	    //adding panel
-	    IntialiseJLablesPanels();
+	    intialiseJLablesPanels();
 	    cp.add(controlPanel);
 	    
 	    // set the window size by itself
@@ -116,17 +102,17 @@ public class AddSpotView extends JDialog
 	}
 	
 	//checks if user has previously selected spots
-	private void PreSelectedSpot() 
+	private void preSelectedSpot() 
 	{
 		//check for pre-selections
-		model.getFavSpot().CountrySelection();
+		model.getFavSpot().countrySelectionIndex();
 		
 		//updated states based on user preselection of countries 
 		UpdateStates(model.getFavSpot().getSelectedCountryNames());
-		model.getFavSpot().StateSelection();
+		model.getFavSpot().stateSelectionIndex();
 		
 		//updated locations based on user preselection of countries & states
-		UpdateSurfLocations(model.getFavSpot().getSelectedCountryNames(), model.getFavSpot().getSelectedStateNames());
+		updateSurfLocations(model.getFavSpot().getSelectedCountryNames(), model.getFavSpot().getSelectedStateNames());
 		model.getFavSpot().LocationSelection();
 		
 		//preselect country, state, location J-List
@@ -136,16 +122,15 @@ public class AddSpotView extends JDialog
 	}
 
 	//find all matching locations based on country & states selected
-	public void UpdateSurfLocations(List<String> selectedCountries ,List<String> selectedStates) 
+	public void updateSurfLocations(List<String> selectedCountries ,List<String> selectedStates) 
 	{
 		//remove old items from default model
 		locationModel.removeAllElements();
 		
 		//intialise location list
-		model.getSpot().InitialiseLocationList(selectedCountries,selectedStates);
+		model.getSpot().initialiseLocationList(selectedCountries,selectedStates);
 		
-		locationArrayList = model.getSpot().getLocation();
-		spotsSelected = model.getSpot().getPossibleSelectionSpots();
+		spotsSelected = model.getSpot().getAllPossibleSelectionSpots();
 		
 		//set new values   	
 	    locationModel = model.getSpot().getLocationModel();
@@ -161,11 +146,8 @@ public class AddSpotView extends JDialog
 	    stateModel.removeAllElements();
 
 		//intialise country list
-		model.getSpot().InitialiseStateList(selectedCountry);
-		
-		//add each state only once to list
-		stateArrayList = model.getSpot().getState();
-			    
+		model.getSpot().initialiseStateList(selectedCountry);
+				    
 	    //set new values   	
 	    stateModel = model.getSpot().getStateModel();
 	    
@@ -173,26 +155,20 @@ public class AddSpotView extends JDialog
 		stateJList.setModel(stateModel);
 	}
 
-	//need to loop thru arraylist to add each country only once
+	//add countries to JList
 	public void countryList()
 	{
 		//intialise country list
-		model.getSpot().InitialiseCountryList();
+		model.getSpot().initialiseCountryList();
 		
-		//when unique region found, added once to countryLIst (arrayList)
-	    countryArrayList = model.getSpot().getCountry();
-	 
-	    // holds the items and the JList
-	    countryModel = model.getSpot().getCountryModel();
-	    
-	    //intialise JList
+		//intialise JList
 	    countryJList = new JList(model.getSpot().getCountryModel());
 	}
 	
-	//find users favourite surf spots
-	public ArrayList<Spot> FavouriteSpots()
+	//find users favorite surf spots
+	public ArrayList<Spot> findUsersfavouriteSpots()
 	{
-		favSpot = model.getFavSpot().FavouriteSpots(spotsSelected, selectedCountry, selectedState, selectedLocations);
+		favSpot = model.getFavSpot().finUsersFavouriteSpots(spotsSelected, selectedCountry, selectedState, selectedLocations);
 		return favSpot;
 	}
 	
@@ -202,10 +178,6 @@ public class AddSpotView extends JDialog
 		return allSpots;
 	}
 
-	public ArrayList<String> getCountryList() 
-	{
-		return countryArrayList;
-	}
 
 	public JList getCountryJList() 
 	{
@@ -279,11 +251,9 @@ public class AddSpotView extends JDialog
 	}
 	
 	//method intilalise JPanels & JLabels
-	private void IntialiseJLablesPanels() 
+	private void intialiseJLablesPanels() 
 	{
 		controlPanel = new JPanel(new GridLayout(3,1,20,20));
-	    
-	    // info panel
 	    infoPanel = new JPanel();
 	    infoPanel.setLayout(new GridLayout(4,2,10,10));
 		
@@ -304,11 +274,11 @@ public class AddSpotView extends JDialog
 	    infoPanel.add(stateScroll);
 	    infoPanel.add(spotLabel);
 	    infoPanel.add(locationScroll);
-	    // adding submit & cancel button
+	    // adding button
 	    infoPanel.add(submitButton);
 	    infoPanel.add(cancel);
 	    
-	    //adding other JPanels to Control Panel
+	    //adding all major JPanels to Control Panel
 	    controlPanel.add(selectLabel);
 	    controlPanel.add(infoPanel);
 		

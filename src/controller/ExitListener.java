@@ -11,7 +11,8 @@ public class ExitListener implements ActionListener
 {
    private Window w;
 
-   // constructor
+   //Listener to dispose windows
+   
    public ExitListener(Window w, Notifier model)
    {
       this.w = w;

@@ -77,4 +77,14 @@ public class PlainPrediction {
 		this.status = status;
 	}
 
+	public String getSpotName() 
+	{
+		return spotName;
+	}
+
+	public int getSpotId() 
+	{
+		return spotId;
+	}
+
 }

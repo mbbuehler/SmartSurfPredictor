@@ -15,7 +15,9 @@ public class CountryUpdateListener implements ListSelectionListener
 	private PredictorView view;
 	private Notifier model;
 	private AddSpotView spotView;
-
+	
+	//Listener class for country Jlist in AddSpotView
+	
 	public CountryUpdateListener(PredictorView v, Notifier m, AddSpotView s) 
 	{
 		this.view = v;
@@ -25,8 +27,7 @@ public class CountryUpdateListener implements ListSelectionListener
 
 	public void valueChanged(ListSelectionEvent e) 
 	{
-		//code bellow checks if user has finished selecting countries
-		//get selected countries
+		//code bellow checks if user has finished selecting countries,get selected countries
 		if(!e.getValueIsAdjusting())
 		{
 			// gets values from your jList and added it to a list

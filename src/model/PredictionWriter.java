@@ -36,7 +36,7 @@ public class PredictionWriter {
 	 * @throws UnsupportedEncodingException
 	 */
 	public PredictionWriter(String path)
-		{
+	{
 		this.file = new File(path);
 	}
 
