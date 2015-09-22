@@ -1,8 +1,11 @@
 package model;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import util.SSPPaths;
 
 import controller.ForecastController;
 
@@ -26,7 +29,8 @@ public class PredictionManager {
 		}
 	
 	private void prepareUnlabeledFile(ArrayList<Prediction> predictions) {
-		String path = "user_data/unlabeled_predictions.arff";
+		String path = SSPPaths.userDir + "/"
+				+ SSPPaths.tmpUnlabeledPredictionFileName;
 		File file = new File(path);
 		if (file.exists()) {
 			file.delete();
@@ -66,6 +70,8 @@ public class PredictionManager {
 			// readability
 			Spot currentSpot = spots.get(i);
 			Prediction currentPrediction = predictions.get(i);
+			// for debugging. after jar export scores is null
+			System.out.println(scores);
 			Float currentScore = scores.get(i);
 
 			// Set score and status for prediction

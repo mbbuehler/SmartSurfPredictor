@@ -37,6 +37,13 @@ public class PredictionWriter {
 	 */
 	public PredictionWriter(String path)
 	{
+		// debugging
+		// StackTraceElement[] elements =
+		// Thread.currentThread().getStackTrace();
+		// for (StackTraceElement e : elements) {
+		// System.out.println(e.getClassName() + "on line "
+		// + e.getLineNumber());
+		// }
 		this.file = new File(path);
 	}
 
@@ -205,8 +212,8 @@ public class PredictionWriter {
 		try {
 			BufferedWriter writer = createWriter();
 			writer.append(builder.toString());
-			System.out.println("@PredictionWriter: this was written:");
-			System.out.println(builder.toString());
+			// System.out.println("@PredictionWriter: this was written:");
+			// System.out.println(builder.toString());
 			writer.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -238,9 +245,9 @@ public class PredictionWriter {
 		try {
 			BufferedWriter writer = createWriter();
 			writer.append(builder.toString());
-			System.out.println("@PredictionWriter: this was written to "
-					+ file.getName() + ": ");
-			System.out.println(builder.toString());
+			// System.out.println("@PredictionWriter: this was written to "
+			// + file.getName() + ": ");
+			// System.out.println(builder.toString());
 			writer.close();
 		} catch (IOException e) {
 			e.printStackTrace();

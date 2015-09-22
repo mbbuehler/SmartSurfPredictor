@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -17,9 +18,10 @@ public class SamplePredictionLoader {
 	public static ArrayList<PlainPrediction> getSamplePlainPredictions(int count) {
 		ArrayList<PlainPrediction> allPlainPredictions = new ArrayList<PlainPrediction>();
 
-		File file = new File("prg_res/unlabeled_sample_predictions.csv");
 		try {
-			BufferedReader reader = new BufferedReader(new FileReader(file));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					SamplePredictionLoader.class.getResourceAsStream("/"
+							+ SSPPaths.unlabeledSamplePredictionsFileName)));
 			String line;
 			while ((line = reader.readLine()) != null) {
 				String[] s = line.split(",");

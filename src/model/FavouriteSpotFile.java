@@ -7,17 +7,21 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
+
+import util.SSPPaths;
 
 //Author: Eeswari
 public class FavouriteSpotFile 
 {	
 	private ArrayList<Integer> preSelectCountryIndex,preSelectStateIndex,preSelectLocationIndex;
 	private List<String> selectedCountryNames, selectedStateNames, selectedLocationsNames;
-	private static final String filePath = "user_data/favspots.txt";
+	private static final String filePath = SSPPaths.userDir + "/"
+			+ SSPPaths.favSpotFileName;
 	private File f = new File(filePath);
 	private SpotReaderFile spot;
 
@@ -39,7 +43,8 @@ public class FavouriteSpotFile
 		{	
 			String line;
 			Spot s;
-			BufferedReader reader = new BufferedReader(new FileReader(filePath));
+			BufferedReader reader = new BufferedReader(new FileReader(new File(
+					filePath)));
 			while ((line = reader.readLine()) != null)
 		    {
 				//for spot file the order is spot ID, country, state, spot name - spot info split by ","

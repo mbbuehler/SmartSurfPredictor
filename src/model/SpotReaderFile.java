@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -12,6 +13,7 @@ import java.util.Map;
 
 import javax.swing.DefaultListModel;
 
+import util.SSPPaths;
 
 //Author: Eeswari
 public class SpotReaderFile 
@@ -45,7 +47,8 @@ public class SpotReaderFile
 			BufferedReader reader;
 			String line;
 			Spot s;
-			reader = new BufferedReader(new FileReader("prg_res/spots.txt"));
+			reader = new BufferedReader(new InputStreamReader(getClass()
+					.getResourceAsStream("/" + SSPPaths.spotFileName)));
 			while ((line = reader.readLine()) != null)
 		    {
 				//for spot file the order is spot ID, country, state, spot name -spot info split by ","

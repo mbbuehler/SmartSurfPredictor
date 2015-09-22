@@ -34,7 +34,8 @@ public class PredictorView extends JFrame
 	
 	public PredictorView()
     {
-		model.notify(PredictionTime.MORNING);
+		// why are you calling notify here?
+		// model.notify(PredictionTime.MORNING);
 		
 		JPanel box = new SSPPanel(new GridLayout(0, 1, 10, 10));
         
