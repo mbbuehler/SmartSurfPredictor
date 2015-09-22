@@ -13,20 +13,16 @@ import java.util.Map;
 import javax.swing.DefaultListModel;
 
 
-//CLASS CREATED BY EESWARI
+//Author: Eeswari
 public class SpotReaderFile 
 {
-	private Map<Integer, Spot> spotsMap;
 	private ArrayList<Spot> spotsList, possibleSelectionSpots;
 	
 	private ArrayList<String> countryArrayList, stateArrayList, locationArrayList;
-	//created to hold JList elements before JList intilised 
 	private DefaultListModel countryModel, stateModel, locationModel;
 	
-	//constructor
 	public SpotReaderFile() 
 	{
-		spotsMap = new HashMap<Integer, Spot>();
 		spotsList = new ArrayList<Spot>();
 		
 		countryArrayList = new ArrayList<String>();
@@ -38,6 +34,12 @@ public class SpotReaderFile
 		locationModel = new DefaultListModel();
 		
 		//reads text files & creates Spot object, adds to hash map
+		createSpots();
+	}
+	
+	//reads text files & creates Spot object, adds to hash map
+	public void createSpots()
+	{
 		try 
 		{	
 			BufferedReader reader;
@@ -46,17 +48,11 @@ public class SpotReaderFile
 			reader = new BufferedReader(new FileReader("prg_res/spots.txt"));
 			while ((line = reader.readLine()) != null)
 		    {
-				//for spot file the order is spot ID, country, state, spot name
-				//spot info split by ","
+				//for spot file the order is spot ID, country, state, spot name -spot info split by ","
 				List<String> items = Arrays.asList(line.split(","));
 
-				//for spot file the order is spot ID, country, state, spot name
-				//create Spot object
+				//create Spot object, add it to list
 				s = new Spot(items.get(3),items.get(1),items.get(2),Integer.parseInt(items.get(0)));
-				//the map key=spotId
-				spotsMap.put(Integer.parseInt(items.get(0)), s);
-				
-				//add to arraylist
 				spotsList.add(s);
 		    }
 		    reader.close();
@@ -69,15 +65,8 @@ public class SpotReaderFile
 		{
 			e.printStackTrace();
 		}
-		
-				
 	}
 	
-	//getter method for hash map
-	public Map<Integer, Spot> getSpotsMap() 
-	{
-		return spotsMap;
-	}
 
 	public ArrayList<Spot> getSpotsList() 
 	{
@@ -114,14 +103,14 @@ public class SpotReaderFile
 		return locationModel;
 	}
 
-	public ArrayList<Spot> getPossibleSelectionSpots() 
+	public ArrayList<Spot> getAllPossibleSelectionSpots() 
 	{
 		return possibleSelectionSpots;
 	}
 
 	//adds countries once arraylist to be display on GUI
 	//add it to defaultmodel which will be used for JList
-	public void InitialiseCountryList()
+	public void initialiseCountryList()
 	{	
 		for (Spot s : spotsList) 
 	    { 		      
@@ -130,6 +119,7 @@ public class SpotReaderFile
 	    	boolean countryMatchFound = false;
 	    	for(String n : countryArrayList)
 	    	{
+	    		//if same country is found twice, break from loop
 	    		if(n.equals(countryName))
 	    		{
 	    			countryMatchFound = true;
@@ -137,7 +127,6 @@ public class SpotReaderFile
 	    		}
 	    	}
 	    	//If boolean is false, country is unique, add it to list
-	    	//adds country to countryCombo box
 	    	if (countryMatchFound == false)
 	    	{
 	    		countryArrayList.add(countryName);
@@ -149,7 +138,7 @@ public class SpotReaderFile
 	
 	//adds states based on country selected to display on GUI
 	//add it to defaultmodel which will be used for JList
-	public void InitialiseStateList(List<String> selectedCountry)
+	public void initialiseStateList(List<String> selectedCountry)
 	{
 		stateArrayList = new ArrayList<String>();
 			
@@ -167,6 +156,7 @@ public class SpotReaderFile
 		    	{	
 			    	for(String n : stateArrayList)
 			    	{
+			    		//if same state is found twice, break from loop
 			    		if(n.equals(stateName))
 			    		{
 			    			stateMatchFound = true;
@@ -175,7 +165,6 @@ public class SpotReaderFile
 			    	}
 				    	
 			    	//If boolean is false, state is unique, add it to list
-			    	//adds state to Combo box
 			    	if (stateMatchFound == false)
 			    	{
 			    		stateArrayList.add(stateName);
@@ -187,9 +176,9 @@ public class SpotReaderFile
 		
 	}
 
-	//adds location based on country & state selected to display on GUI
+	//adds locations, based on country & state selected
 	//add it to defaultmodel which will be used for JList
-	public void InitialiseLocationList(List<String> selectedCountries, List<String> selectedStates)
+	public void initialiseLocationList(List<String> selectedCountries, List<String> selectedStates)
 	{
 		locationArrayList = new ArrayList<String>();
 		possibleSelectionSpots = new ArrayList<Spot>();

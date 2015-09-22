@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 
-//CLASS CREATED BY EESWARI
+//Author: Eeswari
 public class FavouriteSpotFile 
 {	
 	private ArrayList<Integer> preSelectCountryIndex,preSelectStateIndex,preSelectLocationIndex;
@@ -26,15 +26,14 @@ public class FavouriteSpotFile
 		this.spot = s;
 	}
 	
-	//testing purposes
 	public FavouriteSpotFile() 
 	{
 	}
 	
-	//Testing purposes
+	//creates spot objects based on favspot file & returns list
 	public static ArrayList<Spot> getFavouriteSpots() 
 	{
-		ArrayList<Spot> spots = new ArrayList<Spot>();
+		ArrayList<Spot> favSpots = new ArrayList<Spot>();
 		
 		try 
 		{	
@@ -43,14 +42,12 @@ public class FavouriteSpotFile
 			BufferedReader reader = new BufferedReader(new FileReader(filePath));
 			while ((line = reader.readLine()) != null)
 		    {
-				//for spot file the order is spot ID, country, state, spot name
-				//spot info split by ","
+				//for spot file the order is spot ID, country, state, spot name - spot info split by ","
 				List<String> items = Arrays.asList(line.split(","));
 
-				//for spot file the order is spot ID, country, state, spot name
 				//create Spot object
 				s = new Spot(items.get(3),items.get(1),items.get(2),Integer.parseInt(items.get(0)));
-				spots.add(s);
+				favSpots.add(s);
 		    }
 		    reader.close();
 		} 
@@ -62,11 +59,13 @@ public class FavouriteSpotFile
 		{
 			e.printStackTrace();
 		}
-		return spots;
+		
+		return favSpots;
 	}
 
-	
-	public void WriteToFavFile(ArrayList<Spot> favSpots)
+
+	//writes to Favorite file if user selects different spots
+	public void writeToFavFile(ArrayList<Spot> favSpots)
 	{
 		BufferedWriter out;
 		
@@ -87,8 +86,6 @@ public class FavouriteSpotFile
 		//Open file & write
 		try 
 	    {
-			// true to append
-            // false to overwrite.
 	    	out = new BufferedWriter (new FileWriter(f, false));
 	    	for(Spot s:favSpots)
 			{
@@ -102,17 +99,17 @@ public class FavouriteSpotFile
 			e.printStackTrace();
 		}
 	}
+
 	
-	//read fav spot details - country state location
-	//so it can pre-selected incase want to check their selection
-	public void CountrySelection() 
+	//gets index number for selected countries, in-order to highlight it in JList Selection
+	public void countrySelectionIndex() 
 	{
 		preSelectCountryIndex = new ArrayList<Integer>();
 		selectedCountryNames = new ArrayList<String>();
 		selectedStateNames = new ArrayList<String>();
 		selectedLocationsNames  = new ArrayList<String>();
 		
-		//reads fav spot files & adds spot details
+		//reads favspot file & adds spot details
 		if(f.exists())
 		{
 			try 
@@ -123,11 +120,10 @@ public class FavouriteSpotFile
 				
 				while ((line = reader.readLine()) != null)
 				{
-					//for spot file the order is spot ID, country, state, spot name
-					//spot info split by ","
+					//for spot file the order is spot ID, country, state, spot name - spot info split by ","
 					List<String> items = Arrays.asList(line.split(","));
 					
-					// add index values for country pre-selection
+					// add index values for country pre-selected
 					for(String c :spot.getCountry())
 					{	
 						if(c.equals(items.get(1)))
@@ -155,11 +151,9 @@ public class FavouriteSpotFile
 		}
 	}
 	
-
 	
-	//read fav spot details - state
-	//so it can pre-selected incase want to check their selection
-	public void StateSelection() 
+	//gets index number of state Selected, in-order to highlight it in JList Selection
+	public void stateSelectionIndex() 
 	{
 		preSelectStateIndex  = new ArrayList<Integer>();
 		
@@ -174,8 +168,7 @@ public class FavouriteSpotFile
 				
 				while ((line = reader.readLine()) != null)
 				{
-					//for spot file the order is spot ID, country, state, spot name
-					//spot info split by ","
+					//for spot file the order is spot ID, country, state, spot name -info split by ","
 					List<String> items = Arrays.asList(line.split(","));
 					
 					//add index values for pre-selected states
@@ -189,11 +182,10 @@ public class FavouriteSpotFile
 						}
 					}
 				}
-			//close file
-			reader.close();
+				reader.close();
 			
-			//removes duplicates
-			preSelectStateIndex = new ArrayList<Integer>(new LinkedHashSet<Integer>(preSelectStateIndex));
+				//removes duplicates
+				preSelectStateIndex = new ArrayList<Integer>(new LinkedHashSet<Integer>(preSelectStateIndex));
 			} 
 			catch (IOException e) 
 			{
@@ -203,8 +195,7 @@ public class FavouriteSpotFile
 	}
 	
 	
-	//read fav spot details - state
-	//so it can pre-selected incase want to check their selection
+	//gets index number for selected locations, in-order to highlight it in JList Selection
 	public void LocationSelection() 
 	{
 		preSelectLocationIndex  = new ArrayList<Integer>();
@@ -235,8 +226,7 @@ public class FavouriteSpotFile
 						}
 					}
 				}
-			//close file
-			reader.close();
+				reader.close();
 				
 			} 
 			catch (IOException e) 
@@ -246,10 +236,8 @@ public class FavouriteSpotFile
 		}
 	}
 	
-	
-	//converts arraylist to array
-	
-	
+
+	//converts country arraylist to array
 	public int[] getSelectedCountry() 
 	{
 		int[] countryIndex = new int[preSelectCountryIndex.size()];
@@ -260,13 +248,8 @@ public class FavouriteSpotFile
 		}
 		return countryIndex;
 	}
-	
-	
-	
-	
-	//converts arraylist to array
 
-	
+	//converts state arraylist to array
 	public int[] getSelectedState() 
 	{
 		int[] stateIndex = new int[preSelectStateIndex.size()];
@@ -279,11 +262,7 @@ public class FavouriteSpotFile
 		return stateIndex;
 	}
 
-	
-	
-	
-	
-	
+	//converts location arraylist to array
 	public int[] getSelectedLocation() 
 	{
 		int[] locIndex = new int[preSelectLocationIndex.size()];
@@ -295,16 +274,12 @@ public class FavouriteSpotFile
 		
 		return locIndex;
 	}
-
-	//find users favourite surf spots 
-	//based on country, state &location selected
 	
 	
 	public List<String> getSelectedCountryNames() 
 	{
 		return selectedCountryNames;
 	}
-
 
 	public List<String> getSelectedStateNames() 
 	{
@@ -317,23 +292,23 @@ public class FavouriteSpotFile
 		return selectedLocationsNames;
 	}
 
-
-	public ArrayList<Spot> FavouriteSpots(ArrayList<Spot> spotsSelected, List<String> selectedCountry, List<String> selectedState, List<String> selectedLocations)
+	
+	//returns list of spot selected based on AddSpotView JList selection 
+	public ArrayList<Spot> finUsersFavouriteSpots(ArrayList<Spot> spotsSelected, List<String> selectedCountry, List<String> selectedState, List<String> selectedLocations)
 	{
 		 ArrayList<Spot> favSpot = new ArrayList<Spot>();
-		//find fav surf location based on countries & states selected
+		//find favorite surf spot based on countries,states,location selected
 		for (Spot s : spotsSelected) 
 		{ 		      
 		 	String locationName = s.getName();
 			 	
-		   	//if country names match, add state once to list
-		   	for(String c : selectedCountry )
+		   	//check if country,state & location matches, then add that spot
+		 	for(String c : selectedCountry )
 		   	{	
 		    	if(s.getCountry().equals(c))
 		    	{	
 			    	for(String n : selectedState)
 			    	{
-			    		//based on country & state, select location
 			    		if(s.getState().equals(n))
 			    		{
 			    			//Search for matching locations

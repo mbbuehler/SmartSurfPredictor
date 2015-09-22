@@ -2,3 +2,9 @@
 997,australasia,New South Wales,Sydney (Cronulla)
 526,australasia,New South Wales,Sydney (Manly)
 1183,australasia,New South Wales,Sydney (Maroubra)
+701,australasia,New South Wales,Newcastle
+1074,australasia,Victoria,Port Fairy
+536,australasia,Victoria,Phillip Island
+1950,australasia,New Zealand,Sumner Bar (Christchurch)
+262,North America,California, Central
+799,Caribbean Central,Caribbean,Puerto Rico (Cuba) 

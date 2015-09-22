@@ -12,6 +12,7 @@ public class AddSpotListener implements ActionListener
 	private PredictorView view; 
 	private Notifier model;
 	
+	//button listener for main page-PredictorView
 	public AddSpotListener(PredictorView v, Notifier m) 
 	{
 		this.view = v;

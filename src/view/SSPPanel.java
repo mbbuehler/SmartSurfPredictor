@@ -10,25 +10,31 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-public class SSPPanel extends JPanel {
+public class SSPPanel extends JPanel 
+{
 
-	public SSPPanel(GridLayout gridLayout) {
+	public SSPPanel(GridLayout gridLayout) 
+	{
 		super(gridLayout);
 	}
 
-	public SSPPanel(FlowLayout flowLayout) {
+	public SSPPanel(FlowLayout flowLayout) 
+	{
 		super(flowLayout);
 	}
 
+	//sets background image
 	@Override
-	protected void paintComponent(Graphics g) {
+	protected void paintComponent(Graphics g) 
+	{
 		super.paintComponent(g);
-		try {
-
-			Image bgImage = ImageIO.read(getClass().getResource(
-					"/images/bgImage_small.jpeg"));
+		try 
+		{
+			Image bgImage = ImageIO.read(getClass().getResource("/images/bgImage_small.jpeg"));
 			g.drawImage(bgImage, 0, 0, null);
-		} catch (IOException e) {
+		} 
+		catch (IOException e) 
+		{
 			e.printStackTrace();
 		}
 	}

@@ -10,10 +10,11 @@ import view.PredictorView;
 
 public class PredictorViewCloseListener implements WindowListener, ActionListener
 {
-
    private PredictorView view;
 
-   // constructor
+   //if user want to exit the application, 
+   //listener class display dialog box to confirm exit
+   
    public PredictorViewCloseListener(PredictorView view)
    {
       this.view = view;
@@ -29,7 +30,7 @@ public class PredictorViewCloseListener implements WindowListener, ActionListene
       confirm();
    }
 
-   // dialog box to confirm exit application
+   // dialog box to confirm exit application, if user clicks yes
    private void confirm()
    {
       int returnValue = JOptionPane.showConfirmDialog(view,

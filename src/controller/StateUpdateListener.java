@@ -15,6 +15,8 @@ public class StateUpdateListener implements ListSelectionListener
 	private Notifier model;
 	private AddSpotView spotView;
 
+	//listener class for State JList in AddSpotView, to check user selection
+	
 	public StateUpdateListener(PredictorView v, Notifier m, AddSpotView s) 
 	{
 		this.view = v;
@@ -33,7 +35,7 @@ public class StateUpdateListener implements ListSelectionListener
 			spotView.setSelectedState(values);
 			
 			//based on country & state selection, locations needs to be updated
-			spotView.UpdateSurfLocations(spotView.getSelectedCountry(),spotView.getSelectedState());
+			spotView.updateSurfLocations(spotView.getSelectedCountry(),spotView.getSelectedState());
 		}
 	}
 
