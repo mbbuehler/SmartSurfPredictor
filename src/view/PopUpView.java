@@ -96,8 +96,11 @@ public class PopUpView extends JDialog
 		
 		// set the window size 
 		this.setSize(500,500);
-		//this.setUndecorated(true);
-		//setVisible(true);
+		this.setUndecorated(true);
+		this.setVisible(true);
+		this.toFront();
+		this.setAlwaysOnTop(true);
+	    this.requestFocus();
 	}
 	
 	//creates JLabels,adds listener to display details

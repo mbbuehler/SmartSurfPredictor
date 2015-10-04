@@ -6,6 +6,15 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
@@ -14,7 +23,6 @@ import javax.swing.JPanel;
 import controller.AddSpotListener;
 import controller.ExitListener;
 import controller.MainForecastButtonListener;
-import controller.TESTINGListener;
 import controller.PredictorViewCloseListener;
 import model.Notifier;
 import model.PredictionTime;
@@ -33,10 +41,7 @@ public class PredictorView extends JFrame
 	private JPanel exitPanel;
 	
 	public PredictorView()
-    {
-		// why are you calling notify here?
-		// model.notify(PredictionTime.MORNING);
-		
+    {		
 		JPanel box = new SSPPanel(new GridLayout(0, 1, 10, 10));
         
 		//add listener for buttons & align button
@@ -57,19 +62,65 @@ public class PredictorView extends JFrame
         box.add(forecastFeedback);
         box.add(exitPanel);
         
-        //testing -REMOVE- I should check time and set PredictionTime.MORNING or PredictionTime.evening
-        JButton pop = new JButton("POP UP");
-        pop.addActionListener(new TESTINGListener(this,model,PredictionTime.MORNING));
-        box.add(pop);
-        //testing -REMOVE
-        
+        //constantly check time, to notify user twice a day surf conditions
+        feedbackScheduler();
+ 
         add(box,BorderLayout.CENTER);
-        
         setUndecorated(true);
         setBounds(100, 100, 800, 600);
         setVisible(true);
 
 	   }
+		
+		
+		//constantly check time
+		private void feedbackScheduler()
+		{
+			ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+	    	Runnable thread = new Runnable() 
+	    	{
+	    	    public void run() 
+	    	    {
+	    	        checkTime();
+	    	    }
+	    	};
+	    	scheduler.scheduleAtFixedRate(thread, 0, 1, TimeUnit.MINUTES);
+		}
+	
+		//to notify user twice a day surf conditions if 9AM or 3PM
+		private void checkTime() 
+		{
+			// create a calendar
+	        Calendar cal = Calendar.getInstance();
+	        // get the current time
+	        Date time = cal.getTime();
+	        SimpleDateFormat setTime = new SimpleDateFormat("HH:mm");
+	    	String current = setTime.format(time); 
+	    	
+	    	//check time 9AM,3PM
+	    	String morningString = "09:00";
+	    	String afternoonString = "15:00";
+	    	
+	    	//create feedback pop up according to time
+	    	if(current.equals(morningString))
+	    	{
+	    		new PopUpView(this,model,PredictionTime.MORNING);
+	    	}
+	    	
+	    	if(current.equals(afternoonString))
+	    	{
+	    		new PopUpView(this,model,PredictionTime.AFTERNOON);
+	    	}
+	    	
+	    	
+	    	//Only use this assignment demo - set test string according to current time
+	    	// there might be a 10 seconds delay
+	    	String test = "15:52"; 
+	    	if(current.equals(test))
+	    	{
+	    		new PopUpView(this,model,PredictionTime.AFTERNOON);
+	    	}
+		}
 
 }
 

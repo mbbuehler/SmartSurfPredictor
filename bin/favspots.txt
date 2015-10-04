@@ -1,3 +1,7 @@
 996,australasia,New South Wales,Sydney (Bondi)
 997,australasia,New South Wales,Sydney (Cronulla)
 526,australasia,New South Wales,Sydney (Manly)
+1183,australasia,New South Wales,Sydney (Maroubra)
+701,australasia,New South Wales,Newcastle
+1074,australasia,Victoria,Port Fairy
+536,australasia,Victoria,Phillip Island
