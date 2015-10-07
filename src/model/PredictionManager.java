@@ -71,7 +71,7 @@ public class PredictionManager {
 			Spot currentSpot = spots.get(i);
 			Prediction currentPrediction = predictions.get(i);
 			// for debugging. after jar export scores is null
-			System.out.println(scores);
+			// System.out.println(scores);
 			Float currentScore = scores.get(i);
 
 			// Set score and status for prediction

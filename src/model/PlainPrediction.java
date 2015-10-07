@@ -24,6 +24,7 @@ public class PlainPrediction {
 	public final float temperature;
 	public final float score;
 	private PredictionStatus status;
+	private boolean hasBeenRated = false;
 
 	public PlainPrediction(String spotName, int spotId, int minBreakHeight,
 			int maxBreakHeight, int fadedRating, int solidRating,
@@ -85,6 +86,14 @@ public class PlainPrediction {
 	public int getSpotId() 
 	{
 		return spotId;
+	}
+
+	public boolean isHasBeenRated() {
+		return hasBeenRated;
+	}
+
+	public void setHasBeenRated(boolean hasBeenRated) {
+		this.hasBeenRated = hasBeenRated;
 	}
 
 }

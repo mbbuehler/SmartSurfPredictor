@@ -24,6 +24,7 @@ import controller.AddSpotListener;
 import controller.ExitListener;
 import controller.MainForecastButtonListener;
 import controller.PredictorViewCloseListener;
+import controller.ShowPopupListener;
 import model.Notifier;
 import model.PredictionTime;
 
@@ -40,6 +41,8 @@ public class PredictorView extends JFrame
 	private JButton exitButton;
 	private JPanel exitPanel;
 	
+	private JButton showPopupButton;
+
 	public PredictorView()
     {		
 		JPanel box = new SSPPanel(new GridLayout(0, 1, 10, 10));
@@ -56,6 +59,10 @@ public class PredictorView extends JFrame
 		exitPanel = new SSPPanel(new FlowLayout(FlowLayout.LEFT));
         exitPanel.add(exitButton);
         exitButton.addActionListener(new ExitListener(this,model));
+
+		showPopupButton = new JButton("show Forecasts");
+		exitPanel.add(showPopupButton);
+		showPopupButton.addActionListener(new ShowPopupListener(this, model));
         	
 		box.add(welcomePanel);
         box.add(setLocation);
@@ -87,6 +94,7 @@ public class PredictorView extends JFrame
 	    	scheduler.scheduleAtFixedRate(thread, 0, 1, TimeUnit.MINUTES);
 		}
 	
+
 		//to notify user twice a day surf conditions if 9AM or 3PM
 		private void checkTime() 
 		{
