@@ -73,7 +73,6 @@ public class PredictorView extends JFrame
         feedbackScheduler();
  
         add(box,BorderLayout.CENTER);
-        setUndecorated(true);
         setBounds(100, 100, 800, 600);
         setVisible(true);
 
@@ -112,22 +111,14 @@ public class PredictorView extends JFrame
 	    	//create feedback pop up according to time
 	    	if(current.equals(morningString))
 	    	{
-	    		new PopUpView(this,model,PredictionTime.MORNING);
+	    		new PopUpView(this,model,PredictionTime.MORNING).setVisible(true);
 	    	}
 	    	
 	    	if(current.equals(afternoonString))
 	    	{
-	    		new PopUpView(this,model,PredictionTime.AFTERNOON);
+	    		new PopUpView(this,model,PredictionTime.AFTERNOON).setVisible(true);
 	    	}
-	    	
-	    	
-	    	//Only use this assignment demo - set test string according to current time
-	    	// there might be a 10 seconds delay
-	    	String test = "15:52"; 
-	    	if(current.equals(test))
-	    	{
-	    		new PopUpView(this,model,PredictionTime.AFTERNOON);
-	    	}
+	    
 		}
 
 }

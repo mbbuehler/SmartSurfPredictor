@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -19,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 
 import controller.ExitListener;
 import controller.FeedbackNoResponseListener;
@@ -41,6 +43,9 @@ public class PopUpView extends JDialog
 	private HashMap<Spot, PlainPrediction> ratedPredictionsMap;
 	private ArrayList<JLabel> nameLabels = new ArrayList<JLabel>();
 	private ArrayList<PlainPrediction> prediction = new ArrayList<PlainPrediction>();
+	
+	//variables for spot name list
+	private JLabel recommendationLogo;
 	
 	//Variables for forecast display
 	private JButton yesButton = new JButton("Yes");
@@ -80,7 +85,7 @@ public class PopUpView extends JDialog
 		exitPanel.add(exitButton);
 		
 		mainPanel = new JPanel(new BorderLayout());
-		spotPanel = new JPanel(new GridLayout(0,1,0,0));
+		spotPanel = new JPanel(new GridLayout(0,2,0,0));
 		displayPanel = new JPanel(new GridLayout(0,1,0,0));
 		//initalise all jLabels for forecast display
 		intialiseLabels();
@@ -95,32 +100,60 @@ public class PopUpView extends JDialog
 		add(mainPanel);
 		
 		// set the window size 
-		this.setSize(500,500);
-		this.setUndecorated(true);
-		this.setVisible(true);
-		this.toFront();
-		this.setAlwaysOnTop(true);
-	    this.requestFocus();
+		pack();
+		setModal(true);
 	}
 	
 	//creates JLabels,adds listener to display details
 	public void displaySpotNames()
 	{
 		spotPanel.add(new JLabel("Click for forecast"));
-		int i = 0;
+		spotPanel.add(new JLabel());
 		
 		for(Map.Entry<Spot, PlainPrediction> p: ratedPredictionsMap.entrySet())
 		{
 			prediction.add(p.getValue());
-			
-			//create JLabel, add listener, add it to display
-			nameLabels.add(new JLabel(prediction.get(i).getSpotName()));
-			nameLabels.get(i).addMouseListener(new JLabelListener(this,model,prediction.get(i)));
-			spotPanel.add(nameLabels.get(i));
-			i++;
 		}
+		
+		orderSpotListByScore();
 		//set by default to first spot
 		updateLabels(prediction.get(0));
+	}
+	
+	//orders the spots by the highest to lowest based on it's score variable.
+	public void orderSpotListByScore()
+	{
+		ArrayList<PlainPrediction> tempList = prediction;
+		prediction = new ArrayList<PlainPrediction>();
+		int s=0;
+		while(tempList.isEmpty() == false)
+		{
+			PlainPrediction highest = tempList.get(0);
+			
+			for(int i =0;i<tempList.size();i++)
+			{				
+				if(tempList.get(i).score > highest.score)
+				{
+					highest = tempList.get(i);
+				}
+			}
+			
+			prediction.add(highest);
+			//remove from tempList, so we can find the next highest add to nameLabels + Listener
+			tempList.remove(highest);
+			
+			//create JLabel, add listener, add it to display
+			nameLabels.add(new JLabel(prediction.get(s).getSpotName()));
+			nameLabels.get(s).addMouseListener(new JLabelListener(this,model,prediction.get(s)));
+			spotPanel.add(nameLabels.get(s));
+			
+			//add forecast is good or bad
+			recommendationLogo = new JLabel();
+			recommendationImageUpdate(prediction.get(s),false);
+			spotPanel.add(recommendationLogo);
+			
+			s++;
+		}
 	}
 	
 	
@@ -202,11 +235,24 @@ public class PopUpView extends JDialog
 		
 		temperatureUpdateLabel.setText(" " + p.temperature);
 		
-		recommendationImageUpdate(p);
+		recommendationImageUpdate(p,true);
 		
-		yesButton.addActionListener(new FeedbackYesResponseListener(this,model,p));
-		noButton.addActionListener(new FeedbackNoResponseListener(this,model,p));
-		
+		//checks if user has rated the forecast.
+		if(p.isBeenRated() == true)
+		{
+			likePrediction.setText("Thank you for your feedback.");
+			yesButton.setVisible(false);
+			noButton.setVisible(false);
+			
+		}
+		else
+		{
+			likePrediction.setText("Do you like this prediction ?");
+			yesButton.setVisible(true);
+			noButton.setVisible(true);
+			yesButton.addActionListener(new FeedbackYesResponseListener(this,model,p));
+			noButton.addActionListener(new FeedbackNoResponseListener(this,model,p));
+		}
 	}
 	
 	//intialise all jlabels for display
@@ -310,24 +356,27 @@ public class PopUpView extends JDialog
 		answerPanel.add(yesButton);
 		answerPanel.add(noButton);
 		infoUpdatePanel.add(answerPanel);
-								
+										
 	    //adding other JPanels to display
 		displayPanel.add(infoUpdatePanel);
 		
+		//creating border and color for information panel
+		displayPanel.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 1));		
 	}
 	
 	//update recommendation image, if a user should surf or not
-	public void recommendationImageUpdate(PlainPrediction p)
+	//sets the image path according to panel
+	public void recommendationImageUpdate(PlainPrediction p,boolean isItInfoPanel)
 	{
-		//gets the right recommendation image for each forcast
+		//gets the right recommendation image for each forecast
 		String path;
 		if(p.getStatus() == PredictionStatus.ACCEPTED)
 		{
-			path = "/response/good.jpg";
+			path = "/response/smallgood.jpg";
 		}
 		else if (p.getStatus() == PredictionStatus.REJECTED)
 		{
-			path = "/response/bad.jpg";
+			path = "/response/smallbad.jpg";			
 		}
 		else
 		{
@@ -339,7 +388,15 @@ public class PopUpView extends JDialog
 		try 
 		{
 			logo = ImageIO.read(getClass().getResource(path));
-			recommendationUpdateLabel.setIcon(new ImageIcon(logo));
+			//check which panel, then add update the appropriate JLabel
+			if(isItInfoPanel == true)
+			{
+				recommendationUpdateLabel.setIcon(new ImageIcon(logo));
+			}
+			else
+			{
+				recommendationLogo.setIcon(new ImageIcon(logo));
+			}
 		} 
 		catch (IOException e) 
 		{
@@ -401,7 +458,7 @@ public class PopUpView extends JDialog
 		}
 	}
 	
-	//add logo for view
+	//add company logo for view
  	public void addLogo()
 	 {
 		BufferedImage logo;
@@ -423,6 +480,21 @@ public class PopUpView extends JDialog
 	    	e.printStackTrace();
 	    }
 	 }
+
+	public JButton getYesButton() 
+	{
+		return yesButton;
+	}
+
+	public JButton getNoButton() 
+	{
+		return noButton;
+	}
+
+	public JLabel getLikePrediction() 
+	{
+		return likePrediction;
+	}
 
  	
 }

@@ -21,7 +21,8 @@ public class ShowPopupListener implements ActionListener {
 		this.view = v;
 		this.model = m;
 	}
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e) 
+	{
 		Date dt = new Date();
 		Calendar cal = GregorianCalendar.getInstance();
 		cal.setTime(dt);
@@ -29,7 +30,7 @@ public class ShowPopupListener implements ActionListener {
 		// System.out.println("it is " + hours + " o'clock.");
 		PredictionTime time = (hours <= 12) ? PredictionTime.MORNING
 				: PredictionTime.AFTERNOON;
-		new PopUpView(view, model, time);
+		new PopUpView(view, model, time).setVisible(true);
 		
 	}
 

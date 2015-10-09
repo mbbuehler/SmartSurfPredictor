@@ -41,6 +41,11 @@ public class FeedbackYesResponseListener implements ActionListener
 		else
 		{	
 			p.setStatus(PredictionStatus.ACCEPTED);
+			p.setHasBeenRated(true);
+			//When user has given feedback, disable the button
+			popView.getLikePrediction().setText("Thank you for your feedback.");
+			popView.getNoButton().setVisible(false);
+			popView.getYesButton().setVisible(false);
 			popView.nextPrediction(p);
 		}
 	}

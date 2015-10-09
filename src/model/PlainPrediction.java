@@ -88,7 +88,7 @@ public class PlainPrediction {
 		return spotId;
 	}
 
-	public boolean isHasBeenRated() {
+	public boolean isBeenRated() {
 		return hasBeenRated;
 	}
 
