@@ -12,6 +12,7 @@ import model.PredictionManager;
 import model.PredictionTime;
 import model.PredictionWriter;
 import model.Spot;
+import model.SpotReaderFile;
 
 public class UnlabeledForecastSaver {
 
@@ -20,13 +21,13 @@ public class UnlabeledForecastSaver {
 	}
 
 	public static void main(String[] args) {
-		new UnlabeledForecastSaver().getRandomUnlabeledPlainPredictions(50);
+		new UnlabeledForecastSaver().getRandomUnlabeledPlainPredictions(20);
 	}
 
 	public void getRandomUnlabeledPlainPredictions(int number) {
 		PredictionWriter writer = new PredictionWriter(
 				"prg_res/unlabeled_sample_predictions.csv");
-		ArrayList<Spot> spots = FavouriteSpotFile.getFavouriteSpots();
+		ArrayList<Spot> spots = new SpotReaderFile().getSpotsList();
 
 		int i = 0;
 		while (i < number) {
