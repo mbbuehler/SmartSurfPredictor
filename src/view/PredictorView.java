@@ -19,6 +19,7 @@ import java.util.concurrent.TimeUnit;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import controller.AddSpotListener;
 import controller.ExitListener;
@@ -59,11 +60,15 @@ public class PredictorView extends JFrame
 		exitPanel = new SSPPanel(new FlowLayout(FlowLayout.LEFT));
         exitPanel.add(exitButton);
         exitButton.addActionListener(new ExitListener(this,model));
-
+        
+        //for demo purpose only - pop up button
 		showPopupButton = new JButton("show Forecasts");
 		exitPanel.add(showPopupButton);
 		showPopupButton.addActionListener(new ShowPopupListener(this, model));
-        	
+		
+		///Magic Seaweed footer
+		exitPanel.add(new JLabel("Acknowledgement: Data kindly provided by Magicseaweed."));
+		
 		box.add(welcomePanel);
         box.add(setLocation);
         box.add(forecastFeedback);
@@ -79,7 +84,7 @@ public class PredictorView extends JFrame
 	   }
 		
 		
-		//constantly check time
+		//runs a thread to constantly check time every minute
 		private void feedbackScheduler()
 		{
 			ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);

@@ -8,7 +8,11 @@
 /unlabeled_sample_predictions.csv
 /weka-3-6-12/
 /controller/
-/util/
-/view/
+/images/
 /model/
 /response/
+/stars/
+/test/
+/util/
+/view/
+/weather/

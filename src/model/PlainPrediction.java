@@ -24,6 +24,7 @@ public class PlainPrediction {
 	public final float temperature;
 	public final float score;
 	private PredictionStatus status;
+	private PredictionStatus recommendStatus;
 	private boolean hasBeenRated = false;
 
 	public PlainPrediction(String spotName, int spotId, int minBreakHeight,
@@ -49,6 +50,7 @@ public class PlainPrediction {
 		this.temperature = temperature;
 		this.score = score;
 		this.status = status;
+		this.recommendStatus = status;
 	}
 
 	public PlainPrediction(Prediction p)
@@ -68,13 +70,16 @@ public class PlainPrediction {
 		this.temperature = p.getWeatherForecast().weather.temperature;
 		this.score = p.getScore();
 		this.status = p.getStatus();
+		this.recommendStatus = p.getStatus();
 	}
 
-	public PredictionStatus getStatus() {
+	public PredictionStatus getStatus() 
+	{
 		return status;
 	}
 
-	public void setStatus(PredictionStatus status) {
+	public void setStatus(PredictionStatus status) 
+	{
 		this.status = status;
 	}
 
@@ -88,12 +93,19 @@ public class PlainPrediction {
 		return spotId;
 	}
 
-	public boolean isBeenRated() {
+	public boolean isBeenRated() 
+	{
 		return hasBeenRated;
 	}
 
-	public void setHasBeenRated(boolean hasBeenRated) {
+	public void setHasBeenRated(boolean hasBeenRated) 
+	{
 		this.hasBeenRated = hasBeenRated;
+	}
+
+	public PredictionStatus getRecommendStatus() 
+	{
+		return recommendStatus;
 	}
 
 }

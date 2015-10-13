@@ -65,6 +65,7 @@ public class PopUpView extends JDialog
 	private JLabel recommendationLabel,recommendationUpdateLabel;
 	private JLabel likePrediction;
 	private JPanel infoUpdatePanel,questionPanel,answerPanel;
+	private JPanel footerPanel;
 		
 	//testing material to remove - PredicView,TestingListener
 
@@ -80,7 +81,7 @@ public class PopUpView extends JDialog
 		addLogo();
 		
 		exitPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-	    exitButton = new JButton("Exit");
+	    exitButton = new JButton("Back");
 	    exitButton.addActionListener(new ExitListener(this,model));
 		exitPanel.add(exitButton);
 		
@@ -156,7 +157,7 @@ public class PopUpView extends JDialog
 		}
 	}
 	
-	
+	//set a different color for the selected spot name
 	public void updateLabels(PlainPrediction p)
 	{
 		displayForecast(p);
@@ -356,7 +357,12 @@ public class PopUpView extends JDialog
 		answerPanel.add(yesButton);
 		answerPanel.add(noButton);
 		infoUpdatePanel.add(answerPanel);
-										
+		
+		//footer
+		footerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		footerPanel.add(new JLabel("Acknowledgement: Data kindly provided by Magicseaweed."));
+		infoUpdatePanel.add(footerPanel);
+		
 	    //adding other JPanels to display
 		displayPanel.add(infoUpdatePanel);
 		
@@ -365,16 +371,16 @@ public class PopUpView extends JDialog
 	}
 	
 	//update recommendation image, if a user should surf or not
-	//sets the image path according to panel
+	//sets the image path according to panel type (Spot List Panel & Surf Info Panel
 	public void recommendationImageUpdate(PlainPrediction p,boolean isItInfoPanel)
 	{
 		//gets the right recommendation image for each forecast
 		String path;
-		if(p.getStatus() == PredictionStatus.ACCEPTED)
+		if(p.getRecommendStatus() == PredictionStatus.ACCEPTED)
 		{
 			path = "/response/smallgood.jpg";
 		}
-		else if (p.getStatus() == PredictionStatus.REJECTED)
+		else if (p.getRecommendStatus() == PredictionStatus.REJECTED)
 		{
 			path = "/response/smallbad.jpg";			
 		}

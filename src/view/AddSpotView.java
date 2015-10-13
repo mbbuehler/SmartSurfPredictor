@@ -2,6 +2,7 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,7 @@ public class AddSpotView extends JDialog
 	private JList<String> stateJList= new JList<String>(stateModel);
 	private JList<String> locationJList= new JList<String>(locationModel);
 	
-	private JPanel controlPanel, infoPanel;
+	private JPanel controlPanel, infoPanel,footerPanel;
 	
 	private List<String> selectedCountry = new ArrayList<String>();
 	private List<String> selectedState = new ArrayList<String>();
@@ -50,7 +51,7 @@ public class AddSpotView extends JDialog
 	private ArrayList<Spot> spotsSelected,favSpot;
 	
 	private JButton submitButton = new JButton("Submit");
-	private JButton cancel = new JButton("CANCEL");
+	private JButton cancel = new JButton("Back");
 
 	
 	public AddSpotView(PredictorView v, Notifier m) 
@@ -253,7 +254,7 @@ public class AddSpotView extends JDialog
 	//method intilalise JPanels & JLabels
 	private void intialiseJLablesPanels() 
 	{
-		controlPanel = new JPanel(new GridLayout(3,1,20,20));
+		controlPanel = new JPanel(new GridLayout(4,1,20,20));
 	    infoPanel = new JPanel();
 	    infoPanel.setLayout(new GridLayout(4,2,10,10));
 		
@@ -278,10 +279,14 @@ public class AddSpotView extends JDialog
 	    infoPanel.add(submitButton);
 	    infoPanel.add(cancel);
 	    
+	    //footer
+	    footerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+	  	footerPanel.add(new JLabel("Acknowledgement: Data kindly provided by Magicseaweed."));
+	  	    
 	    //adding all major JPanels to Control Panel
 	    controlPanel.add(selectLabel);
 	    controlPanel.add(infoPanel);
-		
+	    controlPanel.add(footerPanel);
 	}
 
 

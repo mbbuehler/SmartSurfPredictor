@@ -32,7 +32,7 @@ public class FeedbackView extends JDialog
 	private PredictorView view; 
 	private Notifier model;
 	
-	private JButton cancel = new JButton("CANCEL");
+	private JButton cancel = new JButton("Back");
 	private JButton yesButton = new JButton("Yes");
 	private JButton noButton = new JButton("No");
 	
@@ -185,11 +185,12 @@ public class FeedbackView extends JDialog
 		
 		cancelPanel.add(cancel);
 		cancel.addActionListener(new ExitListener(this,model));
-		
+		//footer
+		cancelPanel.add(new JLabel("Acknowledgement: Data kindly provided by Magicseaweed."));
+				
 	    //adding other JPanels to Control Panel
 	    controlPanel.add(infoUpdatePanel);
 	    controlPanel.add(cancelPanel);
-	    		    
 	}
 	
 	//update wave Rating
