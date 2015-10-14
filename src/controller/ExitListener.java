@@ -21,7 +21,8 @@ public class ExitListener implements ActionListener
    // dispose window
    public void actionPerformed(ActionEvent e)
    {
-      w.dispose();
+		w.dispose();
+		System.exit(0);
    }
 
 }
