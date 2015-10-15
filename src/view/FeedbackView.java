@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -17,7 +18,7 @@ import javax.swing.JPanel;
 
 import util.SamplePredictionLoader;
 
-import controller.ExitListener;
+import controller.BackListener;
 import controller.FeedbackNoResponseListener;
 import controller.FeedbackYesResponseListener;
 import model.Notifier;
@@ -49,6 +50,7 @@ public class FeedbackView extends JDialog
 	private JLabel weatherLabel,weatherUpdateLabel;
 	private JLabel temperatureLabel,temperatureUpdateLabel;
 	private JLabel likePrediction;
+	private JLabel footerLabel;
 	
 	private ArrayList<PlainPrediction> recommends;
 	
@@ -74,8 +76,9 @@ public class FeedbackView extends JDialog
 	    
 	    //intialise 1st feedback
 	    updateForcastDetails(recommends.get(i));
-	    
-	    // set the window size by itself
+	    	    
+	    // set the window size by itself & title
+        this.setTitle("Quick Feedback");
 	    pack();
 	    setLocationRelativeTo(view);
 	    setModal(true);
@@ -184,9 +187,12 @@ public class FeedbackView extends JDialog
 		noButton.addActionListener(new FeedbackNoResponseListener(this,model));
 		
 		cancelPanel.add(cancel);
-		cancel.addActionListener(new ExitListener(this,model));
+		cancel.addActionListener(new BackListener(this,model));
 		//footer
-		cancelPanel.add(new JLabel("Acknowledgement: Data kindly provided by Magicseaweed."));
+		footerLabel = new JLabel("Acknowledgement: Data kindly provided by Magicseaweed.");
+		footerLabel.setBackground(Color.CYAN);
+		footerLabel.setOpaque(true);
+		cancelPanel.add(footerLabel);
 				
 	    //adding other JPanels to Control Panel
 	    controlPanel.add(infoUpdatePanel);

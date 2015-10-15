@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -17,7 +18,7 @@ import javax.swing.JScrollPane;
 
 import controller.AddSurfSpotListener;
 import controller.CountryUpdateListener;
-import controller.ExitListener;
+import controller.BackListener;
 import controller.LocationUpdateListener;
 import controller.StateUpdateListener;
 import model.Notifier;
@@ -34,7 +35,7 @@ public class AddSpotView extends JDialog
 	private DefaultListModel stateModel = new DefaultListModel();
 	private DefaultListModel locationModel = new DefaultListModel();
 	
-	private JLabel selectLabel,countryLabel,stateLabel,spotLabel;
+	private JLabel selectLabel,countryLabel,stateLabel,spotLabel,footerLabel;
 	
 	private JList<String> countryJList;
 	private JList<String> stateJList= new JList<String>(stateModel);
@@ -90,11 +91,14 @@ public class AddSpotView extends JDialog
 	    
 	    //listeners for buttons
 	    submitButton.addActionListener(new AddSurfSpotListener(v, model, this));
-	    cancel.addActionListener(new ExitListener(this,model));
+	    cancel.addActionListener(new BackListener(this,model));
 	    
 	    //adding panel
 	    intialiseJLablesPanels();
 	    cp.add(controlPanel);
+	    
+	    //set title for window
+        this.setTitle("Add Surf Spot");
 	    
 	    // set the window size by itself
 	    pack();
@@ -281,7 +285,10 @@ public class AddSpotView extends JDialog
 	    
 	    //footer
 	    footerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-	  	footerPanel.add(new JLabel("Acknowledgement: Data kindly provided by Magicseaweed."));
+	    footerLabel = new JLabel("Acknowledgement: Data kindly provided by Magicseaweed.");
+		footerLabel.setBackground(Color.CYAN);
+		footerLabel.setOpaque(true);
+	  	footerPanel.add(footerLabel);
 	  	    
 	    //adding all major JPanels to Control Panel
 	    controlPanel.add(selectLabel);

@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -22,6 +23,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import controller.AddSpotListener;
+import controller.BackListener;
 import controller.ExitListener;
 import controller.MainForecastButtonListener;
 import controller.PredictorViewCloseListener;
@@ -41,6 +43,8 @@ public class PredictorView extends JFrame
 	
 	private JButton exitButton;
 	private JPanel exitPanel;
+	
+	private JLabel footer;
 	
 	private JButton showPopupButton;
 
@@ -67,7 +71,10 @@ public class PredictorView extends JFrame
 		showPopupButton.addActionListener(new ShowPopupListener(this, model));
 		
 		///Magic Seaweed footer
-		exitPanel.add(new JLabel("Acknowledgement: Data kindly provided by Magicseaweed."));
+		footer = new JLabel("Acknowledgement: Data kindly provided by Magicseaweed.");
+		footer.setBackground(Color.CYAN);
+		footer.setOpaque(true);
+		exitPanel.add(footer);
 		
 		box.add(welcomePanel);
         box.add(setLocation);
@@ -76,6 +83,9 @@ public class PredictorView extends JFrame
         
         //constantly check time, to notify user twice a day surf conditions
         feedbackScheduler();
+        
+        //set title for window
+        this.setTitle("Smart Surf Predictor");
  
         add(box,BorderLayout.CENTER);
         setBounds(100, 100, 800, 600);

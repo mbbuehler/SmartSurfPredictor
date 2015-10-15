@@ -22,7 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
-import controller.ExitListener;
+import controller.BackListener;
 import controller.FeedbackNoResponseListener;
 import controller.FeedbackYesResponseListener;
 import controller.JLabelListener;
@@ -50,7 +50,7 @@ public class PopUpView extends JDialog
 	//Variables for forecast display
 	private JButton yesButton = new JButton("Yes");
 	private JButton noButton = new JButton("No");
-	private JLabel infoLabel, spotName,spotNameUpdate;
+	private JLabel spotName,spotNameUpdate;
 	private JLabel minHeightLabel,minHeightupdateLabel;
 	private JLabel maxHeightLabel,maxHeightupdateLabel;
 	private JLabel waveRatingLabel;
@@ -65,6 +65,7 @@ public class PopUpView extends JDialog
 	private JLabel recommendationLabel,recommendationUpdateLabel;
 	private JLabel likePrediction;
 	private JPanel infoUpdatePanel,questionPanel,answerPanel;
+	private JLabel footerLabel;
 	private JPanel footerPanel;
 		
 	//testing material to remove - PredicView,TestingListener
@@ -82,7 +83,7 @@ public class PopUpView extends JDialog
 		
 		exitPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 	    exitButton = new JButton("Back");
-	    exitButton.addActionListener(new ExitListener(this,model));
+	    exitButton.addActionListener(new BackListener(this,model));
 		exitPanel.add(exitButton);
 		
 		mainPanel = new JPanel(new BorderLayout());
@@ -99,6 +100,9 @@ public class PopUpView extends JDialog
 		mainPanel.add(displayPanel,BorderLayout.CENTER);
 		mainPanel.add(logoPanel,BorderLayout.NORTH);
 		add(mainPanel);
+		
+		//set title for window
+        this.setTitle("Forecast Feedback");
 		
 		// set the window size 
 		pack();
@@ -262,10 +266,7 @@ public class PopUpView extends JDialog
 		questionPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		answerPanel = new JPanel(new GridLayout(1,2,2,0));
 		infoUpdatePanel = new JPanel(new GridLayout(0,2,0,0));
-			
-		infoLabel = new JLabel("Surf Prediction Feedback");
-		infoLabel.setHorizontalAlignment(SwingConstants.CENTER);
-			    	    
+					    	    
 	    //intialise JLabels and set alignment
 		spotName = new JLabel("Surf Spot: ");
 		spotName.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -315,10 +316,7 @@ public class PopUpView extends JDialog
 		recommendationLabel = new JLabel("Surfing condition are: ");
 		recommendationLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		recommendationUpdateLabel = new JLabel();
-		
-		infoUpdatePanel.add(infoLabel);
-		infoUpdatePanel.add(new JLabel(""));
-		
+				
 		infoUpdatePanel.add(spotName);
 		infoUpdatePanel.add(spotNameUpdate);
 		infoUpdatePanel.add(minHeightLabel);  
@@ -360,14 +358,17 @@ public class PopUpView extends JDialog
 		
 		//footer
 		footerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		footerPanel.add(new JLabel("Acknowledgement: Data kindly provided by Magicseaweed."));
+		footerLabel = new JLabel("Acknowledgement: Data kindly provided by Magicseaweed.");
+		footerLabel.setBackground(Color.CYAN);
+		footerLabel.setOpaque(true);
+		footerPanel.add(footerLabel);
 		infoUpdatePanel.add(footerPanel);
 		
 	    //adding other JPanels to display
 		displayPanel.add(infoUpdatePanel);
 		
 		//creating border and color for information panel
-		displayPanel.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 1));		
+		displayPanel.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 5));		
 	}
 	
 	//update recommendation image, if a user should surf or not
