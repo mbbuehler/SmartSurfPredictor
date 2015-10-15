@@ -13,4 +13,4 @@ hs_err_pid*
 
 APIKey*
 #Contains user specific data, such as labeled predictions and favourite spots
-user_data/
+user_data/*
