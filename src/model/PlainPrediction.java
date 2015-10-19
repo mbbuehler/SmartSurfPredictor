@@ -25,6 +25,7 @@ public class PlainPrediction {
 	public final float score;
 	private PredictionStatus status;
 	private PredictionStatus recommendStatus;
+	public long localTimestamp;
 	private boolean hasBeenRated = false;
 
 	public PlainPrediction(String spotName, int spotId, int minBreakHeight,
@@ -32,7 +33,7 @@ public class PlainPrediction {
 			float primarySwellHeight, int primarySwellPeriod,
 			CompassDirection primarySwellDirection, int windSpeed,
 			CompassDirection windDirection, int weather, float temperature,
- float score, PredictionStatus status)
+			float score, PredictionStatus status, long localTimestamp)
 	{
 		super();
 		this.spotName = spotName;
@@ -51,6 +52,7 @@ public class PlainPrediction {
 		this.score = score;
 		this.status = status;
 		this.recommendStatus = status;
+		this.localTimestamp = localTimestamp;
 	}
 
 	public PlainPrediction(Prediction p)
@@ -71,6 +73,7 @@ public class PlainPrediction {
 		this.score = p.getScore();
 		this.status = p.getStatus();
 		this.recommendStatus = p.getStatus();
+		this.localTimestamp = p.getSwellForecast().getLocalTimestamp();
 	}
 
 	public PredictionStatus getStatus() 

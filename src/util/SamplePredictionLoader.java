@@ -36,7 +36,8 @@ public class SamplePredictionLoader {
 						CompassDirection.getCompassDirection(s[9]),
 						Integer.parseInt(s[10]), Float.parseFloat(s[11]),
 						(float) -1.0,
-						PredictionStatus.UNLABELED);
+ PredictionStatus.UNLABELED,
+						System.currentTimeMillis());
 				allPlainPredictions.add(p);
 			}
 		} catch (FileNotFoundException e) {

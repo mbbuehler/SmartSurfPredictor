@@ -28,8 +28,8 @@ public class ShowPopupListener implements ActionListener {
 		cal.setTime(dt);
 		int hours = cal.get(Calendar.HOUR);
 		// System.out.println("it is " + hours + " o'clock.");
-		PredictionTime time = (hours <= 12) ? PredictionTime.MORNING
-				: PredictionTime.AFTERNOON;
+		PredictionTime time = (hours <= 12) ? PredictionTime.AFTERNOON
+				: PredictionTime.MORNING;
 		new PopUpView(view, model, time).setVisible(true);
 		
 	}
