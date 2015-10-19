@@ -55,6 +55,21 @@ public class PredictionManager {
 		prepareUnlabeledFile(predictions);
 		// classify predictions and receive arrayList with scores
 		ArrayList<Float> scores = PredictionClassifier.ratePredictions();
+		
+		int pos_count = 0;
+		int neg_count = 0;
+		for (float score : scores){
+			if (isAccepted(score)) {
+				++pos_count;
+			}
+			else{
+				++neg_count;
+			}
+		}
+		System.out.println("Classifier Stats for current call:");
+		System.out.println("accepted forecasts: " + pos_count);
+		System.out.println("rejected forecasts: " + neg_count);
+		System.out.println("total forecasts: " + (pos_count + neg_count));
 	
 		HashMap<Spot, PlainPrediction> map = createMap(spots, predictions,
 				scores);
@@ -113,6 +128,7 @@ public class PredictionManager {
 	 * @return boolean
 	 */
 	private boolean isAccepted(float predictionRating) {
-		return (predictionRating > 0.5) ? true : false;
+		System.out.println(predictionRating);
+		return (predictionRating > 0) ? true : false;
 		}
 	}

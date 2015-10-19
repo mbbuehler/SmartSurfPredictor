@@ -26,10 +26,12 @@ public class ShowPopupListener implements ActionListener {
 		Date dt = new Date();
 		Calendar cal = GregorianCalendar.getInstance();
 		cal.setTime(dt);
-		int hours = cal.get(Calendar.HOUR);
-		// System.out.println("it is " + hours + " o'clock.");
+		int hours = cal.get(Calendar.HOUR_OF_DAY);
+		// If it is morning, fetch Forecast for afternoon, otherwise for next
+		// morning
 		PredictionTime time = (hours <= 12) ? PredictionTime.AFTERNOON
 				: PredictionTime.MORNING;
+		// System.out.println("it is " + hours + ". so we use " + time);
 		new PopUpView(view, model, time).setVisible(true);
 		
 	}

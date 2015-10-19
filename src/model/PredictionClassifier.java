@@ -18,6 +18,7 @@ import model.ForecastResponse.List;
 
 import weka.classifiers.bayes.BayesianLogisticRegression;
 import weka.classifiers.bayes.NaiveBayes;
+import weka.classifiers.functions.MultilayerPerceptron;
 import weka.classifiers.functions.SimpleLogistic;
 import weka.classifiers.trees.J48;
 import weka.core.Instance;
@@ -45,7 +46,9 @@ public class PredictionClassifier {
 	 * @return
 	 */
 	private static Classifier createClassifier() {
-		Classifier classifier = new NaiveBayes();// BayesianLogisticRegression();
+		Classifier classifier = new MultilayerPerceptron();// new
+																// NaiveBayes();//
+																// BayesianLogisticRegression();
 		try {
 			// load labeled data
 			Instances train = new Instances(new BufferedReader(new FileReader(
@@ -77,8 +80,8 @@ public class PredictionClassifier {
 			}
 
 	/**
-	 * Loads unlabeled forecasts from file "data/unlabeled_forecasts.arff" and
-	 * adds labels to it. prints result to console.<br>
+	 * Loads unlabeled forecasts and adds labels to it. prints result to
+	 * console.<br>
 	 * Some code copied from
 	 * https://weka.wikispaces.com/Use+WEKA+in+your+Java+code
 	 * #Instances-ARFF%20File (30.8.15)
@@ -102,13 +105,12 @@ public class PredictionClassifier {
 			// label all instances
 			for (int i = 0; i < unlabeled.numInstances(); i++) {
 				// System.out.println("checkpoint 1");
-				// if clsLabel is 0: no
-				// if clsLabel is 1: yes
+				// if clsLabel is 0: yes
+				// if clsLabel is 1: no
 				// System.out.println(unlabeled.instance(i));
 				double clsLabel = classifier.classifyInstance(unlabeled
 						.instance(i));
 				//
-				// System.out.println(clsLabel);
 				labeled.instance(i).setClassValue(clsLabel);
 
 				// System.out.println("checkpoint 2");
@@ -117,9 +119,20 @@ public class PredictionClassifier {
 						.distributionForInstance(labeled.instance(i));
 				Arrays.sort(distribution);
 
+				System.out.println();
+				System.out.println("label: " + clsLabel);
+				System.out.print("distribution: ");
+				for (double d : distribution)
+					System.out.print(d + " ");
+				System.out.print(" for " + labeled.instance(i).toString());
 				// System.out.println("checkpoint 3");
 				// estimated likelihood that user accepts forecast
 				float score = (float) distribution[1];
+
+				// flag score if no:
+				if (clsLabel == 1) {
+					score = -1 * score;
+				}
 
 				// System.out.println("checkpoint 4");
 				scores.add(score);
@@ -138,5 +151,13 @@ public class PredictionClassifier {
 		}
 
 		}
+
+	public static void setTrainingSet(String trainingSet) {
+		PredictionClassifier.trainingSet = trainingSet;
+	}
+
+	public static void setUnlabeledPath(String unlabeledPath) {
+		PredictionClassifier.unlabeledPath = unlabeledPath;
+	}
 
 	}

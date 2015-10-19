@@ -21,9 +21,16 @@ public class PredictionClassifierTest {
 		assertTrue(ratings != null);
 		assertTrue(ratings.size() > 0);
 		for (Float r : ratings) {
-			assertTrue(r >= 0 && r <= 1);
+			assertTrue(r >= -1 && r <= 1);
 		}
 
+	}
+
+	@Test
+	public void testRating() {
+		PredictionClassifier.setTrainingSet("test_data/labeled_test.arff");
+		PredictionClassifier.setUnlabeledPath("test_data/unlabeled_test.arff");
+		PredictionClassifier.ratePredictions();
 	}
 
 }

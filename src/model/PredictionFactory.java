@@ -9,7 +9,7 @@ public class PredictionFactory {
 	private ForecastResponse.List list = null;
 	private PredictionTime time = null;
 	private SSPBuilder builder;
-	private int range = 5400; // 1.5h
+	private double range = 5400.0; // 1.5h
 	private Spot spot;
 
 	public PredictionFactory(ForecastResponse.List list, PredictionTime time,
@@ -26,7 +26,6 @@ public class PredictionFactory {
 	 * @return Prediction or null
 	 */
 	public Prediction createPrediction() {
-		int c = 0;
 		// System.out.println("target: " + getTargetTimestamp(time));
 		// System.out.println("targetDate: "
 		// + new Date(getTargetTimestamp(time) * 1000));
@@ -36,12 +35,26 @@ public class PredictionFactory {
 			// System.out.println("c: " + ++c);
 			// System.out.println(r.localTimestamp);
 			// System.out.println("timestamp: " + new Date(1000 * r.timestamp));
-			if (r.timestamp >= getTargetTimestamp(time) - range
-					&& r.timestamp <= range + getTargetTimestamp(time)) {
+			long target = getTargetTimestamp(time);
+			long timestamp = r.timestamp;
+			double  distance = Math.abs(timestamp - target);
+			if (distance <= range) {
 				// System.out.println("match: " + r.timestamp);
 				response = r;
+			}
+			// System.out.println("difference: " + distance);
+			if (response != null) {
+				// System.out.println("found.");
 				break;
 			}
+		}
+		if (response == null) {
+			System.out
+					.println("@PredictionFactory. Timestamp does not match in ForecastResponse:");
+			System.out.println("targetTimeStamp = " + getTargetTimestamp(time));
+			System.out
+					.println("probably not matching because of different timezone. Chosing first response.");
+			response = list.get(0);
 		}
 		if (response != null) {
 			SwellForecast swellForecast = builder.getSwellForecast(response);
@@ -50,12 +63,9 @@ public class PredictionFactory {
 			Prediction prediction = new Prediction(swellForecast,
 					weatherForecast, spot);
 			return prediction;
-		} else {
-			System.err
-					.println("@PredictionFactory. Timestamp does not match in ForecastResponse:");
-			System.err.println("targetTimeStamp = " + getTargetTimestamp(time));
-			return null;
 		}
+		return null;
+
 	}
 
 
@@ -63,10 +73,13 @@ public class PredictionFactory {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(System.currentTimeMillis());
 		// System.out.println("current time: " + calendar.getTime());
-		calendar.add(Calendar.DATE, 1);
-		// for some reason one hour moved.
-		if (time == PredictionTime.MORNING)
+
+		// for the next day's morning:
+		if (time == PredictionTime.MORNING) {
+			calendar.add(Calendar.DATE, 1);
 			calendar.set(Calendar.HOUR_OF_DAY, 9);
+		}
+		// for same day arvo
 		else
 			calendar.set(Calendar.HOUR_OF_DAY, 15);
 		calendar.set(Calendar.MINUTE, 0);

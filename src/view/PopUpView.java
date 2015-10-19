@@ -118,7 +118,7 @@ public class PopUpView extends JDialog
 		}
 		
 	private String getFormattedDate(long timestamp) {
-		DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 		return df.format(new Date(timestamp * 1000));
 	}
 
@@ -279,7 +279,7 @@ public class PopUpView extends JDialog
 		answerPanel = new JPanel(new GridLayout(1, 2, 2, 0));
 		infoUpdatePanel = new JPanel(new GridLayout(0, 2, 0, 0));
 
-		// intialise JLabels and set alignment
+		// Initialize JLabels and set alignment
 		datePanel = new JLabel("Forecast Date and time: ");
 		datePanel.setHorizontalAlignment(SwingConstants.RIGHT);
 		datePanelUpdate = new JLabel("--");
