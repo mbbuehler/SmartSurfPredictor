@@ -236,7 +236,7 @@ public class PopUpView extends JDialog
 		}
 
 		// updates all JLabels,images
-		datePanelUpdate.setText(getFormattedDate(p.localTimestamp));
+		// datePanelUpdate.setText(getFormattedDate(p.localTimestamp));
 		spotNameUpdate.setText(" " + p.spotName);
 		minHeightupdateLabel.setText(" " + p.minBreakHeight);
 		maxHeightupdateLabel.setText(" " + p.maxBreakHeight);
@@ -280,9 +280,9 @@ public class PopUpView extends JDialog
 		infoUpdatePanel = new JPanel(new GridLayout(0, 2, 0, 0));
 
 		// Initialize JLabels and set alignment
-		datePanel = new JLabel("Forecast Date and time: ");
-		datePanel.setHorizontalAlignment(SwingConstants.RIGHT);
-		datePanelUpdate = new JLabel("--");
+		// datePanel = new JLabel("Forecast Date and time: ");
+		// datePanel.setHorizontalAlignment(SwingConstants.RIGHT);
+		// datePanelUpdate = new JLabel("--");
 
 		spotName = new JLabel("Surf Spot: ");
 		spotName.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -333,8 +333,8 @@ public class PopUpView extends JDialog
 		recommendationLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		recommendationUpdateLabel = new JLabel();
 
-		infoUpdatePanel.add(datePanel);
-		infoUpdatePanel.add(datePanelUpdate);
+		// infoUpdatePanel.add(datePanel);
+		// infoUpdatePanel.add(datePanelUpdate);
 		infoUpdatePanel.add(spotName);
 		infoUpdatePanel.add(spotNameUpdate);
 		infoUpdatePanel.add(minHeightLabel);
