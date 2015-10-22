@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 import util.SSPPaths;
 
@@ -59,11 +60,23 @@ public class SpotReaderFile
 		} 
 		catch (FileNotFoundException e) 
 		{
+			JOptionPane
+			.showMessageDialog(
+					null,
+							"Could not find '"
+									+ System.getProperty("user.dir")
+									+ "/"
+							+ SSPPaths.spotFileName
+							+ "'. Application cannot run without spot data.",
+					"Important resource file missing",
+			JOptionPane.ERROR_MESSAGE);
+	System.exit(0);
 			e.printStackTrace();
 		} 
 		catch (IOException e) 
 		{
-			e.printStackTrace();
+			System.out.println("Error when reading spots.");
+			System.exit(0);
 		}
 	}
 	

@@ -12,6 +12,9 @@ import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 
+import javax.sound.midi.SysexMessage;
+import javax.swing.JOptionPane;
+
 import util.SSPPaths;
 
 //Author: Eeswari
@@ -57,7 +60,19 @@ public class FavouriteSpotFile
 		} 
 		catch (FileNotFoundException e) 
 		{
-			e.printStackTrace();
+			JOptionPane
+					.showMessageDialog(
+							null,
+							"Could not find \n'"
+									+ System.getProperty("user.dir")
+									+ "/"
+									+ SSPPaths.userDir
+									+ "/"
+									+ SSPPaths.favSpotFileName
+									+ "'. \nPlease define your favourite spots. You can use the set up wizard :)",
+							"Application not yet configured. Please restart the application.",
+							JOptionPane.ERROR_MESSAGE);
+			System.exit(-1);
 		} 
 		catch (IOException e) 
 		{
