@@ -21,7 +21,7 @@ public class WelcomeBarView extends JPanel
 	//it also set the background image
 	public WelcomeBarView(PredictorView view)
 	 {
-		welcome = new JLabel("Welcome to Smart Surf Predictor");
+		welcome = new JLabel("Welcome to SmartSurfPredictor");
 		welcome.setAlignmentX(CENTER_ALIGNMENT);
 		//adds logo
 		try 

@@ -64,7 +64,7 @@ public class FeedbackView extends JDialog
 		this.view = v;
 		this.model = m;
 		//gets feedbacks for user to respond
-		this.recommends = SamplePredictionLoader.getSamplePlainPredictions(20);
+		this.recommends = SamplePredictionLoader.getSamplePlainPredictions(21);
 		
 		Container cp = this.getContentPane();
 	    cp.setLayout(new BorderLayout());
