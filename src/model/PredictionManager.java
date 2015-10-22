@@ -139,7 +139,6 @@ public class PredictionManager {
 	 * @return boolean
 	 */
 	private boolean isAccepted(float predictionRating) {
-		System.out.println(predictionRating);
 		return (predictionRating > 0) ? true : false;
 		}
 	}
