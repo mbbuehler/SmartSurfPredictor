@@ -14,6 +14,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 
+import javax.swing.JOptionPane;
+
 import model.ForecastResponse.List;
 
 import weka.classifiers.bayes.BayesianLogisticRegression;
@@ -47,17 +49,15 @@ public class PredictionClassifier {
 	 */
 	private static Classifier createClassifier() {
 		Classifier classifier = new MultilayerPerceptron();// new
-																// NaiveBayes();//
-																// BayesianLogisticRegression();
+															// NaiveBayes();//
+															// BayesianLogisticRegression();
 		try {
 			// load labeled data
 			Instances train = new Instances(new BufferedReader(new FileReader(
 					new File((trainingSet)))));
 
 			if (train.numInstances() < minNumberOfTrainingInst) {
-				System.out.println("Please use at least "
-						+ minNumberOfTrainingInst
-						+ " before training Classifier.");
+				// System.exit(0);
 				throw new TrainingSetTooSmallException();
 			}
 			// set class attribute
@@ -67,17 +67,27 @@ public class PredictionClassifier {
 			return classifier;
 		} catch (TrainingSetTooSmallException e) {
 			System.out.println(e.getMessage());
-			System.exit(0);
 		} catch (IOException e) {
-			System.err
-					.println("@PredictionClassifier: Error when loading training set.");
+			String msg = "@PredictionClassifier: Error when loading training set. \nDoes this file exist: "
+					+ System.getProperty("user.dir")
+					+ "/"
+					+ SSPPaths.userDir
+					+ "/"
+					+ SSPPaths.trainingSetFileName
+					+ "? \nPlease rate at least 20 forecasts before running notifier.";
+			// System.err.println(msg);
+			System.out.println(e.getMessage());
+			JOptionPane.showMessageDialog(null, msg, "Classifier Exception",
+					JOptionPane.ERROR_MESSAGE);
+			System.exit(0);
 		} catch (Exception e) {
 			System.err
 					.println("@PredictionClassifier: Could not train ForecastClassifier.");
 			e.printStackTrace();
-		}
-		return null;
+			System.exit(0);
 			}
+		return null;
+	}
 
 	/**
 	 * Loads unlabeled forecasts and adds labels to it. prints result to
@@ -119,12 +129,12 @@ public class PredictionClassifier {
 						.distributionForInstance(labeled.instance(i));
 				Arrays.sort(distribution);
 
-				System.out.println();
-				System.out.println("label: " + clsLabel);
-				System.out.print("distribution: ");
-				for (double d : distribution)
-					System.out.print(d + " ");
-				System.out.print(" for " + labeled.instance(i).toString());
+				// System.out.println();
+				// System.out.println("label: " + clsLabel);
+				// System.out.print("distribution: ");
+				// for (double d : distribution)
+				// System.out.print(d + " ");
+				// System.out.print(" for " + labeled.instance(i).toString());
 				// System.out.println("checkpoint 3");
 				// estimated likelihood that user accepts forecast
 				float score = (float) distribution[1];
@@ -148,9 +158,9 @@ public class PredictionClassifier {
 					.println("Could not classify. Did you already create a trainingSet?");
 			e.printStackTrace();
 			return null;
-		}
+			}
 
-		}
+			}
 
 	public static void setTrainingSet(String trainingSet) {
 		PredictionClassifier.trainingSet = trainingSet;
@@ -158,6 +168,6 @@ public class PredictionClassifier {
 
 	public static void setUnlabeledPath(String unlabeledPath) {
 		PredictionClassifier.unlabeledPath = unlabeledPath;
-	}
+		}
 
-	}
+		}

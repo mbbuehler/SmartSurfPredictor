@@ -22,6 +22,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import util.Constants;
 import controller.AddSpotListener;
 import controller.BackListener;
 import controller.ExitListener;
@@ -120,8 +122,10 @@ public class PredictorView extends JFrame
 	    	String current = setTime.format(time); 
 	    	
 	    	//check time 9AM,3PM
-	    	String morningString = "09:00";
-	    	String afternoonString = "15:00";
+		String morningString = Constants.MORNING_TIME;
+		String afternoonString = Constants.AFTERNOON_TIME;
+
+		System.out.println("time checked :)");
 	    	
 	    	//create feedback pop up according to time
 	    	if(current.equals(morningString))
