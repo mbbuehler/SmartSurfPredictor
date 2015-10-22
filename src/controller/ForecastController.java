@@ -1,6 +1,10 @@
 package controller;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
 
 import model.Chart;
 import model.ForecastResponse;
@@ -15,6 +19,7 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.JsonObjectParser;
 import com.google.api.client.json.jackson2.JacksonFactory;
+
 
 public class ForecastController {
 	static NetHttpTransport httpTransport = new NetHttpTransport();
@@ -54,11 +59,17 @@ public class ForecastController {
 					.parseAs(ForecastResponse.List.class);
 			return list;
 		} catch (IOException e) {
-			System.err
-					.println("Request failed. No Forecasts received. Returned null.");
+			System.out
+					.println("Request failed and no Forecasts received. Exiting...");
+			JOptionPane
+					.showMessageDialog(
+							null,
+							"Could not connect to magicseaweed. Are you connected to the Internet? Please connect to the Internet and restart the application.",
+							"No Internet?",
+					JOptionPane.ERROR_MESSAGE);
+			System.exit(0);
 			return null;
 		}
 	}
-
 
 }
