@@ -1,5 +1,5 @@
 package model;
-
+	
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -8,8 +8,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
-	
-	/**
+
+/**
  * Writes data files (arff) for weka Classifiers. This is a specialized Writer
  * for the SmartSurfPredictor Classifier. Check out constructor javadoc for more
  * information.
@@ -35,17 +35,9 @@ public class PredictionWriter {
 	 * @throws FileNotFoundException
 	 * @throws UnsupportedEncodingException
 	 */
-	public PredictionWriter(String path)
-	{
-		// debugging
-		// StackTraceElement[] elements =
-		// Thread.currentThread().getStackTrace();
-		// for (StackTraceElement e : elements) {
-		// System.out.println(e.getClassName() + "on line "
-		// + e.getLineNumber());
-		// }
+	public PredictionWriter(String path) {
 		this.file = new File(path);
-	}
+		}
 
 	/**
 	 * Write first element of arff file: relation name
@@ -55,7 +47,7 @@ public class PredictionWriter {
 	 */
 	private String getRelationNameString(String name) {
 		return "@relation " + name;
-		}
+	}
 
 	private String getHeaderString() {
 		StringBuilder builder = new StringBuilder();
@@ -71,12 +63,10 @@ public class PredictionWriter {
 
 		builder.append("@data");
 
-		builder.append(System.getProperty("line.separator"));
+			builder.append(System.getProperty("line.separator"));
 
 		return builder.toString();
-		}
-
-
+	}
 
 	/**
 	 * Adds a single labeled prediction to training set. Writes neither the \at
@@ -96,7 +86,7 @@ public class PredictionWriter {
 	private String getNumericString(String attributeName) {
 		return "@attribute " + attributeName + " numeric"
 				+ System.getProperty("line.separator");
-	}
+		}
 
 	/**
 	 * Get a non-numeric attribute.
@@ -111,11 +101,13 @@ public class PredictionWriter {
 		return "@attribute " + attributeName + " {"
 				+ values.substring(1, values.length() - 1) + "}"
 				+ System.getProperty("line.separator");
-	}
+		}
 
 	/**
 	 * Writes second element of arff file: All attributes that will be used by
 	 * the classifier.
+	 * 
+	 * @return String with attribute List
 	 */
 	private String getAttributeListString() {
 		StringBuilder builder = new StringBuilder();
@@ -137,57 +129,63 @@ public class PredictionWriter {
 		builder.append("@attribute show {yes,no}");
 
 		return builder.toString();
-	}
+		}
 
 	private BufferedWriter createWriter() throws IOException {
 		BufferedWriter writer = null;
 		// Filewriter append true, otherwise file will be overwritten
 		writer = new BufferedWriter(new FileWriter(this.file, true));
 		return writer;
-	}
+		}
 
 	private String getSingleAttributeValueString(String value) {
 		return value + ",";
-	}
+		}
 
 	private String getSingleAttributeValueString(int value) {
 		return value + ",";
-		}
+	}
 
 	private String getSingleAttributeValueString(float value) {
 		return value + ",";
-		}
+	}
 
 	private String getInstanceString(PlainPrediction p) {
 		StringBuilder builder = new StringBuilder();
-		builder.append(p.spotId + ",");
-		builder.append(getSingleAttributeValueString(p.minBreakHeight));
-		builder.append(getSingleAttributeValueString(p.maxBreakHeight));
-		builder.append(getSingleAttributeValueString(p.fadedRating));
-		builder.append(getSingleAttributeValueString(p.solidRating));
-		builder.append(getSingleAttributeValueString(p.primarySwellHeight));
-		builder.append(getSingleAttributeValueString(p.primarySwellPeriod));
-		builder.append(getSingleAttributeValueString(p.primarySwellDirection
-				.toString()));
-		builder.append(getSingleAttributeValueString(p.windSpeed));
-		builder.append(getSingleAttributeValueString(p.windDirection.toString()));
-		builder.append(getSingleAttributeValueString(p.weather));
-		builder.append(getSingleAttributeValueString(p.temperature));
+		try {
+			builder.append(p.spotId + ",");
+			builder.append(getSingleAttributeValueString(p.minBreakHeight));
+			builder.append(getSingleAttributeValueString(p.maxBreakHeight));
+			builder.append(getSingleAttributeValueString(p.fadedRating));
+			builder.append(getSingleAttributeValueString(p.solidRating));
+			builder.append(getSingleAttributeValueString(p.primarySwellHeight));
+			builder.append(getSingleAttributeValueString(p.primarySwellPeriod));
+			builder.append(getSingleAttributeValueString(p.primarySwellDirection
+					.toString()));
+			builder.append(getSingleAttributeValueString(p.windSpeed));
+			builder.append(getSingleAttributeValueString(p.windDirection
+					.toString()));
+			builder.append(getSingleAttributeValueString(p.weather));
+			builder.append(getSingleAttributeValueString(p.temperature));
 
-		if (p.getStatus() == PredictionStatus.ACCEPTED) {
-			builder.append("yes");
-		} else if (p.getStatus() == PredictionStatus.REJECTED) {
-			builder.append("no");
-		} else if (p.getStatus() == PredictionStatus.UNLABELED) {
-			builder.append("?");
-		} else {
-			System.err.println("Error: Invalid PredictionStatus: "
-					+ p.getStatus());
+			if (p.getStatus() == PredictionStatus.ACCEPTED) {
+				builder.append("yes");
+			} else if (p.getStatus() == PredictionStatus.REJECTED) {
+				builder.append("no");
+			} else if (p.getStatus() == PredictionStatus.UNLABELED) {
+				builder.append("?");
+			} else {
+				System.err.println("Error: Invalid PredictionStatus: "
+						+ p.getStatus());
+			}
+			builder.append(System.getProperty("line.separator"));
+		} catch (Exception e) {
+			// If p contains an invalid or empty value, just skip it.
+			System.out.println("Could not write " + p);
+			return "";
 		}
-
-		builder.append(System.getProperty("line.separator"));
 		return builder.toString();
-		}
+	}
 
 	/**
 	 * Writes a single PlainPrediction to arff file. <br>
@@ -203,22 +201,17 @@ public class PredictionWriter {
 	public void writeToFile(PlainPrediction p) {
 		StringBuilder builder = new StringBuilder();
 		if (!this.file.exists()) {
-//			System.out.println("@PredictionWriter: file '"
-//					+ this.file.getName()
-//					+ "' does not exist. Will be created.");
 			builder.append(getHeaderString());
 		}
-		builder.append(getInstanceString(p));
+			builder.append(getInstanceString(p));
 		try {
 			BufferedWriter writer = createWriter();
 			writer.append(builder.toString());
-			// System.out.println("@PredictionWriter: this was written:");
-			// System.out.println(builder.toString());
 			writer.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		}
+	}
 
 	/**
 	 * Writes list with PlainPredictions to arff file. <br>
@@ -234,9 +227,6 @@ public class PredictionWriter {
 	public void writeToFile(ArrayList<PlainPrediction> plainPredictions) {
 		StringBuilder builder = new StringBuilder();
 		if (!this.file.exists()) {
-//			System.out.println("@PredictionWriter: file '"
-//					+ this.file.getName()
-//					+ "' does not exist. Will be created.");
 			builder.append(getHeaderString());
 		}
 		for (PlainPrediction p : plainPredictions) {
@@ -245,13 +235,10 @@ public class PredictionWriter {
 		try {
 			BufferedWriter writer = createWriter();
 			writer.append(builder.toString());
-			// System.out.println("@PredictionWriter: this was written to "
-			// + file.getName() + ": ");
-			// System.out.println(builder.toString());
 			writer.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
+		}
 
-	}
+		}

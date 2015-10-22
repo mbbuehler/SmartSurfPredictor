@@ -1,73 +1,71 @@
 package model;
 
 import java.io.BufferedReader;
-import util.SSPPaths;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-
 import javax.swing.JOptionPane;
-
-import model.ForecastResponse.List;
-
-import weka.classifiers.bayes.BayesianLogisticRegression;
-import weka.classifiers.bayes.NaiveBayes;
+import util.SSPPaths;
+import weka.classifiers.Classifier;
 import weka.classifiers.functions.MultilayerPerceptron;
-import weka.classifiers.functions.SimpleLogistic;
-import weka.classifiers.trees.J48;
-import weka.core.Instance;
 import weka.core.Instances;
 
-import weka.classifiers.Classifier;
-
+	/**
+ * Classifier for surf forecasts from magicseaweed.
+ * 
+ * @author marcello
+ * 
+ */
 public class PredictionClassifier {
-	private static int minNumberOfTrainingInst = 20;
+	// Classifier will not perform well without at least 20 training examples.
+	public final static int minNumberOfTrainingInst = 20;
+
 	private static String trainingSet = SSPPaths.userDir + "/"
 			+ SSPPaths.trainingSetFileName;
 	private static String unlabeledPath = SSPPaths.userDir + "/"
 			+ SSPPaths.tmpUnlabeledPredictionFileName;
 
-	// We will be trying various ones. this is just for testing purposes.
+	// Directly initialize classifier at instantiation. No need to create a
+	// constructor for this static class.
 	private static Classifier classifier = createClassifier();
 
-	// public PredictionClassifier() {
-	// this.classifier = getClassifier();
-	// }
-
 	/**
-	 * Modify this method to change classifier
+	 * Creates a classifier from a training set (for path see instance variable
+	 * "trainingSet".<br>
+	 * Modify first line of this method to use a different classifier. Only use
+	 * classifiers that can output the distribution for its results.<br>
+	 * The last attribute of the training set will be set as output class.
 	 * 
-	 * @return
+	 * @return trained Classifier
 	 */
 	private static Classifier createClassifier() {
-		Classifier classifier = new MultilayerPerceptron();// new
-															// NaiveBayes();//
-															// BayesianLogisticRegression();
+		/*
+		 * You could also use new NaiveBayes() new BayesianLogisticRegression()
+		 * or others. MultilayerPerceptron performed best in tests.
+		 */
+		Classifier classifier = new MultilayerPerceptron();
 		try {
 			// load labeled data
 			Instances train = new Instances(new BufferedReader(new FileReader(
 					new File((trainingSet)))));
 
 			if (train.numInstances() < minNumberOfTrainingInst) {
-				// System.exit(0);
+				// Show a popup to user and ask him friendly to create more
+				// training examples. With too few training examples, the
+				// classifier will not perform well.
 				throw new TrainingSetTooSmallException();
 			}
-			// set class attribute
+			// set output class attribute ("yes" / "no")
 			train.setClassIndex(train.numAttributes() - 1);
-
 			classifier.buildClassifier(train);
 			return classifier;
 		} catch (TrainingSetTooSmallException e) {
 			System.out.println(e.getMessage());
 		} catch (IOException e) {
+			// will be called when training set file does not exist (e.g. if the
+			// user runs classifier before even creating a training set.)
 			String msg = "@PredictionClassifier: Error when loading training set. \nDoes this file exist: "
 					+ System.getProperty("user.dir")
 					+ "/"
@@ -75,99 +73,66 @@ public class PredictionClassifier {
 					+ "/"
 					+ SSPPaths.trainingSetFileName
 					+ "? \nPlease rate at least 20 forecasts before running notifier.";
-			// System.err.println(msg);
 			System.out.println(e.getMessage());
 			JOptionPane.showMessageDialog(null, msg, "Classifier Exception",
 					JOptionPane.ERROR_MESSAGE);
 			System.exit(0);
 		} catch (Exception e) {
+			// An unforeseen error has occurred.
 			System.err
 					.println("@PredictionClassifier: Could not train ForecastClassifier.");
 			e.printStackTrace();
 			System.exit(0);
-			}
+		}
 		return null;
 	}
 
 	/**
-	 * Loads unlabeled forecasts and adds labels to it. prints result to
-	 * console.<br>
-	 * Some code copied from
+	 * Loads unlabeled forecasts, classifis instances and returns score for each
+	 * instance.<br>
+	 * Some code copied from weka tutorial:
 	 * https://weka.wikispaces.com/Use+WEKA+in+your+Java+code
 	 * #Instances-ARFF%20File (30.8.15)
 	 * 
-	 * @param prediction
+	 * @return ArrayList<Float> with scores for all classified instances. Scores
+	 *         range from -1 to 1. The higher the score, the higher the
+	 *         likelihood that a user likes a forecast.
 	 */
 	public static ArrayList<Float> ratePredictions() {
 		ArrayList<Float> scores = new ArrayList<Float>();
 		try {
-			// load unlabeled data
+			// load unlabeled data and set output class
 			Instances unlabeled = new Instances(new BufferedReader(
 					new FileReader(unlabeledPath)));
 			unlabeled.setClassIndex(unlabeled.numAttributes() - 1);
 
-			// create copy
+			// create variable for classified instances
 			Instances labeled = new Instances(unlabeled);
 
-			// System.out.println("unlabeled isntances: "
-			// + unlabeled.numInstances());
-
-			// label all instances
 			for (int i = 0; i < unlabeled.numInstances(); i++) {
-				// System.out.println("checkpoint 1");
-				// if clsLabel is 0: yes
-				// if clsLabel is 1: no
-				// System.out.println(unlabeled.instance(i));
+				// label all instances
 				double clsLabel = classifier.classifyInstance(unlabeled
 						.instance(i));
-				//
 				labeled.instance(i).setClassValue(clsLabel);
 
-				// System.out.println("checkpoint 2");
-				// Get likelihood for decision
+				// extract confidence for assigned class
 				double[] distribution = classifier
 						.distributionForInstance(labeled.instance(i));
 				Arrays.sort(distribution);
-
-				// System.out.println();
-				// System.out.println("label: " + clsLabel);
-				// System.out.print("distribution: ");
-				// for (double d : distribution)
-				// System.out.print(d + " ");
-				// System.out.print(" for " + labeled.instance(i).toString());
-				// System.out.println("checkpoint 3");
-				// estimated likelihood that user accepts forecast
 				float score = (float) distribution[1];
-
-				// flag score if no:
+				// reverse score if output class is "no":
 				if (clsLabel == 1) {
 					score = -1 * score;
 				}
-
-				// System.out.println("checkpoint 4");
 				scores.add(score);
-
-				// System.out.println("likelihood: " + likelihood);
-				// System.out.println(labeled.instance(i));
-
 			}
 			return scores;
-
 		} catch (Exception e) {
 			System.err
 					.println("Could not classify. Did you already create a trainingSet?");
 			e.printStackTrace();
+			System.exit(-1);
 			return null;
-			}
-
-			}
-
-	public static void setTrainingSet(String trainingSet) {
-		PredictionClassifier.trainingSet = trainingSet;
+		}
 	}
-
-	public static void setUnlabeledPath(String unlabeledPath) {
-		PredictionClassifier.unlabeledPath = unlabeledPath;
-		}
-
-		}
+}

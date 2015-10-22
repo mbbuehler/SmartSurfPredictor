@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import model.Notifier;
 import model.PlainPrediction;
 import model.PredictionStatus;
-import model.PredictionTime;
 import view.FeedbackView;
 import view.PopUpView;
 

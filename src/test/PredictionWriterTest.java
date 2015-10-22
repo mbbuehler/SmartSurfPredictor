@@ -1,13 +1,10 @@
 package test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
-import model.CompassDirection;
 import model.PlainPrediction;
 import model.Prediction;
 import model.PredictionStatus;
@@ -16,7 +13,6 @@ import model.Spot;
 import model.Surf;
 import model.Swell;
 import model.SwellForecast;
-import model.Unit;
 import model.Weather;
 import model.WeatherForecast;
 import model.Wind;

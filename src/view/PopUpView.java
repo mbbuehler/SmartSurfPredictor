@@ -13,30 +13,26 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-	
+
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.border.Border;
 
-import org.apache.http.impl.cookie.DateUtils;
-	
-import controller.BackListener;
-import controller.FeedbackNoResponseListener;
-import controller.FeedbackYesResponseListener;
-import controller.JLabelListener;
 import model.Notifier;
 import model.PlainPrediction;
 import model.PredictionStatus;
 import model.PredictionTime;
 import model.PredictionWriter;
 import model.Spot;
+import controller.BackListener;
+import controller.FeedbackNoResponseListener;
+import controller.FeedbackYesResponseListener;
+import controller.JLabelListener;
 	
 public class PopUpView extends JDialog
 	{

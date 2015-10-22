@@ -16,15 +16,14 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import util.SamplePredictionLoader;
-
-import controller.BackListener;
-import controller.FeedbackNoResponseListener;
-import controller.FeedbackYesResponseListener;
 import model.Notifier;
 import model.PlainPrediction;
 import model.PredictionStatus;
 import model.PredictionWriter;
+import util.SamplePredictionLoader;
+import controller.BackListener;
+import controller.FeedbackNoResponseListener;
+import controller.FeedbackYesResponseListener;
 
 
 

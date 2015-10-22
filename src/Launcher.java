@@ -2,19 +2,30 @@ import java.io.File;
 import util.SSPPaths;
 import view.PredictorView;
 
+/**
+ * Entry point for application. Launches GUI.
+ * 
+ * @author marcello
+ * 
+ */
 public class Launcher 
 {
+	/**
+	 * Initialises application and launches GUI
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) 
 	{
 		initApplication();
 
-		// creates PredictorView
+		// Launches welcome screen
 		new PredictorView();
-
-		// bug at jar export. TODO: fix it
-		// cleanUp();
 	}
 
+	/**
+	 * Create needed folder structure for saving user data
+	 */
 	private static void initApplication() {
 		// Initialize file structure
 		String dir = SSPPaths.userDir;
@@ -23,11 +34,4 @@ public class Launcher
 		file.mkdir();
 
 	}
-
-	private static void cleanUp() {
-		File unlabeled = new File(SSPPaths.userDir + "/"
-				+ SSPPaths.tmpUnlabeledPredictionFileName);
-		unlabeled.delete();
-	}
-
 }

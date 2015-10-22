@@ -4,7 +4,6 @@ import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.LayoutManager;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;

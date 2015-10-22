@@ -1,10 +1,9 @@
 package test;
-import static org.junit.Assert.*;
 
-import java.util.List;
+import static org.junit.Assert.assertTrue;
+
 import java.util.Random;
 
-import model.Forecast;
 import model.ForecastResponse;
 
 import org.junit.Before;

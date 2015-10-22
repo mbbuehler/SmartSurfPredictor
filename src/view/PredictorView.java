@@ -3,35 +3,26 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.Image;
-import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import util.Constants;
-import controller.AddSpotListener;
-import controller.BackListener;
-import controller.ExitListener;
-import controller.MainForecastButtonListener;
-import controller.PredictorViewCloseListener;
-import controller.ShowPopupListener;
 import model.Notifier;
 import model.PredictionTime;
+import util.Constants;
+import controller.AddSpotListener;
+import controller.ExitListener;
+import controller.MainForecastButtonListener;
+import controller.ShowPopupListener;
 
 
 public class PredictorView extends JFrame
@@ -124,8 +115,6 @@ public class PredictorView extends JFrame
 	    	//check time 9AM,3PM
 		String morningString = Constants.MORNING_TIME;
 		String afternoonString = Constants.AFTERNOON_TIME;
-
-		System.out.println("time checked :)");
 	    	
 	    	//create feedback pop up according to time
 	    	if(current.equals(morningString))

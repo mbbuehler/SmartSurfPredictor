@@ -3,9 +3,6 @@ package util;
 import java.util.ArrayList;
 import java.util.Random;
 
-import controller.ForecastController;
-
-import model.FavouriteSpotFile;
 import model.PlainPrediction;
 import model.Prediction;
 import model.PredictionManager;
@@ -13,7 +10,15 @@ import model.PredictionTime;
 import model.PredictionWriter;
 import model.Spot;
 import model.SpotReaderFile;
+import controller.ForecastController;
 
+/**
+ * Helper class, not used once the application is in production. Fetches sample
+ * forecasts from msw.
+ * 
+ * @author marcello
+ * 
+ */
 public class UnlabeledForecastSaver {
 
 	public UnlabeledForecastSaver() {

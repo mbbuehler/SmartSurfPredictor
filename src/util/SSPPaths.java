@@ -1,5 +1,11 @@
 package util;
 
+/**
+ * paths used for resources
+ * 
+ * @author marcello
+ * 
+ */
 public final class SSPPaths {
 	public static final String userDir = "user_data";
 	public static final String prgDir = "prg_res";

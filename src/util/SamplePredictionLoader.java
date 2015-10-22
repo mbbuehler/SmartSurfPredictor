@@ -1,16 +1,24 @@
 package util;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Random;
 
-import model.*;
+import model.CompassDirection;
+import model.PlainPrediction;
+import model.PredictionStatus;
+import model.Spot;
+import model.SpotReaderFile;
 
+/**
+ * Loads sample predictions needed for initial setup of application
+ * 
+ * @author marcello
+ * 
+ */
 public class SamplePredictionLoader {
 
 	private static ArrayList<Spot> spots = new SpotReaderFile().getSpotsList();

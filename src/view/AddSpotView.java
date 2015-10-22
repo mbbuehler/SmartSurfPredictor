@@ -16,13 +16,13 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import controller.AddSurfSpotListener;
-import controller.CountryUpdateListener;
-import controller.BackListener;
-import controller.LocationUpdateListener;
-import controller.StateUpdateListener;
 import model.Notifier;
 import model.Spot;
+import controller.AddSurfSpotListener;
+import controller.BackListener;
+import controller.CountryUpdateListener;
+import controller.LocationUpdateListener;
+import controller.StateUpdateListener;
 
 public class AddSpotView extends JDialog
 {

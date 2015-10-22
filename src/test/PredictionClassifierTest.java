@@ -26,11 +26,11 @@ public class PredictionClassifierTest {
 
 	}
 
-	@Test
-	public void testRating() {
-		PredictionClassifier.setTrainingSet("test_data/labeled_test.arff");
-		PredictionClassifier.setUnlabeledPath("test_data/unlabeled_test.arff");
-		PredictionClassifier.ratePredictions();
-	}
+	// @Test
+	// public void testRating() {
+	// PredictionClassifier.setTrainingSet("test_data/labeled_test.arff");
+	// PredictionClassifier.setUnlabeledPath("test_data/unlabeled_test.arff");
+	// PredictionClassifier.ratePredictions();
+	// }
 
 }

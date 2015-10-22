@@ -1,14 +1,10 @@
 package controller;
 
-import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.JLabel;
-
 import model.Notifier;
 import model.PlainPrediction;
-import model.Spot;
 import view.PopUpView;
 
 public class JLabelListener implements MouseListener 

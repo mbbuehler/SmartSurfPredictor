@@ -1,15 +1,12 @@
 package controller;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import model.Chart;
 import model.ForecastResponse;
 import util.APIKey;
-		
+
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestFactory;
@@ -20,9 +17,15 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.JsonObjectParser;
 import com.google.api.client.json.jackson2.JacksonFactory;
 
-
+/**
+ * Class responsible for fetching forecasts from magicseaweed.
+ * 
+ * @author marcello
+ * 
+ */
 public class ForecastController {
 	static NetHttpTransport httpTransport = new NetHttpTransport();
+	// Result will be in json format.
 	static JsonFactory JSON_FACTORY = new JacksonFactory();
 	static String base = "http://magicseaweed.com/api/" + APIKey.APIKey + "/";
 
@@ -32,6 +35,13 @@ public class ForecastController {
 		return url;
 	}
 
+	/**
+	 * Creates HTTP request. Makes sure the request can automatically handle a
+	 * json response.
+	 * 
+	 * @param url
+	 * @return HttpRequest, ready to execute
+	 */
 	private HttpRequest createHttpRequest(GenericUrl url) {
 		HttpRequestFactory factory = httpTransport
 				.createRequestFactory(new HttpRequestInitializer() {
@@ -50,6 +60,17 @@ public class ForecastController {
 		}
 	}
 
+	/**
+	 * Executes a HTTP request in order to retrieve forecast for surf spot with
+	 * a certain id.<br>
+	 * If the request failed (e.g. due to no Internet connection) a dialogue
+	 * will be shown and the application exits.
+	 * 
+	 * @param spotId
+	 *            id of spot
+	 * @return A List with all forecasts for a certain spot, usually one
+	 *         forecast every 3 hours
+	 */
 	public ForecastResponse.List getForecastResponseList(long spotId) {
 		GenericUrl url = createForecastRequestURL(spotId);
 		HttpRequest request = createHttpRequest(url);

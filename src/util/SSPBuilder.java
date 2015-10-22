@@ -1,15 +1,9 @@
 package util;
 
-import model.Chart;
-import model.Forecast;
 import model.ForecastResponse;
-import model.Spot;
 import model.Surf;
-import model.Swell;
 import model.SwellForecast;
-import model.Weather;
 import model.WeatherForecast;
-import model.Wind;
 
 
 /**
@@ -27,6 +21,7 @@ public class SSPBuilder {
 	 * be null.
 	 * 
 	 * @param r
+	 *            forecast from msw as java classes
 	 * @return {@link WeatherForecast}
 	 */
 	public WeatherForecast getWeatherForecast(ForecastResponse r) {

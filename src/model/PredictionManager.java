@@ -1,14 +1,19 @@
 package model;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import util.SSPPaths;
-
 import controller.ForecastController;
 
+/**
+ * Uses Controller to execute requests, handles responses and returns classified
+ * forcasts
+ * 
+ * @author marcello
+ * 
+ */
 public class PredictionManager {
 
 	private ForecastController controller = null;
@@ -18,6 +23,14 @@ public class PredictionManager {
 		this.controller = controller;
 	}
 
+	/**
+	 * 
+	 * @param spots
+	 *            list with all requested spots
+	 * @param predictionTime
+	 *            can be morning or afternoon, see {@link PredictionTime}
+	 * @return list with {@link}{@link Prediction}
+	 */
 	private ArrayList<Prediction> getPredictions(ArrayList<Spot> spots,
 			PredictionTime predictionTime) {
 		ArrayList<Prediction> predictions = new ArrayList<Prediction>();
@@ -28,6 +41,13 @@ public class PredictionManager {
 		return predictions;
 		}
 	
+	/**
+	 * Writes unlabeled predictions to file where it will be loaded from
+	 * classifier
+	 * 
+	 * @param predictions
+	 *            list with predictions
+	 */
 	private void prepareUnlabeledFile(ArrayList<Prediction> predictions) {
 		String path = SSPPaths.userDir + "/"
 				+ SSPPaths.tmpUnlabeledPredictionFileName;
@@ -44,6 +64,13 @@ public class PredictionManager {
 
 	}
 	
+	/**
+	 * Fetches and rates forecasts for the user's favourite spots.
+	 * 
+	 * @param predictionTime
+	 *            MORNING or AFTERNOON
+	 * @return HashMap with key: spot-instance and value: PlainPrediction
+	 */
 	public HashMap<Spot, PlainPrediction> getRatedPredictions(
 			PredictionTime predictionTime) {
 		// Fetch Spots the user is interested in
@@ -55,22 +82,7 @@ public class PredictionManager {
 		prepareUnlabeledFile(predictions);
 		// classify predictions and receive arrayList with scores
 		ArrayList<Float> scores = PredictionClassifier.ratePredictions();
-		
-		int pos_count = 0;
-		int neg_count = 0;
-		for (float score : scores){
-			if (isAccepted(score)) {
-				++pos_count;
-			}
-			else{
-				++neg_count;
-			}
-		}
-		System.out.println("Classifier Stats for current call:");
-		System.out.println("accepted forecasts: " + pos_count);
-		System.out.println("rejected forecasts: " + neg_count);
-		System.out.println("total forecasts: " + (pos_count + neg_count));
-	
+		// for further processing, the results have to be packed into a hashmap
 		HashMap<Spot, PlainPrediction> map = createMap(spots, predictions,
 				scores);
 		return map;
@@ -122,7 +134,6 @@ public class PredictionManager {
 		}
 
 	/**
-	 * TODO: Adjust parameter
 	 * 
 	 * @param predictionRating
 	 * @return boolean
