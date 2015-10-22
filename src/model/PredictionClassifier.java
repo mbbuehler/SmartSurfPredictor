@@ -66,13 +66,13 @@ public class PredictionClassifier {
 		} catch (IOException e) {
 			// will be called when training set file does not exist (e.g. if the
 			// user runs classifier before even creating a training set.)
-			String msg = "@PredictionClassifier: Error when loading training set. \nDoes this file exist: "
+			String msg = "@PredictionClassifier: Error when loading training set. \nDoes the file '"
 					+ System.getProperty("user.dir")
 					+ "/"
 					+ SSPPaths.userDir
 					+ "/"
 					+ SSPPaths.trainingSetFileName
-					+ "? \nPlease rate at least 20 forecasts before running notifier.";
+					+ "' exist? \nPlease rate at least 20 forecasts before running notifier.";
 			System.out.println(e.getMessage());
 			JOptionPane.showMessageDialog(null, msg, "Classifier Exception",
 					JOptionPane.ERROR_MESSAGE);

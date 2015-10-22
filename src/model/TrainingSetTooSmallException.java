@@ -11,7 +11,7 @@ public class TrainingSetTooSmallException extends Exception {
 						null,
 						"Not enough training examples. Please use at least "
 								+ 20
-								+ " before training Classifier. Restarting the application...",
+								+ " before training Classifier. Please restart the application.",
 						"Not enough training data", JOptionPane.ERROR_MESSAGE);
 		System.exit(0);
 
