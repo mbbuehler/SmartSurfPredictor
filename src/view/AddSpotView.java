@@ -53,7 +53,7 @@ public class AddSpotView extends JDialog
 	
 	private JButton submitButton = new JButton("Submit");
 	private JButton cancel = new JButton("Back");
-
+	
 	
 	public AddSpotView(PredictorView v, Notifier m) 
 	{
@@ -89,7 +89,7 @@ public class AddSpotView extends JDialog
 	    //pre-selected Spot
 	    preSelectedSpot();
 	    
-	    //listeners for buttons
+	    //listeners for buttons  
 	    submitButton.addActionListener(new AddSurfSpotListener(v, model, this));
 	    cancel.addActionListener(new BackListener(this,model));
 	    

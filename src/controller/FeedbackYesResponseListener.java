@@ -8,6 +8,7 @@ import model.PlainPrediction;
 import model.PredictionStatus;
 import view.FeedbackView;
 import view.PopUpView;
+import view.PredictorView;
 
 public class FeedbackYesResponseListener implements ActionListener 
 {
@@ -15,10 +16,12 @@ public class FeedbackYesResponseListener implements ActionListener
 	private Notifier model = null;
 	private PopUpView popView = null;
 	private PlainPrediction p = null;
+	private PredictorView predictorView = null;
+	
 	//listener for Yes button in FeedbackView and gets the next forecast 
-
-	public FeedbackYesResponseListener(FeedbackView v, Notifier m) 
+	public FeedbackYesResponseListener(PredictorView predictorView,FeedbackView v, Notifier m) 
 	{
+		this.predictorView = predictorView;
 		this.feedbackView = v;
 		this.model = m;
 	}
@@ -36,6 +39,14 @@ public class FeedbackYesResponseListener implements ActionListener
 		if(popView == null)
 		{
 			feedbackView.nextPredictionFeedback(PredictionStatus.ACCEPTED);
+			
+			//when user has completed the app setup up for the first time
+			//check if user has completed setup
+			//if yes - change boolean to false
+			if(predictorView.isStartSetupDone() == true)
+			{
+				predictorView.setStartSetupDone(false);
+			}
 		}
 		else
 		{	
@@ -46,6 +57,7 @@ public class FeedbackYesResponseListener implements ActionListener
 			popView.getNoButton().setVisible(false);
 			popView.getYesButton().setVisible(false);
 			popView.nextPrediction(p);
+
 		}
 	}
 

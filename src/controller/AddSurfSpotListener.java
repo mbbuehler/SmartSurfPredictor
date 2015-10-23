@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 
 import model.Notifier;
 import view.AddSpotView;
+import view.FeedbackView;
 import view.PredictorView;
 
 public class AddSurfSpotListener implements ActionListener 
@@ -54,6 +55,12 @@ public class AddSurfSpotListener implements ActionListener
 		
 		spotView.setVisible(false);
 		spotView.dispose();
+		 //check if user is justing setting up the app for the first time
+		//if yes - make them provide feedback
+		if(view.isStartSetupDone() == true)
+		{
+			new FeedbackView(view,model).setVisible(true);
+		}
 	}
 
 }

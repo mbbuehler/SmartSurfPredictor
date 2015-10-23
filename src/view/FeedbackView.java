@@ -182,8 +182,8 @@ public class FeedbackView extends JDialog
 		answerPanel.add(yesButton);
 		answerPanel.add(noButton);
 		infoUpdatePanel.add(answerPanel);
-		yesButton.addActionListener(new FeedbackYesResponseListener(this,model));
-		noButton.addActionListener(new FeedbackNoResponseListener(this,model));
+		yesButton.addActionListener(new FeedbackYesResponseListener(view,this,model));
+		noButton.addActionListener(new FeedbackNoResponseListener(view,this,model));
 		
 		cancelPanel.add(cancel);
 		cancel.addActionListener(new BackListener(this,model));

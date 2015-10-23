@@ -12,7 +12,6 @@ import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 
-import javax.sound.midi.SysexMessage;
 import javax.swing.JOptionPane;
 
 import util.SSPPaths;

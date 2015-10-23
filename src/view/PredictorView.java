@@ -23,6 +23,7 @@ import controller.AddSpotListener;
 import controller.ExitListener;
 import controller.MainForecastButtonListener;
 import controller.ShowPopupListener;
+import controller.StartListener;
 
 
 public class PredictorView extends JFrame
@@ -31,6 +32,7 @@ public class PredictorView extends JFrame
 		
 	private WelcomeBarView welcomePanel = new WelcomeBarView(this);
 	
+	private JButton startButton = new JButton("Get Started");
 	private JButton setLocation = new JButton("Add/Change Surf Location");
 	private JButton forecastFeedback = new JButton("Forecast Feedback");
 	
@@ -40,16 +42,21 @@ public class PredictorView extends JFrame
 	private JLabel footer;
 	
 	private JButton showPopupButton;
+	
+	//boolean to check if it's users forst time
+	private boolean isStartSetupDone = false;
 
 	public PredictorView()
     {		
 		JPanel box = new SSPPanel(new GridLayout(0, 1, 10, 10));
         
 		//add listener for buttons & align button
+		startButton.setAlignmentX(CENTER_ALIGNMENT);
+		startButton.addActionListener(new StartListener(this,model));
+		
 		setLocation.setAlignmentX(CENTER_ALIGNMENT);
         setLocation.addActionListener(new AddSpotListener(this,model));
         
-
         forecastFeedback.setAlignmentX(CENTER_ALIGNMENT);
         forecastFeedback.addActionListener(new MainForecastButtonListener(this,model));
         
@@ -70,6 +77,7 @@ public class PredictorView extends JFrame
 		exitPanel.add(footer);
 		
 		box.add(welcomePanel);
+		box.add(startButton);
         box.add(setLocation);
         box.add(forecastFeedback);
         box.add(exitPanel);
@@ -127,6 +135,18 @@ public class PredictorView extends JFrame
 	    		new PopUpView(this,model,PredictionTime.AFTERNOON).setVisible(true);
 	    	}
 	    
+		}
+
+		//getter for isStartSetupDone variable
+		public boolean isStartSetupDone() 
+		{
+			return isStartSetupDone;
+		}
+
+		//setter for isStartSetupDone variable
+		public void setStartSetupDone(boolean isStartSetupDone) 
+		{
+			this.isStartSetupDone = isStartSetupDone;
 		}
 
 }
