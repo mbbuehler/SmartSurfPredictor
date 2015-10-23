@@ -33,8 +33,8 @@ public class PredictorView extends JFrame
 	private WelcomeBarView welcomePanel = new WelcomeBarView(this);
 	
 	private JButton startButton = new JButton("Get Started");
-	private JButton setLocation = new JButton("Add/Change Surf Location");
-	private JButton forecastFeedback = new JButton("Forecast Feedback");
+	private JButton setLocation = new JButton("Add / change Surf Location");
+	private JButton forecastFeedback = new JButton("Rate more Forecasts");
 	
 	private JButton exitButton;
 	private JPanel exitPanel;
@@ -89,7 +89,7 @@ public class PredictorView extends JFrame
         this.setTitle("Smart Surf Predictor");
  
         add(box,BorderLayout.CENTER);
-        setBounds(100, 100, 800, 600);
+        setBounds(100, 100, 800, 700);
         setVisible(true);
 
 	   }
