@@ -29,7 +29,6 @@ public class ShowPopupListener implements ActionListener {
 		// morning
 		PredictionTime time = (hours <= 12) ? PredictionTime.AFTERNOON
 				: PredictionTime.MORNING;
-		// System.out.println("it is " + hours + ". so we use " + time);
 		new PopUpView(view, model, time).setVisible(true);
 		
 	}

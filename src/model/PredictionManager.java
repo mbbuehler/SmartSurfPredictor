@@ -73,15 +73,20 @@ public class PredictionManager {
 	 */
 	public HashMap<Spot, PlainPrediction> getRatedPredictions(
 			PredictionTime predictionTime) {
+		System.out.println("> Loading user spots...");
 		// Fetch Spots the user is interested in
 		ArrayList<Spot> spots = FavouriteSpotFile.getFavouriteSpots();
+		System.out.println("> Querying forecasts...");
 		// Fetch the predictions for the spots at the right time of the day
 		ArrayList<Prediction> predictions = getPredictions(spots,
 				predictionTime);
+		System.out.println("> Preparing data for classifier...");
 		// Write the unlabeled predictions to arff file
 		prepareUnlabeledFile(predictions);
+		System.out.println("> Classifying...");
 		// classify predictions and receive arrayList with scores
 		ArrayList<Float> scores = PredictionClassifier.ratePredictions();
+		System.out.println("> Aggregating scores...");
 		// for further processing, the results have to be packed into a hashmap
 		HashMap<Spot, PlainPrediction> map = createMap(spots, predictions,
 				scores);

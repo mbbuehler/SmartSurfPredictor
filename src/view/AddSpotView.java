@@ -31,7 +31,7 @@ public class AddSpotView extends JDialog
 	private Notifier model;
 	private ArrayList<Spot> allSpots;
 	
-	//created to hold JList elements before JList intilised 
+	// created to hold JList elements before JList intialised
 	private DefaultListModel stateModel = new DefaultListModel();
 	private DefaultListModel locationModel = new DefaultListModel();
 	
@@ -266,11 +266,11 @@ public class AddSpotView extends JDialog
 	    selectLabel.setAlignmentX(CENTER_ALIGNMENT);
 	    	    
 	    //intialise JLabels and set alignment
-	    countryLabel = new JLabel("Select Country:");
+		countryLabel = new JLabel("Select Region:");
 	    countryLabel.setAlignmentX(CENTER_ALIGNMENT);
 	    stateLabel = new JLabel("Select State:");
 	    stateLabel.setAlignmentX(CENTER_ALIGNMENT);
-	    spotLabel = new JLabel("Select Surf Location:");
+		spotLabel = new JLabel("Select Surf Spot:");
 	    spotLabel.setAlignmentX(CENTER_ALIGNMENT);
 	    
 	    infoPanel.add(countryLabel);

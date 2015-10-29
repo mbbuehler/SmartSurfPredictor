@@ -121,6 +121,7 @@ public class PopUpView extends JDialog
 	// creates JLabels,adds listener to display details
 	public void displaySpotNames()
 		{
+		System.out.println("> Displaying notification popup...");
 		spotPanel.add(new JLabel("Forecast Date: "
 				+ getFormattedDate((ratedPredictionsMap.entrySet().iterator()
 						.next().getValue().localTimestamp))));

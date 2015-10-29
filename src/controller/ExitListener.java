@@ -21,7 +21,9 @@ public class ExitListener implements ActionListener
    // dispose window
    public void actionPerformed(ActionEvent e)
    {
+		System.out.println("> Exiting...");
 		w.dispose();
+		System.out.println(">>> Thank you for using SmartSurfPredictor <<<");
 		System.exit(0);
    }
 

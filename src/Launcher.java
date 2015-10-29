@@ -17,7 +17,9 @@ public class Launcher
 	 */
 	public static void main(String[] args) 
 	{
+		System.out.println(">>> SmartSurfPredictor started <<<");
 		initApplication();
+		System.out.println("> Application initialised.");
 
 		// Launches welcome screen
 		new PredictorView();

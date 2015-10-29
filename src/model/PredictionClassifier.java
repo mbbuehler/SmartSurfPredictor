@@ -47,6 +47,9 @@ public class PredictionClassifier {
 		 */
 		Classifier classifier = new MultilayerPerceptron();
 		try {
+			System.out.println("> Training classifier...");
+			long startTimestamp = System.nanoTime();
+
 			// load labeled data
 			Instances train = new Instances(new BufferedReader(new FileReader(
 					new File((trainingSet)))));
@@ -60,6 +63,11 @@ public class PredictionClassifier {
 			// set output class attribute ("yes" / "no")
 			train.setClassIndex(train.numAttributes() - 1);
 			classifier.buildClassifier(train);
+
+			long endTimestamp = System.nanoTime();
+			float trainingTime = (float) (endTimestamp - startTimestamp) / 1000000000;
+			System.out.printf("> Classifier trained in %.2f seconds.\n",
+					trainingTime);
 			return classifier;
 		} catch (TrainingSetTooSmallException e) {
 			System.out.println(e.getMessage());

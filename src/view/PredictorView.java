@@ -127,11 +127,15 @@ public class PredictorView extends JFrame
 	    	//create feedback pop up according to time
 	    	if(current.equals(morningString))
 	    	{
+			System.out.println("> SSP Agent activated.");
+			System.out.println("> Fetching daily morning forecasts...");
 	    		new PopUpView(this,model,PredictionTime.MORNING).setVisible(true);
 	    	}
 	    	
 	    	if(current.equals(afternoonString))
 	    	{
+			System.out.println("> SSP Agent activated.");
+			System.out.println("> Fetching daily afternoon forecasts...");
 	    		new PopUpView(this,model,PredictionTime.AFTERNOON).setVisible(true);
 	    	}
 	    
